@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 // / internal imports
 // const roomschem= require("../models/users"); 
 const { registration } = require("../../controller/auth/registrationController");
+const { login } = require("../../controller/auth/loginController");
 
 // title 
 // const decorateHtmlResponse = require("../../middleware/common/decorateHtmlResponse");
@@ -24,7 +25,11 @@ router.post('/registrations',
     // singinValidators,
     registration
 );
-
+router.post('/login',
+    // isUnAuthenticated,
+    // singinValidators,
+    login
+);
 
 
 // router.post("/:id",editroom);

@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
 
-// import axios from "axios";
-// import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+// location
 // import toast from "react-hot-toast";
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,48 +17,47 @@ const Login = () => {
     const [password, setPassword] = useState("");
     // const [auth, setAuth] = useAuth();
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     // const location = useLocation();
     //toast test
-    function toaster() {
-        console.log('TOSTER')
-        toast.success("success !!!")
-    }
+    // function toaster() {
+    //     console.log('TOSTER')
+    //     toast.success("success !!!")
+    // }
     // form function
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const res = await axios.post("/api/v1/auth/login", {
-    //             email,
-    //             password,
-    //         });
-    //         if (res && res.data.success) {
-    //             toast.success(res.data && res.data.message);
-    //             setAuth({
-    //                 ...auth,
-    //                 user: res.data.user,
-    //                 token: res.data.token,
-    //             });
-    //             localStorage.setItem("auth", JSON.stringify(res.data));
-    //             navigate(location.state || "/");
-    //         } else {
-    //             toast.error(res.data.message);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //         toast.error("Something went wrong");
-    //     }
-    // };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_API}/auth/login`, {
+                email,
+                password,
+            });
+            console.log("res=============", res)
+            if (res.data.success) {
+                toast.success(res.data.message);
+                // setAuth({
+                //     ...auth,
+                //     user: res.data.user,
+                //     token: res.data.token,
+                // });
+                // localStorage.setItem("auth", JSON.stringify(res.data));
+                // navigate(location.state || "/");
+                navigate("/");
+            } else {
+                toast.error(res.data.errorMsg);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Something went wrong !!!");
+        }
+    };
+
     return (
 
         <Layout title="Register - ">
             <div className="form-container " toaster style={{ minHeight: "90vh" }}>
                 <h1>Register page</h1>
-
-                <button onClick={toaster}>Show Toast</button>
-                <form
-                // onSubmit={handleSubmit}
-                >
+                <form onSubmit={handleSubmit} >
                     <h4 className="title">LOGIN FORM</h4>
 
                     <div className="mb-3">

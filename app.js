@@ -22,7 +22,11 @@ const app = express();
 dotenv.config();
 // set view engine
 app.set("views", "./views");
-app.use(cors())
+// app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:3000',  // Allow requests from localhost:3000
+    credentials: true  // Enable credentials (cookies, HTTP authentication)
+}));
 // database connection
 mongoose
     .connect(process.env.MONGO_CONNECTION_STRING, {
