@@ -11,30 +11,44 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
-    const [answer, setAnswer] = useState("");
+    const [favoriteSports, setfavoriteSports] = useState("");
     const navigate = useNavigate();
 
     // form function
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let res = '';
+        console.log(name,
+            email,
+            password,
+            phone,
+            address,
+            favoriteSports,
+        )
+        console.log(' process.env.REACT_APP_API', process.env.REACT_APP_API)
         try {
-            const res = await axios.post("/api/v1/auth/register", {
+            res = await axios.post(`${process.env.REACT_APP_API}/auth/registrations`, {
                 name,
                 email,
                 password,
                 phone,
                 address,
-                answer,
+                favoriteSports,
             });
-            if (res && res.data.success) {
+            console.log("res", res, res.data.success)
+            console.log("res.data", res.data)
+            if (res.data.success) {
                 toast.success(res.data && res.data.message);
                 navigate("/login");
             } else {
-                toast.error(res.data.message);
+                console.log("elase error", res.data);
+                toast.error(res.data.errorMsg);
             }
         } catch (error) {
             console.log(error);
-            toast.error("Something went wrong");
+            console.log("error", res);
+            console.log("error", res.data);
+            // toast.error(res.data.errorMsg);
         }
     };
 
@@ -79,7 +93,7 @@ const Register = () => {
                     </div>
                     <div className="mb-3">
                         <input
-                            type="text"
+                            type="number"
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             className="form-control"
@@ -102,8 +116,8 @@ const Register = () => {
                     <div className="mb-3">
                         <input
                             type="text"
-                            value={answer}
-                            onChange={(e) => setAnswer(e.target.value)}
+                            value={favoriteSports}
+                            onChange={(e) => setfavoriteSports(e.target.value)}
                             className="form-control"
                             id="exampleInputEmail1"
                             placeholder="What is Your Favorite sports"
