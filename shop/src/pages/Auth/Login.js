@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
-// import "../../styles/AuthStyles.css";
+import "../../styles/AuthStyles.css";
 // import { useAuth } from "../../context/auth";
 const Login = () => {
 
@@ -56,7 +56,6 @@ const Login = () => {
 
         <Layout title="Register - ">
             <div className="form-container " toaster style={{ minHeight: "90vh" }}>
-                <h1>Register page</h1>
                 <form onSubmit={handleSubmit} >
                     <h4 className="title">LOGIN FORM</h4>
 
