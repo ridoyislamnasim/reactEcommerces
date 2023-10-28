@@ -30,4 +30,3 @@ Layout.defaultProps = {
     author: 'ridoy islam nasim'
 }
 export default Layout;
-

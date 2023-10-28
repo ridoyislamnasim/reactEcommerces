@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const registrationschema = require("../../models/auth/registration");
+const JWT = require("jsonwebtoken")
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
@@ -50,9 +51,10 @@ login = async (req, res) => {
             if (!passwordMatch) {
                 return res.json({ success: false, errorMsg: 'Invalid email or password' });
             }
-
+            // make jsonwebtoken
+            const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY })
             // Login successful
-            res.json({ success: true, message: 'Login successful', user });
+            res.json({ success: true, message: 'Login successful', user, token: token });
         } catch (error) {
             console.error('Error:', error);
             res.json({ success: false, errorMsg: 'Internal server error occurred' });
