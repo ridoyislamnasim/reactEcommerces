@@ -8,8 +8,8 @@ import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import PrivateRouter from './components/Router/PrivateRouter';
 import ForgetPassword from './pages/Auth/ForgetPassword';
-import UserDashboard from './pages/Dashboard/UserDashboard';
-import AdminDashboard from './pages/Dashboard/AdminDashboard';
+import UserDashboard from './pages/User/UserDashboard';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 
 function App() {
   return (
