@@ -1,12 +1,14 @@
 import React from 'react'
 import Layout from '../components/Layout/Layout.js'
-// import { useAuth } from '../context/auth.js'
+import { useAuthr } from '../context/auth.js'
 const Home = () => {
-    // const [auth] = useAuth;
+    const [auth] = useAuthr();
+    // console.log("auth-=============================", auth)
     return (
         <Layout title={"Home - "}>
-            {/* {JSON.stringify(auth, null, 4)} */}
+
             <h1>Home Pages</h1>
+            <pre>{JSON.stringify(auth, null, 4)}</pre>
         </Layout>
     )
 }

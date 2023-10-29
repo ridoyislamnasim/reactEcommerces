@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\DCL\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start --prefix ./shop
+  C:\Program Files\nodejs\node.exe C:\Users\DCL\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start
 
 PATH: 
-  C:\Users\DCL\Desktop\All work\react\project\ecommerceShop\node_modules\.bin;C:\Users\DCL\Desktop\All work\react\project\node_modules\.bin;C:\Users\DCL\Desktop\All work\react\node_modules\.bin;C:\Users\DCL\Desktop\All work\node_modules\.bin;C:\Users\DCL\Desktop\node_modules\.bin;C:\Users\DCL\node_modules\.bin;C:\Users\node_modules\.bin;C:\node_modules\.bin;C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\run-script\lib\node-gyp-bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\DCL\AppData\Local\Microsoft\WindowsApps;C:\Users\DCL\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\MongoDB\Server\5.0\bin;C:\Users\DCL\AppData\Local\Programs\mongosh\;C:\Users\DCL\AppData\Local\GitHubDesktop\bin;C:\Users\DCL\AppData\Roaming\npm
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\DCL\AppData\Local\Microsoft\WindowsApps;C:\Users\DCL\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\MongoDB\Server\5.0\bin;C:\Users\DCL\AppData\Local\Programs\mongosh\;C:\Users\DCL\AppData\Local\GitHubDesktop\bin;C:\Users\DCL\AppData\Roaming\npm
 
 Yarn version: 
   1.22.19
@@ -35,7 +35,7 @@ npm manifest:
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
       "start": "nodemon app.js",
-      "client": "yarn start --prefix ./shop",
+      "client": "npm start --prefix ./shop",
       "dev": "concurrently \"npm run start\" \"npm run client\""
     },
     "author": "",

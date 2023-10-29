@@ -10,12 +10,12 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 import "../../styles/AuthStyles.css";
-// import { useAuth } from "../../context/auth";
+import { useAuthr } from "../../context/auth";
 const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // const [auth, setAuth] = useAuth();
+    const [auth, setAuth] = useAuthr();
 
     const navigate = useNavigate();
     // const location = useLocation();
@@ -35,12 +35,12 @@ const Login = () => {
             console.log("res=============", res)
             if (res.data.success) {
                 toast.success(res.data.message);
-                // setAuth({
-                //     ...auth,
-                //     user: res.data.user,
-                //     token: res.data.token,
-                // });
-                // localStorage.setItem("auth", JSON.stringify(res.data));
+                setAuth({
+                    ...auth,
+                    user: res.data.user,
+                    token: res.data.token,
+                });
+                localStorage.setItem("auth", JSON.stringify(res.data));
                 // navigate(location.state || "/");
                 navigate("/");
             } else {
