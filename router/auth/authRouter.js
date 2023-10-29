@@ -17,7 +17,7 @@ const { login } = require("../../controller/auth/loginController");
 // const Schema = mongoose.Schema
 
 //middleWare
-// const { isUnAuthenticated } = require("../../middleware/isUnAuthenticatedMiddleware")
+const { requireSignIn } = require("../../midelware/auth/authMidelware")
 
 
 router.post('/registrations',
@@ -30,6 +30,13 @@ router.post('/login',
     // singinValidators,
     login
 );
+router.post('/auth',
+    // isUnAuthenticated,
+    requireSignIn,
+    (req, res) => res.status(200).json({ isAuthenticated: true })
+
+);
+
 
 
 // router.post("/:id",editroom);
