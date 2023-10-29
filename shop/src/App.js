@@ -7,6 +7,7 @@ import Pagenotfound from './pages/Pagenotfound';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import PrivateRouter from './components/Router/PrivateRouter';
+import ForgetPassword from './pages/Auth/ForgetPassword';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/Policy' element={<Policy />} />
         <Route path='/Login' element={<Login />} />
         <Route path='/Register' element={<Register />} />
+        <Route path='/ForgetPassword' element={<ForgetPassword />} />
         <Route path='/*' element={<Pagenotfound />} />
       </Routes>
     </>

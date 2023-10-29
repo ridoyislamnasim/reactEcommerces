@@ -40,6 +40,37 @@ const Header = () => {
                                                 Log Out
                                             </NavLink>
                                         </li>
+                                        <li className="nav-item dropdown">
+                                            <NavLink
+                                                className="nav-link dropdown-toggle"
+                                                href="#"
+                                                role="button"
+                                                data-bs-toggle="dropdown"
+                                                style={{ border: "none" }}
+                                            >
+                                                {auth?.user?.name}
+                                            </NavLink>
+                                            <ul className="dropdown-menu">
+                                                <li>
+                                                    <NavLink
+                                                        to={`/Dashboard/${auth?.user?.role === 1 ? "admin" : "user"
+                                                            }`}
+                                                        className="dropdown-item"
+                                                    >
+                                                        Dashboard
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink
+                                                        onClick={handelLogOut}
+                                                        to="/login"
+                                                        className="dropdown-item"
+                                                    >
+                                                        Logout
+                                                    </NavLink>
+                                                </li>
+                                            </ul>
+                                        </li>
                                     </>)
                                     :
                                     (<>
