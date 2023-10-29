@@ -11,7 +11,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
-    const [favoriteSports, setfavoriteSports] = useState("");
+    const [forgetKey, setforgetKey] = useState("");
     const navigate = useNavigate();
 
     // form function
@@ -23,7 +23,7 @@ const Register = () => {
             password,
             phone,
             address,
-            favoriteSports,
+            forgetKey,
         )
         console.log(' process.env.REACT_APP_API', process.env.REACT_APP_API)
         try {
@@ -33,7 +33,7 @@ const Register = () => {
                 password,
                 phone,
                 address,
-                favoriteSports,
+                forgetKey,
             });
             console.log("res", res, res.data.success)
             console.log("res.data", res.data)
@@ -116,11 +116,11 @@ const Register = () => {
                     <div className="mb-3">
                         <input
                             type="text"
-                            value={favoriteSports}
-                            onChange={(e) => setfavoriteSports(e.target.value)}
+                            value={forgetKey}
+                            onChange={(e) => setforgetKey(e.target.value)}
                             className="form-control"
                             id="exampleInputEmail1"
-                            placeholder="What is Your Favorite sports"
+                            placeholder="Set Your Forget Key"
                             required
                         />
                     </div>
