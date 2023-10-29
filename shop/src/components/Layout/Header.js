@@ -27,19 +27,9 @@ const Header = () => {
                                     Home
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink to='/Dashboard' className="nav-link" >
-                                    Dashboard
-                                </NavLink>
-                            </li>
                             {
                                 auth.user ?
                                     (<>
-                                        <li className="nav-item">
-                                            <NavLink onClick={handelLogOut} to='/login' className="nav-link" >
-                                                Log Out
-                                            </NavLink>
-                                        </li>
                                         <li className="nav-item dropdown">
                                             <NavLink
                                                 className="nav-link dropdown-toggle"

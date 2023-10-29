@@ -61,3 +61,8 @@
 .forgot-btn:hover {
   color: white !important;
 }
+.dropdown-item.active, .dropdown-item:active {
+  color: black;
+  text-decoration: none;
+  background-color: var(--bs-dropdown-link-active-color)
+}
