@@ -7,10 +7,10 @@ import Spinner from "../Spinner";
 
 const PrivateRouter = () => {
     const [isAuthenticated, setisAuthenticated] = useState(false)
-    const [auth, setAuth] = useAuthr();
+    const [auth,] = useAuthr();
     useEffect(() => {
         const authCheck = async () => {
-            const res = await axios.get('http://localhost:2000/auth/login', {
+            const res = await axios.get('http://localhost:2000/auth/auth', {
                 headers: {
                     "Authorization": auth?.token
                 }

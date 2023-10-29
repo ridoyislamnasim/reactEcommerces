@@ -5,19 +5,20 @@ const mongoose = require("mongoose");
 
 
 // / internal imports
+// controller
 // const roomschem= require("../models/users"); 
 const { registration } = require("../../controller/auth/registrationController");
 const { login } = require("../../controller/auth/loginController");
+const { forgetPassword } = require("../../controller/auth/forgetPasswordController");
 
-// title 
-// const decorateHtmlResponse = require("../../middleware/common/decorateHtmlResponse");
 //validator 
 // const { singinValidators } = require("../../validator/auth/registrationStudentValidator");
 // const { singinValidatorsEmployee } = require("../../validator/auth/registrationEmployeeValidator");
 // const Schema = mongoose.Schema
 
 //middleWare
-const { requireSignIn } = require("../../midelware/auth/authMidelware")
+const { requireSignIn } = require("../../midelware/auth/authMidelware");
+
 
 
 router.post('/registrations',
@@ -30,11 +31,17 @@ router.post('/login',
     // singinValidators,
     login
 );
-router.post('/auth',
+router.get('/auth',
     // isUnAuthenticated,
     requireSignIn,
     (req, res) => res.status(200).json({ isAuthenticated: true })
 
+);
+
+router.post('/forgetPassword',
+    // isUnAuthenticated,
+    // singinValidators,
+    forgetPassword
 );
 
 

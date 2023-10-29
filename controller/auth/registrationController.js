@@ -1,25 +1,13 @@
 const express = require("express");
-const app = express();
-const { validationResult } = require("express-validator");
-const bcrypt = require("bcrypt");
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
 // internal imports
 const registrationschema = require("../../models/auth/registration");
-
+const { hashPassword } = require("../common/function/common")
 
 // console.log("now");
-const hashPassword = async (password) => {
-    console.log("password", password)
-    try {
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        return hashedPassword
-    } catch (error) {
-        console.log(error)
-    }
-}
+
 const comparePassword = async (password, hashedPassword) => {
     return bcrypt.compare(password, hashedPassword);
 }

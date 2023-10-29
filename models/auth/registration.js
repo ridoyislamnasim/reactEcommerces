@@ -31,7 +31,7 @@ const registrationSchema = new Schema(
       // maxlength: 35,
       required: true,
     },
-    favoriteSports: {
+    forgetKey: {
       type: String,
       maxlength: 35,
 
