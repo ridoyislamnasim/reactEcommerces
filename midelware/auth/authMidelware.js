@@ -1,8 +1,9 @@
-import JWT from "jsonwebtoken";
-import registrationschema from "../../models/auth/registration";
+const express = require("express");
+const { JWT } = require("jsonwebtoken");
+// import registrationschema from "../../models/auth/registration";
 
 //Protected Routes token base
-export const requireSignIn = async (req, res, next) => {
+const requireSignIn = async (req, res, next) => {
     try {
         const decode = JWT.verify(
             req.headers.authorization,
@@ -13,4 +14,7 @@ export const requireSignIn = async (req, res, next) => {
     } catch (error) {
         console.log(error);
     }
+};
+module.exports = {
+    requireSignIn,
 };
