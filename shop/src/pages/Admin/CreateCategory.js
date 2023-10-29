@@ -5,7 +5,7 @@ const CreateCategory = () => {
     return (
         <div>
             <Layout title={"About us - "} >
-                <h1>Create Category</h1>
+                <h1>Create Category Pages</h1>
             </Layout>
         </div>
     )
