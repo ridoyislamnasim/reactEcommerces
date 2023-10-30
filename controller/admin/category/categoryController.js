@@ -85,6 +85,7 @@ updateCategoryController = async (req, res) => {
 
     }
 }
+// =========================== getAllCategoryController===========================
 getAllCategoryController = async (req, res) => {
     // Check if the email exists in the database  
     try {
@@ -99,7 +100,7 @@ getAllCategoryController = async (req, res) => {
 
     }
 }
-
+// =========================== deleteCategoryController===========================
 deleteCategoryController = async (req, res) => {
     // Check if the email exists in the database  
     const { id } = req.params;
