@@ -8,7 +8,8 @@ const mongoose = require("mongoose");
 // controller
 const { registration } = require("../../controller/auth/registrationController");
 const { login } = require("../../controller/auth/loginController");
-const { createCategoryController, updateCategoryController } = require("../../controller/admin/category/categoryController");
+const { createCategoryController, updateCategoryController,
+    getAllCategoryController, deleteCategoryController } = require("../../controller/admin/category/categoryController");
 
 //validator 
 // const { singinValidators } = require("../../validator/auth/registrationStudentValidator");
@@ -30,18 +31,18 @@ admin.put('/update-category/:id',
     // requireSignIn,
     updateCategoryController
 );
-// admin.get('/category',
-//     requireSignIn,
-//     category
-// );
+admin.get('/category',
+    // requireSignIn,
+    getAllCategoryController
+);
 // admin.get('/single-category',
 //     requireSignIn,
 //     singleCategory
 // );
-// admin.get('/delete-category',
-//     requireSignIn,
-//     deleteCategory
-// );
+admin.delete('/delete-category/:id',
+    // requireSignIn,
+    deleteCategoryController
+);
 
 
 

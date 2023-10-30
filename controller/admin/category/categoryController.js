@@ -32,7 +32,7 @@ createCategoryController = async (req, res) => {
                 const savecategory = await createNewCategory.save()
                 if (createNewCategory) {
                     // Login successful
-                    res.json({ success: true, message: 'Category Create successful', savecategory });
+                    res.json({ success: true, message: 'Category Create successful', data: savecategory });
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -70,7 +70,7 @@ updateCategoryController = async (req, res) => {
                 const updateCategory = await categoryschema.findByIdAndUpdate(id, { category, slug }, { new: true });
                 if (updateCategory) {
                     // Login successful
-                    res.json({ success: true, message: 'Category Update successful', updateCategory });
+                    res.json({ success: true, message: 'Category Update successful', data: updateCategory });
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -91,7 +91,23 @@ getAllCategoryController = async (req, res) => {
         const AllCategory = await categoryschema.find();
         if (AllCategory) {
             // Login successful
-            res.json({ success: true, message: 'get Category successful', AllCategory });
+            res.json({ success: true, message: 'get Category successful', data: AllCategory });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.json({ success: false, errorMsg: 'Internal server error occurred' });
+
+    }
+}
+
+deleteCategoryController = async (req, res) => {
+    // Check if the email exists in the database  
+    const { id } = req.params;
+    try {
+        const deleteCategory = await categoryschema.findByIdAndDelete(id);
+        if (deleteCategory) {
+            // Login successful
+            res.json({ success: true, message: 'Delete Category successful', data: deleteCategory });
         }
     } catch (error) {
         console.error('Error:', error);
@@ -105,4 +121,5 @@ module.exports = {
     createCategoryController,
     updateCategoryController,
     getAllCategoryController,
+    deleteCategoryController
 };
