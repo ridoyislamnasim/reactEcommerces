@@ -14,7 +14,6 @@ const categorySchema = new Schema(
             type: String,
             lowercase: true,
             trim: true,
-
         },
     },
     {

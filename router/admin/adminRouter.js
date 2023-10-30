@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 // controller
 const { registration } = require("../../controller/auth/registrationController");
 const { login } = require("../../controller/auth/loginController");
-const { forgetPassword } = require("../../controller/auth/forgetPasswordController");
+const { createCategoryController, updateCategoryController } = require("../../controller/admin/category/categoryController");
 
 //validator 
 // const { singinValidators } = require("../../validator/auth/registrationStudentValidator");
@@ -23,13 +23,13 @@ const { requireSignIn } = require("../../midelware/auth/authMidelware");
 // Category
 // ===================================================
 admin.post('/create-category',
-    requireSignIn,
-    createCategory
+    // requireSignIn,
+    createCategoryController
 );
-// admin.put('/update-category',
-//     requireSignIn,
-//     updateCategory
-// );
+admin.put('/update-category/:id',
+    // requireSignIn,
+    updateCategoryController
+);
 // admin.get('/category',
 //     requireSignIn,
 //     category
