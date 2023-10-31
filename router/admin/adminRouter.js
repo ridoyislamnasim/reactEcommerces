@@ -10,6 +10,7 @@ const { registration } = require("../../controller/auth/registrationController")
 const { login } = require("../../controller/auth/loginController");
 const { createCategoryController, updateCategoryController,
     getAllCategoryController, deleteCategoryController } = require("../../controller/admin/category/categoryController");
+const { upload } = require("../../controller/admin/product/productImg");
 
 //validator 
 // const { singinValidators } = require("../../validator/auth/registrationStudentValidator");
@@ -44,6 +45,10 @@ admin.delete('/delete-category/:id',
     deleteCategoryController
 );
 
+admin.post('/upload',
+    // requireSignIn,
+    upload
+);
 
 
 

@@ -43,7 +43,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // set static folder
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("uploads"));
 
 // parse cookies
 // app.use(cookieParser(process.env.COOKIE_SECRET));
