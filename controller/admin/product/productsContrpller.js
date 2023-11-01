@@ -100,8 +100,7 @@ createProductController = async (req, res) => {
             res.json({ success: false, errorMsg: 'Internal server error occurred' });
         }
 
-    }
-
+    } hj
 
 
 
