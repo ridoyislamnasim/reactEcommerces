@@ -5,8 +5,10 @@ const Formidable = require("formidable")
 const { join } = require("path")
 const fs = require('fs');
 const { Console } = require('console');
-const fsPromises = require('fs').promises;
 
+const fsPromises = require('fs').promises;
+// model
+const productschema = require('../../../models/product/productModel');
 // Returns true if successful or false otherwise
 async function checkCreateUploadsFolder(uploadsFolder) {
     console.log("uploadsFolder", uploadsFolder)
@@ -75,12 +77,13 @@ upload = async (req, res, next) => {
             return res.json({ ok: false, msg: 'Error passing the incoming form' })
         }
         // Check if files were sent
-        if (!files || Object.keys(files).length === 0) {
+        if (!files.image || Object.keys(files).length === 0) {
             console.log("No files received or files object is empty");
-            return res.status(400).json({ ok: false, msg: 'No files were submitted with the form' });
+            return res.status(400).json({ ok: false, msg: 'No image were submitted with the form "image" files' });
         }
 
         console.log("files", files[name].length)
+
         // If we are sending one by one file:
         for (let i = 0; i < files[name].length; i++) {
             // one file distracture

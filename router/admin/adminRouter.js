@@ -50,11 +50,18 @@ admin.delete('/delete-category/:id',
     // requireSignIn,
     deleteCategoryController
 );
-
-admin.post('/upload',
+// ===================================================
+// product
+// ===================================================
+admin.post('/create-product',
     // requireSignIn,
     upload,
     createProductController
+);
+admin.put('/update-product/:id',
+    // requireSignIn,
+    upload,
+    updateProductController
 );
 
 

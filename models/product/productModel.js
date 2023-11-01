@@ -31,7 +31,7 @@ const productSchema = new Schema(
         quantity: {
             type: Number,
         },
-        photo: {
+        image: {
             type: String,
             default: 'user',
         },

@@ -7,7 +7,24 @@ const fsPromises = require('fs').promises;
 const productschema = require("../../../models/product/productModel");
 
 const { createSlug, removeSlug } = require("../../common/function/common");
+const removeLocalImage = async (img) => {
+    console.log('removeLocalImage', img)
+    try { await fsPromises.unlink(`public/${img}`) } catch (e) { console.log('not remove', e) }
+}
+// if img remove need than call this function
+const imageRemove = async (id) => {
+    console.log("imageRemove run")
+    try {
+        const removeProdectImg = await productschema.findById(id)
+        console.log(removeProdectImg)
+        console.log(removeProdectImg.image)
+        try { await fsPromises.unlink(`public/${removeProdectImg.image}`) } catch (e) { console.log('not remove', e) }
+        return true
+    } catch (error) {
+        return false
+    }
 
+}
 // =========================== createProductController===========================
 createProductController = async (req, res) => {
     console.log("req.body")
@@ -18,18 +35,23 @@ createProductController = async (req, res) => {
     console.log(fields)
     // const { category } = req.body;
     if (!fields.name || fields.name.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
         res.json({ errorMsg: "name is required" });
     } else if (!fields.price || fields.price.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
         res.json({ errorMsg: "price is required" });
     } else if (!fields.quantity || fields.quantity.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
         res.json({ errorMsg: "quantity is required" });
     }
     // else if (!fields.shipping || fields.shipping.trim() === '') {
     //     res.json({ errorMsg: "shipping is required" });
     // } 
     else if (!fields.category || fields.category.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
         res.json({ errorMsg: "category is required" });
     } else if (!fields.description || fields.description.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
         res.json({ errorMsg: "description is required" });
     } else {
         try {
@@ -45,27 +67,27 @@ createProductController = async (req, res) => {
                 const createNewProduct = new productschema({
                     ...fields,
                     slug: slug,
-                    photo: req.uploadedFiles[0]
+                    image: req.uploadedFiles[0]
                 });
                 const saveProduct = await createNewProduct.save()
                 // let savefile = `http://localhost:2000/uploads/${fileName}`
+
+                // Convert the Mongoose document to a plain JavaScript object
+                const plainProduct = saveProduct.toObject();
+
                 if (saveProduct) {
                     // Extract only the required fields
                     const { name, slug, description, quantity, photo } = saveProduct;
                     const Extract = {
-                        img: saveProduct.photo,
-                        name: saveProduct.name,
-                        slug: saveProduct.slug,
-                        description: saveProduct.description,
-                        category: saveProduct.category,
-                        quantity: saveProduct.quantity,
-
+                        ...plainProduct,
+                        image: `http://localhost:2000/${saveProduct.image}`,
                     }
                     // Login successful
                     res.json({ success: true, message: 'Product Create successful', data: Extract });
                 }
             } catch (error) {
-                try { await fsPromises.unlink(req.uploadedFiles[0]) } catch (e) { }
+                console.log("===========================================================================================", req.uploadedFiles[0])
+                await removeLocalImage(req.uploadedFiles[0])
                 console.error('Error:', error);
                 res.json({ success: false, errorMsg: 'Internal server error occurred save' });
 
@@ -73,8 +95,7 @@ createProductController = async (req, res) => {
 
         } catch (error) {
             console.log("===========================================================================================", req.uploadedFiles[0])
-            try { await fsPromises.unlink(`public/${req.uploadedFiles[0]}`) } catch (e) { console.log('not remove', e) }
-
+            await removeLocalImage(req.uploadedFiles[0])
             console.error('Error:', error);
             res.json({ success: false, errorMsg: 'Internal server error occurred' });
         }
@@ -88,36 +109,91 @@ createProductController = async (req, res) => {
 }
 // =========================== updateProductController===========================
 updateProductController = async (req, res) => {
+    // console.log("=======================================================================", req.params.id)
+    // if (req.params.id) {
+    //     // console.log(await imageRemove(req.params.id))
+    //     if (!await imageRemove(req.params.id)) {
+    //         return res.json({ ok: false, msg: 'inviled id' })
+    //     }
+    // }
+
     console.log("req.body")
-    const { category } = req.body;
-    const { id } = req.params;
-    console.log(req.body, id)
-    if (!category || category.trim() === '') {
+    console.log(req.body)
+    console.log(req.uploadedFiles)
+    console.log(req.uploadfields)
+    const fields = { ...req.uploadfields }
+    console.log(fields)
+    // const { category } = req.body;
+    if (!fields.name || fields.name.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
         res.json({ errorMsg: "name is required" });
-    } else if (!id || id.trim() === '') {
-        res.json({ errorMsg: "id is required" });
+    } else if (!fields.price || fields.price.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
+        res.json({ errorMsg: "price is required" });
+    } else if (!fields.quantity || fields.quantity.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
+        res.json({ errorMsg: "quantity is required" });
+    }
+    // else if (!fields.shipping || fields.shipping.trim() === '') {
+    //     res.json({ errorMsg: "shipping is required" });
+    // } 
+    else if (!fields.category || fields.category.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
+        res.json({ errorMsg: "category is required" });
+    } else if (!fields.description || fields.description.trim() === '') {
+        await removeLocalImage(req.uploadedFiles[0])
+        res.json({ errorMsg: "description is required" });
     } else {
         try {
-            // Check if the email exists in the database  
+            // Check if the email exists in the database
+            const productName = fields.name
+            const existsProduct = await productschema.findOne({ productName });
+
+            if (existsProduct) {
+                return res.json({ success: false, errorMsg: 'Product already exits' });
+            }
+            const slug = await createSlug(productName)
             try {
-                const slug = await createSlug(category)
-                const updateProduct = await categoryschema.findByIdAndUpdate(id, { category, slug }, { new: true });
-                if (updateProduct) {
+                const createNewProduct = new productschema({
+                    ...fields,
+                    slug: slug,
+                    image: req.uploadedFiles[0]
+                });
+                const saveProduct = await createNewProduct.save()
+                // let savefile = `http://localhost:2000/uploads/${fileName}`
+
+                // Convert the Mongoose document to a plain JavaScript object
+                const plainProduct = saveProduct.toObject();
+
+                if (saveProduct) {
+                    // Extract only the required fields
+                    const { name, slug, description, quantity, photo } = saveProduct;
+                    const Extract = {
+                        ...plainProduct,
+                        image: `http://localhost:2000/${saveProduct.image}`,
+                    }
                     // Login successful
-                    res.json({ success: true, message: 'Product Update successful', data: updateProduct });
+                    res.json({ success: true, message: 'Product Create successful', data: Extract });
                 }
             } catch (error) {
+                console.log("===========================================================================================", req.uploadedFiles[0])
+                await removeLocalImage(req.uploadedFiles[0])
                 console.error('Error:', error);
-                res.json({ success: false, errorMsg: 'Internal server error occurred' });
+                res.json({ success: false, errorMsg: 'Internal server error occurred save' });
 
             }
 
         } catch (error) {
+            console.log("===========================================================================================", req.uploadedFiles[0])
+            await removeLocalImage(req.uploadedFiles[0])
+            // try { await fsPromises.unlink(`public/${req.uploadedFiles[0]}`) } catch (e) { console.log('not remove', e) }
+
             console.error('Error:', error);
             res.json({ success: false, errorMsg: 'Internal server error occurred' });
         }
 
     }
+
 }
 // =========================== getAllProductController===========================
 getAllProductController = async (req, res) => {
