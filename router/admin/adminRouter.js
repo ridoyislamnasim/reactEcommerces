@@ -66,6 +66,9 @@ admin.put('/update-product/:id',
 admin.delete('/delete-product/:id',
     deleteProductController
 );
+admin.get('/product',
+    getAllProductController
+);
 
 
 

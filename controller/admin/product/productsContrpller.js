@@ -217,11 +217,21 @@ updateProductController = async (req, res) => {
 getAllProductController = async (req, res) => {
     // Check if the email exists in the database  
     try {
-        const AllProduct = await categoryschema.find();
-        if (AllProduct) {
+        const AllProduct = await productschema.find();
+        if (AllProduct.length > 0) {
+            const Extract = []
+            for (const product of AllProduct) {
+                const plainProduct = product.toObject();
+                let singleProduct = {
+                    ...plainProduct,
+                    image: `http://localhost:2000/${plainProduct.image}`
+                }
+                Extract.push(singleProduct)
+            }
             // Login successful
-            res.json({ success: true, message: 'get Product successful', data: AllProduct });
+            return res.json({ success: true, message: 'get Product successful', data: Extract });
         }
+        res.json({ success: false, errorMsg: 'no any Product in DB' });
     } catch (error) {
         console.error('Error:', error);
         res.json({ success: false, errorMsg: 'Internal server error occurred' });
