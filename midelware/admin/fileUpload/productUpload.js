@@ -1,34 +1,3 @@
-// Index.html
-{/* <div>
-<h1>File upload</h1>
-<input type="file" multiple onChange={e => uploadFile(e)}/>
-</div> */}
-
-
-// Index.js
-// const uploadFile = async e => {
-// const files = e.target.files
-// console.log('files', files)
-// const form = new FormData()
-// for (let i = 0; i < files.length; i++) {
-// form.append('files', files[i], files[i].name)
-// }
-// try {
-// let request = await fetch('/upload', {
-//   method: 'post',
-//   body: form,
-// })
-// const response = await request.json()
-// console.log('Response', response)
-// } catch (err) {
-// alert('Error uploading the files')
-// console.log('Error uploading the files', err)
-// }
-// }
-
-
-
-// Server.js
 
 const bluebird = require('bluebird')
 // const fs = bluebird.promisifyAll(require('fs'))
@@ -74,7 +43,7 @@ function checkAcceptedExtensions(file) {
     return true
 }
 
-upload = async (req, res) => {
+upload = async (req, res, next) => {
     // receive file and fild for form
     let form = new Formidable.IncomingForm()
     console.log("------------form----------")
@@ -97,6 +66,9 @@ upload = async (req, res) => {
         for (const fieldName in files) {
             name = fieldName
         }
+        let saveFiles = []
+        console.log('==================================', files)
+
         // if error file come
         if (err) {
             console.log('Error parsing the incoming form')
@@ -123,7 +95,9 @@ upload = async (req, res) => {
             const fileName = currentDate + '_' + encodeURIComponent(file.originalFilename.replace(/&.*;+/g, '-'));
             try {
                 // save file ===file path == where upload == file name
-                await fsPromises.rename(file.filepath, join(uploadsFolder, fileName))
+                const saved = await fsPromises.rename(file.filepath, join(uploadsFolder, fileName))
+                let savefile = `uploads/${fileName}`
+                saveFiles.push(savefile)
             } catch (e) {
                 console.log('Error uploading the file')
                 // if fail save than remove file that save 
@@ -131,7 +105,15 @@ upload = async (req, res) => {
                 return res.json({ ok: false, msg: 'Error uploading the file mul' })
             }
         }
-        return res.json({ ok: true, msg: 'Files uploaded succesfully!', })
+        // Convert fields from arrays to single strings
+        const transformedFields = {};
+        for (const key in fields) {
+            transformedFields[key] = Array.isArray(fields[key]) ? fields[key][0] : fields[key];
+        }
+        req.uploadedFiles = saveFiles;
+        req.uploadfields = transformedFields;
+        // return res.json({ ok: true, msg: 'Files uploaded succesfully!', saveFiles })
+        next()
     })
 }
 module.exports = {

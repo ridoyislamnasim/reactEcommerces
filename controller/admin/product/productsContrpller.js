@@ -1,46 +1,80 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-// const registrationschema = require("../../models/auth/registration");
-const categoryschema = require("../../../models/product/categotyModel");
+const fsPromises = require('fs').promises;
 
-const JWT = require("jsonwebtoken");
+// const registrationschema = require("../../models/auth/registration");
+// model
+const productschema = require("../../../models/product/productModel");
+
 const { createSlug, removeSlug } = require("../../common/function/common");
-const comparePassword = async (password, hashedPassword) => {
-    return bcrypt.compare(password, hashedPassword);
-}
+
 // =========================== createProductController===========================
 createProductController = async (req, res) => {
     console.log("req.body")
     console.log(req.body)
-    const { category } = req.body;
-    if (!category || category.trim() === '') {
+    console.log(req.uploadedFiles)
+    console.log(req.uploadfields)
+    const fields = { ...req.uploadfields }
+    console.log(fields)
+    // const { category } = req.body;
+    if (!fields.name || fields.name.trim() === '') {
         res.json({ errorMsg: "name is required" });
+    } else if (!fields.price || fields.price.trim() === '') {
+        res.json({ errorMsg: "price is required" });
+    } else if (!fields.quantity || fields.quantity.trim() === '') {
+        res.json({ errorMsg: "quantity is required" });
+    }
+    // else if (!fields.shipping || fields.shipping.trim() === '') {
+    //     res.json({ errorMsg: "shipping is required" });
+    // } 
+    else if (!fields.category || fields.category.trim() === '') {
+        res.json({ errorMsg: "category is required" });
+    } else if (!fields.description || fields.description.trim() === '') {
+        res.json({ errorMsg: "description is required" });
     } else {
         try {
             // Check if the email exists in the database
-            const existsProduct = await categoryschema.findOne({ category });
+            const productName = fields.name
+            const existsProduct = await productschema.findOne({ productName });
 
             if (existsProduct) {
                 return res.json({ success: false, errorMsg: 'Product already exits' });
             }
-            const slug = await createSlug(category)
+            const slug = await createSlug(productName)
             try {
-                const createNewProduct = new categoryschema({
-                    category,
-                    slug: slug
+                const createNewProduct = new productschema({
+                    ...fields,
+                    slug: slug,
+                    photo: req.uploadedFiles[0]
                 });
-                const savecategory = await createNewProduct.save()
-                if (createNewProduct) {
+                const saveProduct = await createNewProduct.save()
+                // let savefile = `http://localhost:2000/uploads/${fileName}`
+                if (saveProduct) {
+                    // Extract only the required fields
+                    const { name, slug, description, quantity, photo } = saveProduct;
+                    const Extract = {
+                        img: saveProduct.photo,
+                        name: saveProduct.name,
+                        slug: saveProduct.slug,
+                        description: saveProduct.description,
+                        category: saveProduct.category,
+                        quantity: saveProduct.quantity,
+
+                    }
                     // Login successful
-                    res.json({ success: true, message: 'Product Create successful', data: savecategory });
+                    res.json({ success: true, message: 'Product Create successful', data: Extract });
                 }
             } catch (error) {
+                try { await fsPromises.unlink(req.uploadedFiles[0]) } catch (e) { }
                 console.error('Error:', error);
-                res.json({ success: false, errorMsg: 'Internal server error occurred' });
+                res.json({ success: false, errorMsg: 'Internal server error occurred save' });
 
             }
 
         } catch (error) {
+            console.log("===========================================================================================", req.uploadedFiles[0])
+            try { await fsPromises.unlink(`public/${req.uploadedFiles[0]}`) } catch (e) { console.log('not remove', e) }
+
             console.error('Error:', error);
             res.json({ success: false, errorMsg: 'Internal server error occurred' });
         }

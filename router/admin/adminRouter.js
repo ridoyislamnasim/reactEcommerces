@@ -10,6 +10,11 @@ const { registration } = require("../../controller/auth/registrationController")
 const { login } = require("../../controller/auth/loginController");
 const { createCategoryController, updateCategoryController,
     getAllCategoryController, deleteCategoryController } = require("../../controller/admin/category/categoryController");
+const { createProductController,
+    updateProductController,
+    getAllProductController,
+    deleteProductController } = require("../../controller/admin/product/productsContrpller");
+
 // const { upload } = require("../../controller/admin/product/productImg");
 const { upload } = require("../../midelware/admin/fileUpload/productUpload");
 
@@ -48,7 +53,8 @@ admin.delete('/delete-category/:id',
 
 admin.post('/upload',
     // requireSignIn,
-    upload
+    upload,
+    createProductController
 );
 
 
