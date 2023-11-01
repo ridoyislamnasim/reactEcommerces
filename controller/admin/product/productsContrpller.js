@@ -7,6 +7,7 @@ const fsPromises = require('fs').promises;
 const productschema = require("../../../models/product/productModel");
 
 const { createSlug, removeSlug } = require("../../common/function/common");
+const mongoose = require("mongoose");
 const removeLocalImage = async (img) => {
     console.log('removeLocalImage', img)
     try { await fsPromises.unlink(`public/${img}`) } catch (e) { console.log('not remove', e) }
@@ -57,9 +58,10 @@ createProductController = async (req, res) => {
         try {
             // Check if the email exists in the database
             const productName = fields.name
-            const existsProduct = await productschema.findOne({ productName });
+            const existsProduct = await productschema.findOne({ name: productName });
 
             if (existsProduct) {
+                await removeLocalImage(req.uploadedFiles[0])
                 return res.json({ success: false, errorMsg: 'Product already exits' });
             }
             const slug = await createSlug(productName)
@@ -100,7 +102,7 @@ createProductController = async (req, res) => {
             res.json({ success: false, errorMsg: 'Internal server error occurred' });
         }
 
-    } hj
+    }
 
 
 
@@ -144,35 +146,41 @@ updateProductController = async (req, res) => {
         res.json({ errorMsg: "description is required" });
     } else {
         try {
-            // Check if the email exists in the database
             const productName = fields.name
-            const existsProduct = await productschema.findOne({ productName });
-
-            if (existsProduct) {
-                return res.json({ success: false, errorMsg: 'Product already exits' });
-            }
-            const slug = await createSlug(productName)
+            const productId = req.params.id
+            // Check if the product exists in the database
             try {
-                const createNewProduct = new productschema({
-                    ...fields,
-                    slug: slug,
-                    image: req.uploadedFiles[0]
-                });
-                const saveProduct = await createNewProduct.save()
+                const existsProduct = await productschema.findOne({ name: productName });
+                if (existsProduct) {
+                    await removeLocalImage(req.uploadedFiles[0])
+                    return res.json({ success: false, errorMsg: 'Product already exits' });
+                }
+            } catch (error) {
+                console.log("=existsProduct=== not find")
+            }
+            // update product
+            try {
+                const slug = await createSlug(productName)
+                const updateProduct = await productschema.findByIdAndUpdate(productId,
+                    {
+                        ...fields,
+                        slug: slug,
+                        image: req.uploadedFiles[0]
+                    })
+                console.log("updateProduct", updateProduct)
                 // let savefile = `http://localhost:2000/uploads/${fileName}`
 
                 // Convert the Mongoose document to a plain JavaScript object
-                const plainProduct = saveProduct.toObject();
+                const plainProduct = updateProduct.toObject();
 
-                if (saveProduct) {
+                if (updateProduct) {
                     // Extract only the required fields
-                    const { name, slug, description, quantity, photo } = saveProduct;
                     const Extract = {
                         ...plainProduct,
                         image: `http://localhost:2000/${saveProduct.image}`,
                     }
-                    // Login successful
-                    res.json({ success: true, message: 'Product Create successful', data: Extract });
+                    // update successful
+                    res.json({ success: true, message: 'Product update successful', data: Extract });
                 }
             } catch (error) {
                 console.log("===========================================================================================", req.uploadedFiles[0])
