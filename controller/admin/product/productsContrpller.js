@@ -239,6 +239,8 @@ deleteProductController = async (req, res) => {
     // }
     // Check if the email exists in the database  
     const { id } = req.params;
+    const deleteProduct = await productschema.findByIdAndDelete(id);
+    console.log("deleteProduct", deleteProduct)
     try {
         const deleteProduct = await productschema.findByIdAndDelete(id);
         if (deleteProduct === null) {
