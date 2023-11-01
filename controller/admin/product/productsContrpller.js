@@ -240,14 +240,17 @@ deleteProductController = async (req, res) => {
     // Check if the email exists in the database  
     const { id } = req.params;
     try {
-        const deleteProduct = await categoryschema.findByIdAndDelete(id);
-        if (deleteProduct) {
-            // Login successful
-            res.json({ success: true, message: 'Delete Product successful', data: deleteProduct });
+        const deleteProduct = await productschema.findByIdAndDelete(id);
+        if (deleteProduct === null) {
+            return res.json({ success: false, message: 'Product not found. Deletion unsuccessful', });
         }
+        // Delete successful
+        await removeLocalImage(deleteProduct.image)
+        res.json({ success: true, message: 'Delete Product successful', data: deleteProduct });
+
     } catch (error) {
         console.error('Error:', error);
-        res.json({ success: false, errorMsg: 'Internal server error occurred' });
+        return res.json({ success: false, errorMsg: 'Internal server error occurred' });
 
     }
 

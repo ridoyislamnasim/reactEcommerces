@@ -63,6 +63,9 @@ admin.put('/update-product/:id',
     upload,
     updateProductController
 );
+admin.delete('/delete-product/:id',
+    deleteProductController
+);
 
 
 
