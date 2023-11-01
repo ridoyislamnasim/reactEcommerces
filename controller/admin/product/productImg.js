@@ -166,7 +166,7 @@ upload = async (req, res) => {
                     const fileData = await fsPromises.readFile(join(uploadsFolder, fileName));
                     console.log("---------------------=======", fileData.data)
                     console.log("---------------------=======", fileData.type)
-                    const img = `http://localhost:2000/controller/admin/product/dist/uploads/${fileName}`
+                    const img = `http://localhost:2000/${fileName}`
                     res.json({ ok: true, msg: 'Files uploaded succesfully!', files: fileData.data, img })
 
                 } catch (e) {
