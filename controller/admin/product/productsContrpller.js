@@ -110,20 +110,11 @@ createProductController = async (req, res) => {
 }
 // =========================== updateProductController===========================
 updateProductController = async (req, res) => {
-    // console.log("=======================================================================", req.params.id)
-    // if (req.params.id) {
-    //     // console.log(await imageRemove(req.params.id))
-    //     if (!await imageRemove(req.params.id)) {
-    //         return res.json({ ok: false, msg: 'inviled id' })
-    //     }
-    // }
-
     console.log("req.body")
-    console.log(req.body)
-    console.log(req.uploadedFiles)
-    console.log(req.uploadfields)
+    // console.log(req.body)
+    // console.log(req.uploadedFiles)
+    // console.log(req.uploadfields)
     const fields = { ...req.uploadfields }
-    console.log(fields)
     // const { category } = req.body;
     if (!fields.name || fields.name.trim() === '') {
         await removeLocalImage(req.uploadedFiles[0])
@@ -148,12 +139,30 @@ updateProductController = async (req, res) => {
         try {
             const productName = fields.name
             const productId = req.params.id
-            // Check if the product exists in the database
+            // Check  the product id exists in the database
             try {
-                const existsProduct = await productschema.findOne({ name: productName });
-                if (existsProduct) {
+                await productschema.findById(productId);
+            } catch (error) {
+                await removeLocalImage(req.uploadedFiles[0])
+                return res.json({ success: false, errorMsg: 'Product id  dose not exits' });
+            }
+            // Check  same product exists in the database
+            try {
+                const existsProduct = await productschema.find({ name: productName });
+                // length gater than 0 must this product exit
+                if (existsProduct.length > 1) {
                     await removeLocalImage(req.uploadedFiles[0])
                     return res.json({ success: false, errorMsg: 'Product already exits' });
+                } else if (existsProduct.length == 0) {
+
+                } else {
+                    const oneProduct = await productschema.find({ _id: productId, name: productName });
+                    //this id update this id product name same langth 1 
+                    console.log("oneProduct", oneProduct.length)
+                    if (oneProduct.length == 0) {
+                        await removeLocalImage(req.uploadedFiles[0])
+                        return res.json({ success: false, errorMsg: 'Product already exits same' });
+                    }
                 }
             } catch (error) {
                 console.log("=existsProduct=== not find")
@@ -167,17 +176,19 @@ updateProductController = async (req, res) => {
                         slug: slug,
                         image: req.uploadedFiles[0]
                     })
-                console.log("updateProduct", updateProduct)
+                await removeLocalImage(updateProduct.image)
+                console.log("updateProduct==============", updateProduct)
                 // let savefile = `http://localhost:2000/uploads/${fileName}`
 
                 // Convert the Mongoose document to a plain JavaScript object
-                const plainProduct = updateProduct.toObject();
+                const nowUpdateProduct = await productschema.findById(productId)
+                const plainProduct = nowUpdateProduct.toObject();
 
-                if (updateProduct) {
+                if (nowUpdateProduct) {
                     // Extract only the required fields
                     const Extract = {
                         ...plainProduct,
-                        image: `http://localhost:2000/${saveProduct.image}`,
+                        image: `http://localhost:2000/${nowUpdateProduct.image}`,
                     }
                     // update successful
                     res.json({ success: true, message: 'Product update successful', data: Extract });
@@ -219,6 +230,13 @@ getAllProductController = async (req, res) => {
 }
 // =========================== deleteProductController===========================
 deleteProductController = async (req, res) => {
+    // console.log("=======================================================================", req.params.id)
+    // if (req.params.id) {
+    //     // console.log(await imageRemove(req.params.id))
+    //     if (!await imageRemove(req.params.id)) {
+    //         return res.json({ ok: false, msg: 'inviled id' })
+    //     }
+    // }
     // Check if the email exists in the database  
     const { id } = req.params;
     try {

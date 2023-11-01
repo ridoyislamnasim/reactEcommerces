@@ -30,7 +30,6 @@ forgetPassword = async (req, res) => {
                 return res.json({ success: false, errorMsg: 'Invalid email or forgetKey' });
             }
             const hashedPassword = await hashPassword(newPassword)
-
             try {
                 const user = await registrationschema.findByIdAndUpdate({ _id: userFind._id }, { password: hashedPassword })
                 res.json({
