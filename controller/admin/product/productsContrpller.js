@@ -217,7 +217,7 @@ updateProductController = async (req, res) => {
 getAllProductController = async (req, res) => {
     // Check if the email exists in the database  
     try {
-        const AllProduct = await productschema.find();
+        const AllProduct = await productschema.find().limit(12).sort({ updatedAt: -1 }).populate("category");
         if (AllProduct.length > 0) {
             const Extract = []
             for (const product of AllProduct) {
@@ -229,7 +229,7 @@ getAllProductController = async (req, res) => {
                 Extract.push(singleProduct)
             }
             // Login successful
-            return res.json({ success: true, message: 'get Product successful', data: Extract });
+            return res.json({ success: true, message: 'get Product successful', data: Extract, tptalProduct: AllProduct.length });
         }
         res.json({ success: false, errorMsg: 'no any Product in DB' });
     } catch (error) {
