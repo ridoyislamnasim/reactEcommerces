@@ -45,10 +45,10 @@ const CreateProduct = () => {
         event.preventDefault()
         try {
             const formData = new FormData()
-            formData.append("Category", Category);
+            formData.append("Category", CategoryId);
             formData.append("name", name);
             formData.append("price", price);
-            formData.append("quantity", CategoryId);
+            formData.append("quantity", quantity);
             formData.append("shipping", shipping);
             formData.append("description", description);
             formData.append("image", image);
