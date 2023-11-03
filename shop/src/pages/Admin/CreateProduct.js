@@ -11,7 +11,8 @@ import ProductForm from '../../components/Form/ProductForm';
 const CreateProduct = () => {
     // const [ SelectedItem, setSelectedItem] = useState(null);
     const [Category, setCategory] = useState(null);
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [CategoryId, setCategoryId] = useState(null);
+    const [selectedItem, setSelectedItem] = useState('Select Category');
     const [name, setname] = useState(null);
     const [price, setprice] = useState(null);
     const [quantity, setquantity] = useState(null);
@@ -36,7 +37,7 @@ const CreateProduct = () => {
     }, []);
 
     const handleItemClick = (item) => {
-        setSelectedItem(item);
+        setCategory(item);
     };
 
     //  create product
@@ -47,7 +48,7 @@ const CreateProduct = () => {
             formData.append("Category", Category);
             formData.append("name", name);
             formData.append("price", price);
-            formData.append("quantity", quantity);
+            formData.append("quantity", CategoryId);
             formData.append("shipping", shipping);
             formData.append("description", description);
             formData.append("image", image);
@@ -65,7 +66,7 @@ const CreateProduct = () => {
     };
     const parentProps = {
         Category, name, setname, price, setprice, quantity, setquantity, shipping, setshipping,
-        description, setdescription, image, setimage, selectedItem, setSelectedItem, handleItemClick, handleProductSubmit
+        description, setdescription, image, setimage, selectedItem, setSelectedItem, setCategoryId, handleItemClick, handleProductSubmit
     };
     return (
         <div>

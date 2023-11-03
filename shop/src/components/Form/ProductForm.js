@@ -4,9 +4,8 @@ import Form from 'react-bootstrap/Form';
 
 
 function ProductForm({ Category, name, setname, price, setprice, quantity, setquantity, shipping, setshipping,
-    description, setdescription, image, setimage, selectedItem, handleItemClick, handleProductSubmit }) {
-
-    // const [selectedImage, setSelectedImage] = useState(null);
+    description, setdescription, image, setimage, selectedItem, setSelectedItem, setCategoryId, handleItemClick, handleProductSubmit }) {
+    // const [selected, setSelected] = useState('Select Category');
 
     // const handleImageChange = (e) => {
     //     const file = e.target.files[0];
@@ -24,7 +23,7 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                         <Dropdown.Menu className="w-100">
 
                             {Category?.map((item, index) => (
-                                <Dropdown.Item key={item._id} value={item._id} onClick={() => handleItemClick(item.category)} >{item.category}</Dropdown.Item>
+                                <Dropdown.Item key={item._id} onClick={() => { setCategoryId(item._id); setSelectedItem(item.category) }} >{item.category}</Dropdown.Item>
                             ))}
                         </Dropdown.Menu>
                     </Dropdown>
