@@ -59,7 +59,7 @@ updateCategoryController = async (req, res) => {
     const { id } = req.params;
     console.log(req.body, id)
     if (!category || category.trim() === '') {
-        res.json({ errorMsg: "name is required" });
+        res.json({ errorMsg: "category is required" });
     } else if (!id || id.trim() === '') {
         res.json({ errorMsg: "id is required" });
     } else {
@@ -90,14 +90,17 @@ getAllCategoryController = async (req, res) => {
     // Check if the email exists in the database  
     try {
         const AllCategory = await categoryschema.find();
-        if (AllCategory) {
-            // Login successful
-            res.json({ success: true, message: 'get Category successful', data: AllCategory });
+        if (AllCategory && AllCategory.length > 0) {
+            // Sending a successful response
+            res.status(200).json({ success: true, message: 'Received Category information', data: AllCategory });
+        } else {
+            // Handling the case when no categories are found
+            res.status(404).json({ success: false, errorMsg: 'No categories found' });
         }
     } catch (error) {
+        // Handling errors (HTTP status code 500 Internal Server Error)
         console.error('Error:', error);
-        res.json({ success: false, errorMsg: 'Internal server error occurred' });
-
+        res.status(500).json({ success: false, errorMsg: 'Internal server error occurred' });
     }
 }
 // =========================== deleteCategoryController===========================
