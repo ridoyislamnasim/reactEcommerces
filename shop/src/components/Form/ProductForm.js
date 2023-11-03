@@ -51,7 +51,7 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                 </div>
                 <div className="mb-3">
                     <input
-                        type="number"
+                        type="text"
                         className="form-control"
                         placeholder="Enter product name"
                         value={name}

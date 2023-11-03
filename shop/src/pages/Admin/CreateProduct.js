@@ -11,7 +11,7 @@ import ProductForm from '../../components/Form/ProductForm';
 const CreateProduct = () => {
     // const [ SelectedItem, setSelectedItem] = useState(null);
     const [Category, setCategory] = useState(null);
-    const [selectedItem, setSelectedItem] = useState('Select Category');
+    const [selectedItem, setSelectedItem] = useState(null);
     const [name, setname] = useState(null);
     const [price, setprice] = useState(null);
     const [quantity, setquantity] = useState(null);
@@ -38,8 +38,30 @@ const CreateProduct = () => {
     const handleItemClick = (item) => {
         setSelectedItem(item);
     };
-    const handleProductSubmit = (value) => {
-        console.log('title');;
+
+    //  create product
+    const handleProductSubmit = async (event) => {
+        event.preventDefault()
+        try {
+            const formData = new FormData()
+            formData.append("Category", Category);
+            formData.append("name", name);
+            formData.append("price", price);
+            formData.append("quantity", quantity);
+            formData.append("shipping", shipping);
+            formData.append("description", description);
+            formData.append("image", image);
+            const data = await axios.post(`${process.env.REACT_APP_API}/admin/create-product`, formData);
+            if (data?.data.success) {
+                console.log('data', data.data);
+                toast.success(data.data.message);
+            } else {
+                toast.error(data.data.errorMsg);
+                console.log('fail');
+            };
+        } catch (error) {
+            console.log(error);
+        };
     };
     const parentProps = {
         Category, name, setname, price, setprice, quantity, setquantity, shipping, setshipping,
