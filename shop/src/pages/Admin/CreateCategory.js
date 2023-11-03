@@ -13,7 +13,7 @@ import CategoryEditModel from '../../components/ModelFile/CategoryEditModel';
 
 
 const CreateCategory = () => {
-    const [Category, setCategory] = useState();
+    const [Category, setCategory] = useState(null);
     const [categoryName, setcategoryName] = useState();
     const [show, setShow] = useState(false);
     const [selected, setselected] = useState([]);
@@ -43,7 +43,8 @@ const CreateCategory = () => {
             const data = await axios.delete(`${process.env.REACT_APP_API}/admin/delete-category/${event}`);
             if (data?.data.success) {
                 console.log('data', data.data);
-                toast.success(data.data.message);
+                console.log('data', data.data.data.category);
+                toast.success(`${data.data.data.category} ${data.data.message}`);
                 categoryData();
             } else {
                 toast.error(data.data.errorMsg);
@@ -103,7 +104,7 @@ const CreateCategory = () => {
                             <AdminMenu />
                         </div>
                         <div className="col-md-9">
-                            <div className="card w-75 p-3">
+                            <div className="card w-100 p-3">
                                 <>
                                     <CategoryForm handleSubmit={handleSubmit} value={categoryName} setValue={setcategoryName} />
                                     <h1>Create Category Pages</h1>

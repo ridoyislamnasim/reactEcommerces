@@ -95,7 +95,7 @@ getAllCategoryController = async (req, res) => {
             res.status(200).json({ success: true, message: 'Received Category information', data: AllCategory });
         } else {
             // Handling the case when no categories are found
-            res.status(404).json({ success: false, errorMsg: 'No categories found' });
+            res.status(200).json({ success: false, errorMsg: 'No categories found' });
         }
     } catch (error) {
         // Handling errors (HTTP status code 500 Internal Server Error)
