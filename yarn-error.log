@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\DCL\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start
+  C:\Program Files\nodejs\node.exe C:\Users\DCL\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js run dev
 
 PATH: 
   C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\DCL\AppData\Local\Microsoft\WindowsApps;C:\Users\DCL\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\MongoDB\Server\5.0\bin;C:\Users\DCL\AppData\Local\Programs\mongosh\;C:\Users\DCL\AppData\Local\GitHubDesktop\bin;C:\Users\DCL\AppData\Roaming\npm
@@ -42,11 +42,13 @@ npm manifest:
     "license": "ISC",
     "dependencies": {
       "bcrypt": "^5.1.1",
+      "bluebird": "^3.7.2",
       "concurrently": "^8.2.2",
       "cors": "^2.8.5",
       "dotenv": "^16.3.1",
       "express": "^4.18.2",
       "express-validator": "^7.0.1",
+      "formidable": "^3.5.1",
       "hashpassed": "^5.0.0",
       "jsonwebtoken": "^9.0.2",
       "mongoose": "^7.6.3",

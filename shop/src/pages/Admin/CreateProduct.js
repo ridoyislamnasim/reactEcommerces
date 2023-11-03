@@ -2,15 +2,22 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../components/Layout/Layout'
 import AdminMenu from '../../components/Menu/AdminMenu'
-import Dropdown from 'react-bootstrap/Dropdown';
+import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import ProductForm from '../../components/Form/ProductForm';
 
 
 const CreateProduct = () => {
     // const [ SelectedItem, setSelectedItem] = useState(null);
     const [Category, setCategory] = useState(null);
     const [selectedItem, setSelectedItem] = useState('Select Category');
+    const [name, setname] = useState(null);
+    const [price, setprice] = useState(null);
+    const [quantity, setquantity] = useState(null);
+    const [shipping, setshipping] = useState('Select shipping');
+    const [description, setdescription] = useState(null);
+    const [image, setimage] = useState(null);
     const categoryData = async () => {
         const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
         if (categoryRes.data.success) {
@@ -31,6 +38,13 @@ const CreateProduct = () => {
     const handleItemClick = (item) => {
         setSelectedItem(item);
     };
+    const handleProductSubmit = (value) => {
+        console.log('title');;
+    };
+    const parentProps = {
+        Category, name, setname, price, setprice, quantity, setquantity, shipping, setshipping,
+        description, setdescription, image, setimage, selectedItem, setSelectedItem, handleItemClick, handleProductSubmit
+    };
     return (
         <div>
             <Layout title={"Create Product - "} >
@@ -41,20 +55,9 @@ const CreateProduct = () => {
                         </div>
                         <div className="col-md-9">
                             <div className="card w-100 p-3">
-                                <h1>Create Product Pages</h1>
+                                <Card body className="mb-3"><h1>Create Product</h1></Card>
+                                <ProductForm {...parentProps} />
 
-                                <Dropdown>
-                                    <Dropdown.Toggle variant="success" id="dropdown-basic" className="w-100 d-flex justify-content-between align-items-center">
-                                        {selectedItem}
-                                    </Dropdown.Toggle>
-
-                                    <Dropdown.Menu className="w-100">
-
-                                        {Category?.map((item, index) => (
-                                            <Dropdown.Item key={item._id} onClick={() => handleItemClick(item.category)} >{item.category}</Dropdown.Item>
-                                        ))}
-                                    </Dropdown.Menu>
-                                </Dropdown>
                             </div>
                         </div>
                     </div>
