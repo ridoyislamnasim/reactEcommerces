@@ -54,7 +54,7 @@ const CreateCategory = () => {
             console.log(error);
         };
     };
-    // edit product
+    // edit Category
     const handleEdit = async (event) => {
         event.preventDefault()
         try {
@@ -75,7 +75,7 @@ const CreateCategory = () => {
             console.log(error);
         };
     };
-    //  create product
+    //  create Category
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {

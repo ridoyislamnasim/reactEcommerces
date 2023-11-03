@@ -24,13 +24,14 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                         <Dropdown.Menu className="w-100">
 
                             {Category?.map((item, index) => (
-                                <Dropdown.Item key={item._id} onClick={() => handleItemClick(item.category)} >{item.category}</Dropdown.Item>
+                                <Dropdown.Item key={item._id} value={item._id} onClick={() => handleItemClick(item.category)} >{item.category}</Dropdown.Item>
                             ))}
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
                 <div className="mb-3">
                     <Form.Group controlId="formFile" className="mb-3">
+
                         <Form.Control
                             type="file"
                             onChange={(e) => { const file = e.target.files[0]; setimage(file) }}
