@@ -31,7 +31,6 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                 </div>
                 <div className="mb-3">
                     <Form.Group controlId="formFile" className="mb-3">
-                        <Form.Label>Select Image</Form.Label>
                         <Form.Control
                             type="file"
                             onChange={(e) => { const file = e.target.files[0]; setimage(file) }}
@@ -99,7 +98,7 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                         />
                     </Form.Group>
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn w-100 btn-primary" >
                     Submit
                 </button>
             </form>
