@@ -256,6 +256,34 @@ getAllProductController = async (req, res) => {
 
     }
 }
+// =========================== getSingleProductController===========================
+getSingleProductController = async (req, res) => {
+    // Check if the email exists in the database  
+    const { id } = req.params;
+    console.log('id', id);
+    try {
+
+        const Product = await productschema.findById(id).populate("category");
+        console.log('Product', Product);
+        if (Product !== null) {
+            const Extract = []
+            const plainProduct = Product.toObject();
+            let singleProduct = {
+                ...plainProduct,
+                image: `http://localhost:2000/${plainProduct.image}`
+            }
+            Extract.push(singleProduct)
+
+            // Login successful
+            return res.json({ success: true, message: 'get Product successful', data: Extract });
+        }
+        res.json({ success: false, errorMsg: 'no any Product' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.json({ success: false, errorMsg: 'Internal server error occurred' });
+
+    }
+}
 // =========================== deleteProductController===========================
 deleteProductController = async (req, res) => {
     // console.log("=======================================================================", req.params.id)
@@ -290,5 +318,6 @@ module.exports = {
     createProductController,
     updateProductController,
     getAllProductController,
+    getSingleProductController,
     deleteProductController
 };

@@ -2,6 +2,7 @@ import React from 'react'
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { Link } from 'react-router-dom';
 
 const ProductCart = ({ product }) => {
     // const ln =
@@ -12,8 +13,10 @@ const ProductCart = ({ product }) => {
                 {product.map((item, idx) => (
                     <Col key={item._id}>
                         <Card>
-                            {/* src={item.imageUrl} */}
-                            <Card.Img variant="top" src={item.image} />
+                            {/* src={item.imageUrl} dashboard/admin/Products/ */}
+                            <Link to={`/dashboard/admin/Product/:${item._id}`} >
+                                <Card.Img variant="top" src={item.image} />
+                            </Link>
                             <Card.Body>
                                 <Card.Title>{item.name}</Card.Title>
                                 <Card.Text>
@@ -25,7 +28,7 @@ const ProductCart = ({ product }) => {
                         </Card>
                     </Col>
                 ))}
-            </Row>
+            </Row >
         </>
     )
 }
