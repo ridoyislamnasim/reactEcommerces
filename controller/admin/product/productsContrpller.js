@@ -12,6 +12,20 @@ const removeLocalImage = async (img) => {
     console.log('removeLocalImage', img)
     try { await fsPromises.unlink(`public/${img}`) } catch (e) { console.log('not remove', e) }
 }
+// convert To Boolean
+const convertToBoolean = async (value) => {
+    const trueValues = ['1', 'true', 'yes', 'Yes', 'on', 'enabled', 'active'];
+    const falseValues = ['0', 'false', 'no', 'No', 'off', 'disabled', 'inactive'];
+
+    if (trueValues.includes(value)) {
+        return true;
+    } else if (falseValues.includes(value)) {
+        return false;
+    } else {
+        // Default to false if the input is not recognized as a true value
+        return false;
+    }
+}
 // if img remove need than call this function
 const imageRemove = async (id) => {
     console.log("imageRemove run")
@@ -65,9 +79,13 @@ createProductController = async (req, res) => {
                 return res.json({ success: false, errorMsg: 'Product already exits' });
             }
             const slug = await createSlug(productName)
+
+            const shippingBoolean = await convertToBoolean(fields.shipping)
+            console.log(shippingBoolean)
             try {
                 const createNewProduct = new productschema({
                     ...fields,
+                    shipping: shippingBoolean,
                     slug: slug,
                     image: req.uploadedFiles[0]
                 });
