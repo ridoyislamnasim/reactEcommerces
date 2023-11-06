@@ -10,6 +10,7 @@ const cors = require("cors")
 // router import
 const router = require("./router/auth/authRouter");
 const admin = require("./router/admin/adminRouter");
+const common = require("./router/common/commonRouter");
 
 // internal imports
 // const {
@@ -52,6 +53,7 @@ app.use(express.static("public"));
 // routing setup
 app.use("/auth", router);
 app.use("/admin", admin);
+app.use("/shop", common);
 
 // 404 not found handler
 // app.use(notFoundHandler);
