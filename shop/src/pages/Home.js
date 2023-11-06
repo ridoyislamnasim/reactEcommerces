@@ -60,7 +60,6 @@ const Home = () => {
                                     inline={true}
                                     label="1"
                                     name="group1"
-                                // id={`inline-${type}-1`}
                                 />
                             ))}
 
