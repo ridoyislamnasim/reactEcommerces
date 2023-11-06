@@ -12,6 +12,7 @@ import { BiSolidCartAdd } from 'react-icons/bi';
 
 // 
 import Accordion from 'react-bootstrap/Accordion';
+import { Price } from '../components/utility/Price.js';
 // import { Modal } from 'react-bootstrap';
 // 
 const Home = () => {
@@ -21,13 +22,15 @@ const Home = () => {
     const [product, setproduct] = useState([]);
     const [category, setCategory] = useState([]);
     const [selected, setSelected] = useState([]);
+    const [selectedOption, setSelectedOption] = useState([]);
 
 
     // 
-    const [showCategories, setShowCategories] = useState(false);
 
-    const toggleCategories = () => {
-        setShowCategories(!showCategories);
+    const handleRadioChange = (event) => {
+        console.log('event', event);
+        // console.log('event.target.id', event.target.id);
+        setSelectedOption(event);
     };
     const handelChange = (checke, id) => {
         let checkAll = [...selected]
@@ -80,6 +83,7 @@ const Home = () => {
     }, []);
     console.log('category', category);
     console.log('selected', selected);
+    console.log('selectedOption', selectedOption);
     return (
         <Layout title={"Home - "}>
 
@@ -117,11 +121,14 @@ const Home = () => {
                                     <Accordion.Header>Price</Accordion.Header>
                                     <Accordion.Body>
                                         <div className="mb-3">
-                                            {category.map((item) => (
-                                                <div key={item._id} className="mb-2">
+                                            {Price.map((item) => (
+                                                <div key={item.id} className="mb-2">
                                                     <Form.Check
-                                                        label={item.category}
-                                                        name={item.category}
+                                                        type="radio"
+                                                        name="group1"
+                                                        label={item.name}
+                                                        id={item.priceRange}
+                                                        onChange={() => handleRadioChange(item.priceRange)}
                                                     />
                                                 </div>
                                             ))}
