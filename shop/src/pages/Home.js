@@ -9,12 +9,37 @@ import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { BiSolidCartAdd } from 'react-icons/bi';
+
+// 
+import Accordion from 'react-bootstrap/Accordion';
+// import { Modal } from 'react-bootstrap';
+// 
 const Home = () => {
     // const [auth] = useAuthr();
     // console.log("auth-=============================", auth)
 
     const [product, setproduct] = useState([]);
     const [category, setCategory] = useState([]);
+    const [selected, setSelected] = useState([]);
+
+
+    // 
+    const [showCategories, setShowCategories] = useState(false);
+
+    const toggleCategories = () => {
+        setShowCategories(!showCategories);
+    };
+    const handelChange = (checke, id) => {
+        let checkAll = [...selected]
+        if (checke) {
+            checkAll.push(id)
+        } else {
+            checkAll = checkAll.filter((e) => e !== id)
+        }
+        setSelected(checkAll)
+        console.log(id, checke)
+    }
+    // 
     const productData = async () => {
         const productRes = await axios.get(`${process.env.REACT_APP_API}/admin/products`)
         if (productRes.data.success) {
@@ -54,6 +79,7 @@ const Home = () => {
         fetchData();
     }, []);
     console.log('category', category);
+    console.log('selected', selected);
     return (
         <Layout title={"Home - "}>
 
@@ -62,21 +88,50 @@ const Home = () => {
                 <div className="row">
                     <div className="col-md-3">
                         <p>search</p>
-                        {/* <div key={`reverse-${type}`} className="mb-3"> */}
-                        <div className="mb-3">
-                            {category.map((item) => (
-                                <>
-                                    <Form.Check key={item._id}
-                                        inline={true}
-                                        label={item.category}
-                                        name={item.category}
-                                    />
-                                    {item.name}
-                                </>
-                            ))}
+                        {/* category */}
+                        <>
+                            <Accordion defaultActiveKey="0">
+                                <Accordion.Item eventKey="0">
+                                    <Accordion.Header>Categories</Accordion.Header>
+                                    <Accordion.Body>
+                                        <div className="mb-3">
+                                            {category.map((item) => (
+                                                <div key={item._id} className="mb-2">
+                                                    <Form.Check
+                                                        label={item.category}
+                                                        name={item.category}
+                                                        onChange={(e) => { handelChange(e.target.checked, item._id) }}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
 
-                        </div>
+                            </Accordion>
+                        </>
+                        {/* price */}
+                        <>
+                            <Accordion defaultActiveKey="0">
+                                <Accordion.Item eventKey="0">
+                                    <Accordion.Header>Price</Accordion.Header>
+                                    <Accordion.Body>
+                                        <div className="mb-3">
+                                            {category.map((item) => (
+                                                <div key={item._id} className="mb-2">
+                                                    <Form.Check
+                                                        label={item.category}
+                                                        name={item.category}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </Accordion>
+                        </>
                     </div>
+                    {/* product info */}
                     <div className="col-md-9">
                         <div className="card w-100 p-3">
                             <Row xs={1} md={3} className="g-4">
