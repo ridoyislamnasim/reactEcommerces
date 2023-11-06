@@ -107,7 +107,7 @@ upload = async (req, res, next) => {
             }
             // make file name use date 
             const currentDate = new Date().toISOString().replace(/[-T:Z.]/g, '');
-            const fileName = currentDate + '_' + encodeURIComponent(file.originalFilename.replace(/&.*;+/g, '-'));
+            const fileName = currentDate + '_' + encodeURIComponent(file.originalFilename.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '-'));
             try {
                 // save file ===file path == where upload == file name
                 const saved = await fsPromises.rename(file.filepath, join(uploadsFolder, fileName))

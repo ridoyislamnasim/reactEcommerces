@@ -1,10 +1,11 @@
 
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { useState } from 'react';
 
 function ProductEditForm({ Category, category, setcategory, name, setname, price, setprice, quantity, setquantity, shipping, setshipping,
     description, setdescription, image, setimage, selectedItem, setSelectedItem, setCategoryId, handleItemClick, handleProductUpdate }) {
-    // const [selected, setSelected] = useState('Select Category');
+    const [selected, setSelected] = useState(null);
 
     // const handleImageChange = (e) => {
     //     const file = e.target.files[0];
@@ -34,26 +35,43 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                             onChange={(e) => {
                                 const file = e.target.files[0];
                                 setimage(file)
-                                // if (file) {
-                                //     const reader = new FileReader();
-                                //     reader.onloadend = () => {
-                                //         // Set the image data URL in the state to display the selected image
-                                //         setimage(reader.result);
-                                //     };
-                                //     reader.readAsDataURL(file);
-                                // }
+                                if (file) {
+                                    const reader = new FileReader();
+                                    console.log('reader==-[[[[[[[[[[[[[[[[[[[[[[[[[[[[[', reader);
+                                    reader.onloadend = () => {
+                                        // Set the image data URL in the state to display the selected image
+                                        console.log('reader.result------------------kkkk----', reader.result);
+                                        setSelected(reader.result);
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
                                 // setimage(file)
                             }}
                             accept=".png, .jpg, .jpeg" // Specify allowed file types if needed
                         />
                     </Form.Group>
 
-                    {image && (
+                    {selected ? (
                         <div>
                             <h2>Selected Image:</h2>
-                            <img height={"200px"} src={image} className="rounded mx-auto d-block img img-responsive" alt="Selected" style={{ maxWidth: '100%' }} />
+                            <img height={"200px"} className="rounded mx-auto d-block img img-responsive"
+                                alt="Selected"
+                                src={selected}
+                                // src={URL.createObjectURL(selected)}
+                                style={{ maxWidth: '100%' }} />
                         </div>
-                    )}
+                    ) : (
+                        <div>
+                            <h2>Selected Image src:</h2>
+                            <img height={"200px"} className="rounded mx-auto d-block img img-responsive"
+                                alt="Selected"
+                                src={image}
+
+                                // src={URL.createObjectURL(image)} // Correct usage of createObjectURL
+                                style={{ maxWidth: '100%' }} />
+                        </div>
+                    )
+                    }
                     {/* {image && (
                         <div >
                             <p>Selected Image: {image.name}</p>

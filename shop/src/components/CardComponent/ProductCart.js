@@ -8,7 +8,6 @@ const ProductCart = ({ product }) => {
     // const ln =
     return (
         <>
-            <p>ridoy</p>
             <Row xs={1} md={3} className="g-4">
                 {product.map((item, idx) => (
                     <Col key={item._id}>

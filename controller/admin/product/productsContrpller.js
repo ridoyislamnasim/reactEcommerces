@@ -192,13 +192,15 @@ updateProductController = async (req, res) => {
                 const shippingBoolean = await convertToBoolean(fields.shipping)
                 console.log('shippingBoolean', shippingBoolean);
                 console.log('fields?.image', fields?.image);
+                console.log('fields?.image', req?.uploadedFiles?.[0]);
+                let image
                 if (fields?.image) {
                     const parts = fields?.image.split('/');
                     const filename = parts[parts.length - 1];
-                    image = `/uploads/${filename}`
+                    image = `uploads/${filename}`
                     console.log('image', image);
                 } else {
-                    let image = req.uploadedFiles[0]
+                    image = req.uploadedFiles[0]
                 }
                 const updateProduct = await productschema.findByIdAndUpdate(productId,
                     {
@@ -207,7 +209,8 @@ updateProductController = async (req, res) => {
                         slug: slug,
                         image: image
                     })
-                if (!fields?.image) {
+                if (fields?.image) {
+                } else {
                     console.log('title-------------------------------');
                     console.log("updateProduct==============", updateProduct)
                     await removeLocalImage(updateProduct.image)
@@ -313,8 +316,8 @@ deleteProductController = async (req, res) => {
     // }
     // Check if the email exists in the database  
     const { id } = req.params;
-    const deleteProduct = await productschema.findByIdAndDelete(id);
-    console.log("deleteProduct", deleteProduct)
+    // const deleteProduct = await productschema.findByIdAndDelete(id);
+    // console.log("deleteProduct", deleteProduct)
     try {
         const deleteProduct = await productschema.findByIdAndDelete(id);
         if (deleteProduct === null) {
