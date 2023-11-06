@@ -266,16 +266,15 @@ getSingleProductController = async (req, res) => {
         const Product = await productschema.findById(id).populate("category");
         console.log('Product', Product);
         if (Product !== null) {
-            const Extract = []
             const plainProduct = Product.toObject();
             let singleProduct = {
                 ...plainProduct,
                 image: `http://localhost:2000/${plainProduct.image}`
             }
-            Extract.push(singleProduct)
+
 
             // Login successful
-            return res.json({ success: true, message: 'get Product successful', data: Extract });
+            return res.json({ success: true, message: 'get Product successful', data: singleProduct });
         }
         res.json({ success: false, errorMsg: 'no any Product' });
     } catch (error) {

@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 const Products = () => {
     const [product, setproduct] = useState([]);
     const productData = async () => {
-        const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/product`)
+        const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/products`)
         if (categoryRes.data.success) {
             toast.success(categoryRes.data.message);
             console.log('title', categoryRes.data.data);

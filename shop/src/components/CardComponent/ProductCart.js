@@ -14,15 +14,13 @@ const ProductCart = ({ product }) => {
                     <Col key={item._id}>
                         <Card>
                             {/* src={item.imageUrl} dashboard/admin/Products/ */}
-                            <Link to={`/dashboard/admin/Product/:${item._id}`} >
+                            <Link to={`/dashboard/admin/Product/${item._id}`} >
                                 <Card.Img variant="top" src={item.image} />
                             </Link>
                             <Card.Body>
                                 <Card.Title>{item.name}</Card.Title>
                                 <Card.Text>
-                                    This is a longer card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit
-                                    longer.
+
                                 </Card.Text>
                             </Card.Body>
                         </Card>
