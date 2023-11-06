@@ -35,16 +35,25 @@ const Home = () => {
             toast.success(categoryRes.data.message);
             setCategory(
                 categoryRes.data.data,
-            );;
+            );
         } else {
             toast.error(categoryRes.data.errorMsg);
         }
 
     }
     useEffect(() => {
-        productData()
-        categoryData()
+        const fetchData = async () => {
+            try {
+                await productData();
+                await categoryData();
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
     }, []);
+    console.log('category', category);
     return (
         <Layout title={"Home - "}>
 
@@ -55,12 +64,15 @@ const Home = () => {
                         <p>search</p>
                         {/* <div key={`reverse-${type}`} className="mb-3"> */}
                         <div className="mb-3">
-                            {category.map(() => (
-                                <Form.Check
-                                    inline={true}
-                                    label="1"
-                                    name="group1"
-                                />
+                            {category.map((item) => (
+                                <>
+                                    <Form.Check key={item._id}
+                                        inline={true}
+                                        label={item.category}
+                                        name={item.category}
+                                    />
+                                    {item.name}
+                                </>
                             ))}
 
                         </div>
