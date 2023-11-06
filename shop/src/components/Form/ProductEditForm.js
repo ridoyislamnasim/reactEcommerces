@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 function ProductEditForm({ Category, category, setcategory, name, setname, price, setprice, quantity, setquantity, shipping, setshipping,
-    description, setdescription, image, setimage, selectedItem, setSelectedItem, setCategoryId, handleItemClick, handleProductSubmit }) {
+    description, setdescription, image, setimage, selectedItem, setSelectedItem, setCategoryId, handleItemClick, handleProductUpdate }) {
     // const [selected, setSelected] = useState('Select Category');
 
     // const handleImageChange = (e) => {
@@ -12,17 +12,18 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
     // };
     return (
         <>
-            <form onSubmit={handleProductSubmit}>
+            <form onSubmit={handleProductUpdate}>
                 <div className="mb-3">
                     <FloatingLabel controlId="floatingSelect" label="Shipping with selects">
                         <Form.Select value={category} onChange={(e) => setcategory(e.target.value)} aria-label="Floating label select example">
                             {Category?.map((item, index) => (
                                 // <Dropdown.Item key={item._id} onClick={() => { setCategoryId(item._id); setSelectedItem(item.category) }} >{item.category}</Dropdown.Item>
-                                <option key={item._id} value={item.category} >{item.category}</option>
+                                <option key={item._id} value={item.category} onClick={() => { setCategoryId(item._id); setSelectedItem(item.category) }} >{item.category}</option>
                             ))}
                         </Form.Select>
                     </FloatingLabel>
                 </div>
+                {/* img */}
                 <div className="mb-3">
                     <Form.Group controlId="formFile" className="mb-3">
 
@@ -32,14 +33,16 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                             // onChange={(e) => { const file = e.target.files[0]; setimage(file) }}
                             onChange={(e) => {
                                 const file = e.target.files[0];
-                                if (file) {
-                                    const reader = new FileReader();
-                                    reader.onloadend = () => {
-                                        // Set the image data URL in the state to display the selected image
-                                        setimage(reader.result);
-                                    };
-                                    reader.readAsDataURL(file);
-                                }
+                                setimage(file)
+                                // if (file) {
+                                //     const reader = new FileReader();
+                                //     reader.onloadend = () => {
+                                //         // Set the image data URL in the state to display the selected image
+                                //         setimage(reader.result);
+                                //     };
+                                //     reader.readAsDataURL(file);
+                                // }
+                                // setimage(file)
                             }}
                             accept=".png, .jpg, .jpeg" // Specify allowed file types if needed
                         />
@@ -74,7 +77,7 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                             type="text"
                             placeholder="Enter product name"
                             value={name}
-                            onChange={(e) => setquantity(e.target.value)} />
+                            onChange={(e) => setname(e.target.value)} />
                     </FloatingLabel>
                 </div>
                 {/* Price */}
@@ -88,7 +91,7 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                             type="number"
                             placeholder="Enter product price"
                             value={price}
-                            onChange={(e) => setquantity(e.target.value)} />
+                            onChange={(e) => setprice(e.target.value)} />
                     </FloatingLabel>
                 </div>
                 {/* quantity */}
@@ -105,6 +108,7 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                             onChange={(e) => setquantity(e.target.value)} />
                     </FloatingLabel>
                 </div>
+                {/* setshipping */}
                 <div className="mb-3">
                     <FloatingLabel controlId="floatingSelect" label="Shipping with selects">
                         <Form.Select value={shipping} onChange={(e) => setshipping(e.target.value)} aria-label="Floating label select example">
@@ -113,6 +117,7 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                         </Form.Select>
                     </FloatingLabel>
                 </div>
+                {/* Description */}
                 <div className="mb-3">
                     <FloatingLabel controlId="floatingTextarea2" label="Description">
                         <Form.Control
@@ -128,9 +133,9 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                     <button type="submit" class="btn  m-3 flex-fill btn-success">
                         Edit Product
                     </button>
-                    <button type="submit" class="btn  m-3 flex-fill btn-danger">
+                    {/* <button class="btn  m-3 flex-fill btn-danger">
                         Delete Product
-                    </button>
+                    </button> */}
                 </div>
             </form>
 

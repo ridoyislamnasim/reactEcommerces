@@ -52,6 +52,7 @@ const CreateProduct = () => {
             formData.append("shipping", shipping);
             formData.append("description", description);
             formData.append("image", image);
+            console.log(image)
             const data = await axios.post(`${process.env.REACT_APP_API}/admin/create-product`, formData);
             if (data?.data.success) {
                 console.log('data', data.data);

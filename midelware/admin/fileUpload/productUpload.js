@@ -47,6 +47,7 @@ function checkAcceptedExtensions(file) {
 
 upload = async (req, res, next) => {
     // receive file and fild for form
+
     let form = new Formidable.IncomingForm()
     console.log("------------form----------")
 
@@ -64,12 +65,23 @@ upload = async (req, res, next) => {
         return res.json({ ok: false, msg: "The uploads folder couldn't be created" })
     }
     form.parse(req, async (err, fields, files) => {
+        // Convert fields from arrays to single strings
+        const transformedFields = {};
+        for (const key in fields) {
+            transformedFields[key] = Array.isArray(fields[key]) ? fields[key][0] : fields[key];
+        }
+        req.uploadfields = transformedFields;
         let name = ''
         for (const fieldName in files) {
             name = fieldName
         }
         let saveFiles = []
         console.log('==================================', files)
+        console.log('==================================', fields?.image?.[0])
+        if (fields?.image?.[0]) {
+            console.log('Value:', fields.image[0]);
+            return next()
+        }
 
         // if error file come
         if (err) {
@@ -108,13 +120,9 @@ upload = async (req, res, next) => {
                 return res.json({ ok: false, msg: 'Error uploading the file mul' })
             }
         }
-        // Convert fields from arrays to single strings
-        const transformedFields = {};
-        for (const key in fields) {
-            transformedFields[key] = Array.isArray(fields[key]) ? fields[key][0] : fields[key];
-        }
+
         req.uploadedFiles = saveFiles;
-        req.uploadfields = transformedFields;
+
         // return res.json({ ok: true, msg: 'Files uploaded succesfully!', saveFiles })
         next()
     })

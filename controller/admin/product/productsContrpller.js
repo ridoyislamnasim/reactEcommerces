@@ -14,8 +14,8 @@ const removeLocalImage = async (img) => {
 }
 // convert To Boolean
 const convertToBoolean = async (value) => {
-    const trueValues = ['1', 'true', 'yes', 'Yes', 'on', 'enabled', 'active'];
-    const falseValues = ['0', 'false', 'no', 'No', 'off', 'disabled', 'inactive'];
+    const trueValues = ['1', 'true', 'yes', 'Yes', 'on', 'enabled', 'active', true];
+    const falseValues = ['0', 'false', 'no', 'No', 'off', 'disabled', 'inactive', false];
 
     if (trueValues.includes(value)) {
         return true;
@@ -131,7 +131,7 @@ updateProductController = async (req, res) => {
     console.log("req.body")
     // console.log(req.body)
     // console.log(req.uploadedFiles)
-    // console.log(req.uploadfields)
+    console.log(req.uploadfields)
     const fields = { ...req.uploadfields }
     // const { category } = req.body;
     if (!fields.name || fields.name.trim() === '') {
@@ -157,6 +157,7 @@ updateProductController = async (req, res) => {
         try {
             const productName = fields.name
             const productId = req.params.id
+            console.log('productId', productId);
             // Check  the product id exists in the database
             try {
                 await productschema.findById(productId);
@@ -188,17 +189,34 @@ updateProductController = async (req, res) => {
             // update product
             try {
                 const slug = await createSlug(productName)
+                const shippingBoolean = await convertToBoolean(fields.shipping)
+                console.log('shippingBoolean', shippingBoolean);
+                console.log('fields?.image', fields?.image);
+                if (fields?.image) {
+                    const parts = fields?.image.split('/');
+                    const filename = parts[parts.length - 1];
+                    image = `/uploads/${filename}`
+                    console.log('image', image);
+                } else {
+                    let image = req.uploadedFiles[0]
+                }
                 const updateProduct = await productschema.findByIdAndUpdate(productId,
                     {
                         ...fields,
+                        shipping: shippingBoolean,
                         slug: slug,
-                        image: req.uploadedFiles[0]
+                        image: image
                     })
-                await removeLocalImage(updateProduct.image)
-                console.log("updateProduct==============", updateProduct)
+                if (!fields?.image) {
+                    console.log('title-------------------------------');
+                    console.log("updateProduct==============", updateProduct)
+                    await removeLocalImage(updateProduct.image)
+                }
+
                 // let savefile = `http://localhost:2000/uploads/${fileName}`
 
                 // Convert the Mongoose document to a plain JavaScript object
+                console.log('updateProduct', updateProduct);
                 const nowUpdateProduct = await productschema.findById(productId)
                 const plainProduct = nowUpdateProduct.toObject();
 
@@ -208,13 +226,14 @@ updateProductController = async (req, res) => {
                         ...plainProduct,
                         image: `http://localhost:2000/${nowUpdateProduct.image}`,
                     }
+                    console.log('Extract', Extract);
                     // update successful
-                    res.json({ success: true, message: 'Product update successful', data: Extract });
+                    return res.json({ success: true, message: 'Product update successful', data: Extract });
                 }
             } catch (error) {
+                console.error('Error:', error);
                 console.log("===========================================================================================", req.uploadedFiles[0])
                 await removeLocalImage(req.uploadedFiles[0])
-                console.error('Error:', error);
                 res.json({ success: false, errorMsg: 'Internal server error occurred save' });
 
             }
