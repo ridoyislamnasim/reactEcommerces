@@ -33,7 +33,7 @@ const Products = () => {
                             <AdminMenu />
                         </div>
                         <div className="col-md-9">
-                            <div className="card w-75 p-3">
+                            <div className="card w-100 p-3">
                                 <h1>Products Pages</h1>
                                 <ProductCart product={product} />
                             </div>

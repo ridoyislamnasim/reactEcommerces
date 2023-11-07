@@ -22,7 +22,7 @@ const { filter } = require("../../controller/common/controller/filterController"
 
 
 
-common.get('/filter',
+common.post('/filter',
     // isUnAuthenticated,
     // singinValidators,
     filter

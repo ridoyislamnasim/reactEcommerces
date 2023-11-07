@@ -72,7 +72,11 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                await productData();
+                if (selected.length || selectedOption.length) {
+                    await productFilter(selected, selectedOption)
+                } else {
+                    await productData();
+                }
                 await categoryData();
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -80,7 +84,27 @@ const Home = () => {
         };
 
         fetchData();
-    }, []);
+    }, [selected, selectedOption]);
+    // produch serach
+    const productFilter = async (selected, selectedOption) => {
+        console.log('selected, selectedOption', selected, selectedOption);
+        const filterRes = await axios.post(`${process.env.REACT_APP_API}/shop/filter`,
+            {
+                categoryArray: selected
+                , priceRange: selectedOption
+            })
+        if (filterRes.data.success) {
+            toast.success(filterRes.data.message);
+            setproduct(
+                filterRes.data.data,
+            );
+        } else {
+            toast.error(filterRes.data.errorMsg);
+        }
+
+    }
+
+
     console.log('category', category);
     console.log('selected', selected);
     console.log('selectedOption', selectedOption);
@@ -137,6 +161,7 @@ const Home = () => {
                                 </Accordion.Item>
                             </Accordion>
                         </>
+                        <Button variant="outline-danger" onClick={() => window.location.reload()}>Success</Button>
                     </div>
                     {/* product info */}
                     <div className="col-md-9">
@@ -150,9 +175,15 @@ const Home = () => {
                                             {/* </Link> */}
                                             <Card.Body>
                                                 <Card.Title>{item.name}</Card.Title>
-                                                <Card.Text className='d-flex justify-content-around'>
-                                                    <Button variant="outline-success">Success</Button>
-                                                    <Button variant="outline-warning"> <BiSolidCartAdd /> Add To card</Button>
+                                                <Card.Text >
+                                                    <div className='d-flex justify-content-around'>
+                                                        <p>{item.price}</p>
+                                                        <p>{item.category.category}</p>
+                                                    </div>
+                                                    <div className='d-flex justify-content-around'>
+                                                        <Button variant="outline-success">Success</Button>
+                                                        <Button variant="outline-warning"> <BiSolidCartAdd /> Add To card</Button>
+                                                    </div>
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
