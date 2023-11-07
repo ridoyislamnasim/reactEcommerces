@@ -9,16 +9,19 @@ import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { BiSolidCartAdd } from 'react-icons/bi';
+import { FaReadme } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 // 
 import Accordion from 'react-bootstrap/Accordion';
 import { Price } from '../components/utility/Price.js';
+
 // import { Modal } from 'react-bootstrap';
 // 
 const Home = () => {
     // const [auth] = useAuthr();
     // console.log("auth-=============================", auth)
-
+    const navigate = useNavigate()
     const [product, setproduct] = useState([]);
     const [category, setCategory] = useState([]);
     const [selected, setSelected] = useState([]);
@@ -110,10 +113,9 @@ const Home = () => {
     console.log('selectedOption', selectedOption);
     return (
         <Layout title={"Home - "}>
-
-            <h1>Home Pages</h1>
             <div className="container-flui m-3 p-3 dashboard">
                 <div className="row">
+                    {/* filter item */}
                     <div className="col-md-3">
                         <p>search</p>
                         {/* category */}
@@ -161,7 +163,12 @@ const Home = () => {
                                 </Accordion.Item>
                             </Accordion>
                         </>
-                        <Button variant="outline-danger" onClick={() => window.location.reload()}>Success</Button>
+                        <Button variant="outline-danger"
+                            onClick={() => window.location.reload()}
+                            className=" w-100 mt-3"
+                        >
+                            Reset
+                        </Button>
                     </div>
                     {/* product info */}
                     <div className="col-md-9">
@@ -171,7 +178,7 @@ const Home = () => {
                                     <Col key={item._id}>
                                         <Card>
                                             {/* <Link to={`/dashboard/admin/Product/${item._id}`} > */}
-                                            <Card.Img variant="top" src={item.image} />
+                                            <Card.Img variant="top" src={item.image} style={{ maxHeight: '150px', }} />
                                             {/* </Link> */}
                                             <Card.Body>
                                                 <Card.Title>{item.name}</Card.Title>
@@ -181,8 +188,8 @@ const Home = () => {
                                                         <p>{item.category.category}</p>
                                                     </div>
                                                     <div className='d-flex justify-content-around'>
-                                                        <Button variant="outline-success">Success</Button>
-                                                        <Button variant="outline-warning"> <BiSolidCartAdd /> Add To card</Button>
+                                                        <Button variant="outline-success" onClick={() => navigate(`/product/details/${item._id}`)}><FaReadme /> Read </Button>
+                                                        <Button variant="outline-warning"> <BiSolidCartAdd /> Add To Card</Button>
                                                     </div>
                                                 </Card.Text>
                                             </Card.Body>

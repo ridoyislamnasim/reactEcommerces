@@ -18,6 +18,7 @@ import CreateProduct from './pages/Admin/CreateProduct';
 import Profile from './pages/User/Profile';
 import Orders from './pages/User/Orders';
 import ProductEdit from './pages/Admin/ProductEdit';
+import ProductDetails from './pages/ProductDetails';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path='Orders' element={<Orders />} />
         </Route>
         <Route path='/About' element={<About />} />
+        <Route path='/product/details/:id' element={<ProductDetails />} />
         <Route path='/Contact' element={<Contact />} />
         <Route path='/Policy' element={<Policy />} />
         <Route path='/Login' element={<Login />} />

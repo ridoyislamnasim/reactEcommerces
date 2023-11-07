@@ -14,7 +14,7 @@ const ProductCart = ({ product }) => {
                         <Card>
                             {/* src={item.imageUrl} dashboard/admin/Products/ */}
                             <Link to={`/dashboard/admin/Product/${item._id}`} >
-                                <Card.Img variant="top" src={item.image} style={{ maxHeight: '150px', objectFit: 'cover' }} />
+                                <Card.Img variant="top" src={item.image} style={{ maxHeight: '150px' }} />
                             </Link>
                             <Card.Body>
                                 <Card.Title>{item.name}</Card.Title>
