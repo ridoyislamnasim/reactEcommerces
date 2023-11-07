@@ -19,12 +19,14 @@ import Profile from './pages/User/Profile';
 import Orders from './pages/User/Orders';
 import ProductEdit from './pages/Admin/ProductEdit';
 import ProductDetails from './pages/ProductDetails';
+import Categorys from './pages/Categorys';
 
 function App() {
   return (
     <>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/Category/:id' element={<Categorys />} />
         <Route path='/Dashboard/Admin' element={<AdminPrivateRouter />}>
           <Route path='' element={<AdminDashboard />} />
           <Route path='CreateCategory' element={<CreateCategory />} />
