@@ -294,9 +294,43 @@ getSingleProductController = async (req, res) => {
                 image: `http://localhost:2000/${plainProduct.image}`
             }
 
-
             // Login successful
             return res.json({ success: true, message: 'get Product successful', data: singleProduct });
+        }
+        res.json({ success: false, errorMsg: 'no any Product' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.json({ success: false, errorMsg: 'Internal server error occurred' });
+
+    }
+}
+// =========================== getSimilarProductController===========================
+getSimilarProductController = async (req, res) => {
+    // Check if the email exists in the database  
+    const { cp_id, ca_id } = req.params;
+    console.log('id', cp_id, ca_id);
+    try {
+
+        const AllProduct = await productschema
+            .find({ category: ca_id, _id: { $nin: [cp_id] } })
+            .limit(6)
+            .populate("category");
+
+        console.log('Product', AllProduct);
+        if (AllProduct !== null && AllProduct.length > 0) {
+            const Extract = []
+            for (const product of AllProduct) {
+                const plainProduct = product.toObject();
+                let singleProduct = {
+                    ...plainProduct,
+                    image: `http://localhost:2000/${plainProduct.image}`
+                }
+                Extract.push(singleProduct)
+            }
+            console.log('Extract====similiar product ============', Extract);
+            console.log('===========similiar product ============');
+            // Login successful
+            return res.json({ success: true, message: 'get Product successful', data: Extract });
         }
         res.json({ success: false, errorMsg: 'no any Product' });
     } catch (error) {
@@ -340,5 +374,6 @@ module.exports = {
     updateProductController,
     getAllProductController,
     getSingleProductController,
+    getSimilarProductController,
     deleteProductController
 };
