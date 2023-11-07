@@ -2,8 +2,11 @@ import React from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { SiShopee } from 'react-icons/si'
 import { useAuthr } from '../../context/auth'
+import useCatetory from '../Hooks/useCatetory'
 const Header = () => {
     const [auth, setAuth] = useAuthr();
+    const category = useCatetory()
+    console.log("=============", category)
     const handelLogOut = () => {
         setAuth({
             ...auth,
@@ -27,6 +30,32 @@ const Header = () => {
                                     Home
                                 </NavLink>
                             </li>
+                            {/* category  */}
+                            <li className="nav-item dropdown">
+                                <NavLink
+                                    className="nav-link dropdown-toggle"
+                                    href="#"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    style={{ border: "none" }}
+                                >
+                                    Category
+                                </NavLink>
+                                <ul className="dropdown-menu">
+                                    <li>
+                                        {category.map((item, idx) => (
+                                            <NavLink key={item._id}
+                                                to={`/Category/${item._id}`}
+                                                className="dropdown-item">
+                                                {item?.category}
+                                            </NavLink>
+                                        )
+                                        )}
+
+                                    </li>
+                                </ul>
+                            </li>
+                            {/* login registation */}
                             {
                                 auth.user ?
                                     (<>
@@ -77,7 +106,7 @@ const Header = () => {
                                     </>
                                     )
                             }
-
+                            {/* cart */}
                             <li className="nav-item">
                                 <NavLink to='/cart' className="nav-link" >
                                     Cart (0)
