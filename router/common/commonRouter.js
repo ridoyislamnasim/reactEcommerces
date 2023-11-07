@@ -18,7 +18,7 @@ const { forgetPassword } = require("../../controller/auth/forgetPasswordControll
 
 //middleWare
 const { requireSignIn } = require("../../midelware/auth/authMidelware");
-const { filter } = require("../../controller/common/controller/filterController");
+const { filter, getCategoryProductController } = require("../../controller/common/controller/filterController");
 const { getSingleProductController, getSimilarProductController } = require("../../controller/admin/product/productsContrpller");
 
 
@@ -36,6 +36,10 @@ common.post('/filter',
 common.get('/product/:cp_id/:ca_id',
     // isUnAuthenticated,
     getSimilarProductController,
+);
+common.get('/product/:category_id',
+    // isUnAuthenticated,
+    getCategoryProductController,
 );
 
 // common.post('/forgetPassword',

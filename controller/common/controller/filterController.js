@@ -70,7 +70,41 @@ filter = async (req, res) => {
 
 }
 
+// category product show
+getCategoryProductController = async (req, res) => {
+    console.log("req.body")
+    console.log(req.params)
+    const { category_id } = req.params;
+    try {
+        const categoryProduct = await productschema.find(
+            { category: category_id }
+        ).populate("category")
+        console.log('filterProduct', categoryProduct);
+        // console.log('filterProduct222', filterProduct2);
+        // res.json({ success: true, message: 'find successful', data: filterProduct });
 
+        const Extract = []
+        if (categoryProduct.length > 0) {
+
+            for (const product of categoryProduct) {
+                const plainProduct = product.toObject();
+                let singleProduct = {
+                    ...plainProduct,
+                    image: `http://localhost:2000/${plainProduct.image}`
+                }
+                Extract.push(singleProduct)
+            }
+            // Login successful
+            return res.json({ success: true, message: ' successful', data: Extract, totalProduct: categoryProduct.length });
+        }
+        res.json({ success: false, errorMsg: 'no any Product in DB', data: Extract, totalProduct: 0 });
+    } catch (error) {
+        console.error('Error:', error);
+        res.json({ success: false, errorMsg: 'Internal server error occurred' });
+    }
+
+}
 module.exports = {
     filter,
+    getCategoryProductController
 };
