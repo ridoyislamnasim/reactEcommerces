@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 // 
 import Accordion from 'react-bootstrap/Accordion';
 import { Price } from '../components/utility/Price.js';
-
+import { useCart } from '../context/cart.js';
 // import { Modal } from 'react-bootstrap';
 // 
 const Home = () => {
@@ -26,7 +26,7 @@ const Home = () => {
     const [category, setCategory] = useState([]);
     const [selected, setSelected] = useState([]);
     const [selectedOption, setSelectedOption] = useState([]);
-
+    const [cart, setCart] = useCart();
 
     // 
 
@@ -189,7 +189,7 @@ const Home = () => {
                                                     </div>
                                                     <div className='d-flex justify-content-around'>
                                                         <Button variant="outline-success" onClick={() => navigate(`/product/details/${item._id}`)}><FaReadme /> Read </Button>
-                                                        <Button variant="outline-warning"> <BiSolidCartAdd /> Add To Card</Button>
+                                                        <Button variant="outline-warning" onClick={() => setCart([...cart, item])}> <BiSolidCartAdd /> Add To Card</Button>
                                                     </div>
                                                 </Card.Text>
                                             </Card.Body>

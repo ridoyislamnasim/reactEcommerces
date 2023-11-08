@@ -3,10 +3,18 @@ import { NavLink, Link } from 'react-router-dom'
 import { SiShopee } from 'react-icons/si'
 import { useAuthr } from '../../context/auth'
 import useCatetory from '../Hooks/useCatetory'
+import { useCart } from '../../context/cart'
+import { IoMdCart } from 'react-icons/io';
+// ui
+import IconButton from '@mui/material/IconButton';
+// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
+// import { styled } from '@mui/material/styles';
 const Header = () => {
+    const [cart] = useCart();
     const [auth, setAuth] = useAuthr();
     const category = useCatetory()
-    console.log("=============", category)
+    console.log("===========cart==", cart)
     const handelLogOut = () => {
         setAuth({
             ...auth,
@@ -109,7 +117,12 @@ const Header = () => {
                             {/* cart */}
                             <li className="nav-item">
                                 <NavLink to='/cart' className="nav-link" >
-                                    Cart (0)
+                                    <IconButton aria-label="cart">
+                                        <Badge badgeContent={cart?.length} color="error">
+                                            {/* <ShoppingCartIcon /> */}
+                                            <IoMdCart />
+                                        </Badge>
+                                    </IconButton>
                                 </NavLink>
                             </li>
 

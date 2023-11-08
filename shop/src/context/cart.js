@@ -3,8 +3,6 @@ import { useState, useContext, createContext } from 'react'
 const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
-
-    // const [cart, setCart] = useState()
     const [cart, setCart] = useState([]);
     // useEffect(() => {
     //     const data = localStorage.getItem("cart");
@@ -28,9 +26,9 @@ const CartProvider = ({ children }) => {
 
 
 // custon hook
-const useAuthr = () => useContext(CartContext)
+const useCart = () => useContext(CartContext)
 
-export { useAuthr, CartProvider };
+export { useCart, CartProvider };
 
 
 
