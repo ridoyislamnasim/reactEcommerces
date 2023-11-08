@@ -18,6 +18,7 @@ const { forgetPassword } = require("../../controller/auth/forgetPasswordControll
 
 //middleWare
 const { requireSignIn } = require("../../midelware/auth/authMidelware");
+const { profileUpdate } = require("../../controller/auth/profileUpdateController");
 
 
 
@@ -42,6 +43,11 @@ router.post('/forgetPassword',
     // isUnAuthenticated,
     // singinValidators,
     forgetPassword
+);
+router.post('/profile-update',
+    // isUnAuthenticated,
+    // singinValidators,
+    profileUpdate
 );
 
 

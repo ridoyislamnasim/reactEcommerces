@@ -189,7 +189,11 @@ const Home = () => {
                                                     </div>
                                                     <div className='d-flex justify-content-around'>
                                                         <Button variant="outline-success" onClick={() => navigate(`/product/details/${item._id}`)}><FaReadme /> Read </Button>
-                                                        <Button variant="outline-warning" onClick={() => setCart([...cart, item])}> <BiSolidCartAdd /> Add To Card</Button>
+                                                        <Button variant="outline-warning" onClick={() => {
+                                                            setCart([...cart, item])
+                                                            localStorage.setItem('cart', JSON.stringify([...cart, item]))
+                                                            toast.success(`${item.name} Add into Cart`)
+                                                        }}> <BiSolidCartAdd /> Add To Card</Button>
                                                     </div>
                                                 </Card.Text>
                                             </Card.Body>

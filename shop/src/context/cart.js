@@ -1,21 +1,24 @@
-import { useState, useContext, createContext } from 'react'
+import { useState, useContext, createContext, useEffect } from 'react'
 
 const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
-    // useEffect(() => {
-    //     const data = localStorage.getItem("cart");
-    //     if (data) {
-    //         const parseData = JSON.parse(data);
-    //         setCart({
-    //             ...cart,
-    //             user: parseData.user,
-    //             token: parseData.token,
-    //         });
-    //     }
-    //     // eslint-disable-next-line
-    // }, []);
+    useEffect(() => {
+        const data = localStorage.getItem("cart");
+        console.log('data cart to show', data);
+        if (data) {
+            const parseData = JSON.parse(data);
+            console.log('data cart to show', data);
+
+            setCart(
+                parseData
+            );
+            console.log('=====cart to show', cart);
+
+        }
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <CartContext.Provider value={[cart, setCart]}>
