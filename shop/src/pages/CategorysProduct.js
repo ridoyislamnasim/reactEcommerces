@@ -70,7 +70,7 @@ const CategorysProduct = () => {
                 </Tabs>
             </div>
             <div className="">
-                <div className="card w-100 p-5">
+                <div className="card w-100 p-5" style={{ backgroundColor: '#f3f6f9' }}>
                     <Row xs={1} md={4} className="g-4">
                         {categoryProduct?.map((item) => (
                             <Col key={item._id}>
