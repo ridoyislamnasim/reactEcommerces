@@ -11,8 +11,10 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useCart } from '../context/cart';
 
 const CategorysProduct = () => {
+    const [cart, setCart] = useCart();
     const navigate = useNavigate();
     const params = useParams();
     const category = useCatetory();
@@ -87,9 +89,9 @@ const CategorysProduct = () => {
                                                 </Button>
                                                 <Button variant="outline-warning"
                                                     onClick={() => {
-                                                        setCart([...cart, product])
-                                                        localStorage.setItem('cart', JSON.stringify([...cart, product]))
-                                                        toast.success(`${product.name} Add into Cart`)
+                                                        setCart([...cart, item])
+                                                        localStorage.setItem('cart', JSON.stringify([...cart, item]))
+                                                        toast.success(`${item.name} Add into Cart`)
                                                     }}
                                                 >
                                                     <BiSolidCartAdd /> Add To Cart
