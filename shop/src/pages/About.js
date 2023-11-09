@@ -6,6 +6,7 @@ const About = () => {
     return (
         <Layout title={"About us - "} >
             <h1>About Pages</h1>
+
         </Layout>
     )
 }
