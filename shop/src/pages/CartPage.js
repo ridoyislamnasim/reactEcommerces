@@ -9,11 +9,11 @@ import Row from 'react-bootstrap/Row';
 import Image from 'react-bootstrap/Image';
 import { toast } from 'react-toastify';
 import { useAuthr } from '../context/auth';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const CartPage = () => {
     const [cart, setCart] = useCart()
     const [auth] = useAuthr()
-    console.log('auth============', auth);
+    const navigate = useNavigate();
     // total price 
     const [totalPrice, setTotalPrice] = useState("$0.00");
 
@@ -112,34 +112,14 @@ const CartPage = () => {
                                         {auth?.user ? (
                                             <>
                                                 <div className='d-flex  justify-content-around   '>
-                                                    <NavLink
-                                                        // onClick={handelLogOut}
-                                                        to="/login"
-                                                        className=""
-                                                    >
-                                                        <Button variant="outline-success" > Check Out </Button>
-                                                    </NavLink>
-                                                    <NavLink
-                                                        // onClick={handelLogOut}
-                                                        to="/login"
-                                                        className=""
-                                                    >
-                                                        <Button variant="warning" >Payment</Button>
-                                                    </NavLink>
+                                                    <Button variant="outline-success" > Check Out </Button>
+                                                    <Button variant="warning" >Payment</Button>
                                                 </div>
                                             </>
                                         ) : (
                                             <>
                                                 <div className=''>
-
-                                                    <NavLink
-                                                        // onClick={handelLogOut}
-                                                        to="/login"
-                                                        className="dropdown-item d-flex justify-content-around "
-                                                    >
-                                                        <Button variant="info" >Log In</Button>
-
-                                                    </NavLink>
+                                                    <Button variant="info" onClick={() => navigate('/login', { state: '/cart' })}>Log In</Button>
                                                 </div>
                                             </>
                                         )}

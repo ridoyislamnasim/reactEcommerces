@@ -24,20 +24,12 @@ const Profile = () => {
     }, [auth]);
     const handleUpdateSubmit = async (e) => {
         e.preventDefault();
-        console.log(name,
-            email,
-            password,
-            phone,
-            address,
+        console.log(name, email, password, phone, address,
         )
         console.log(' process.env.REACT_APP_API', process.env.REACT_APP_API)
         try {
             const res = await axios.post(`${process.env.REACT_APP_API}/auth/profile-update`, {
-                name,
-                email,
-                password,
-                phone,
-                address,
+                name, email, password, phone, address,
             });
             console.log("res", res, res.data.success)
             console.log("res.data", res.data)
@@ -45,8 +37,12 @@ const Profile = () => {
                 toast.success(res.data && res.data.message);
                 setAuth({
                     ...auth,
-                    user: res.data.user,
+                    user: res.data.updateUser,
                 });
+                const prvData = localStorage.getItem("auth");
+                const localData = JSON.parse(prvData)
+                localData.user = res.data.updateUser
+                localStorage.setItem('auth', JSON.stringify(localData))
             } else {
                 console.log("elase error", res.data);
                 toast.error(res.data.errorMsg);
