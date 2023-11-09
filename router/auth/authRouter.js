@@ -19,6 +19,7 @@ const { forgetPassword } = require("../../controller/auth/forgetPasswordControll
 //middleWare
 const { requireSignIn } = require("../../midelware/auth/authMidelware");
 const { profileUpdate } = require("../../controller/auth/profileUpdateController");
+const { paymentToknController, paymentController } = require("../../controller/payment/paymentController");
 
 
 
@@ -39,7 +40,7 @@ router.get('/auth',
 
 );
 
-router.post('/forgetPassword',
+router.get('/forgetPassword',
     // isUnAuthenticated,
     // singinValidators,
     forgetPassword
@@ -50,11 +51,16 @@ router.post('/profile-update',
     profileUpdate
 );
 
-
-
-// router.post("/:id",editroom);
-
-// // delete the data by id 
-// router.get("/delete/:id",deleteroom);
+// payment route 
+router.post('/payment/token',
+    // isUnAuthenticated,
+    // singinValidators,
+    paymentToknController
+);
+router.post('/payment',
+    // isUnAuthenticated,
+    // singinValidators,
+    paymentController
+);
 
 module.exports = router;

@@ -18,8 +18,9 @@ const common = require("./router/common/commonRouter");
 //     errorHandler,
 // } = require("./middleware/common/errorHandler");
 
-// middleWare 
 
+
+// middleWare 
 const app = express();
 dotenv.config();
 // set view engine
@@ -46,7 +47,6 @@ app.use(express.urlencoded({ extended: true }));
 // set static folder
 // app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static("public"));
-
 // parse cookies
 // app.use(cookieParser(process.env.COOKIE_SECRET));
 
@@ -62,5 +62,6 @@ app.use("/shop", common);
 // app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
+
     console.log(`app listening to port `, process.env.PORT);
 });

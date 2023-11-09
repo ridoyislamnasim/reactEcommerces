@@ -56,28 +56,42 @@ const CartPage = () => {
                             {/* product  */}
                             {/* <div className='col-6 p-1'> */}
                             <Col xs={7} className="d-flex  flex-column  justify-content-around align-items-start">
+
                                 <div className='p-2 '>Shopping Bag</div>
-                                {cart.map((item, idx) => (
-                                    <Col key={item._id} className=' w-100'>
-                                        <Card className='d-flex flex-row m-3 p-2'>
-                                            {/* <Card.Img variant="top"  /> */}
-                                            <Image src={item.image} style={{ maxHeight: '150px', maxWidth: '200px' }} rounded />
-                                            <Card.Body>
-                                                <Card.Text>
-                                                    <div className=' '>
-                                                        <p className='mb-0'>name : {item.name}</p>
-                                                        <p className='mb-0'>Price : {item.price}</p>
-                                                        {/* <p>category : {item.price}</p> */}
-                                                        <p className='mb-0'>category : {item.category.category}</p>
-                                                    </div>
-                                                </Card.Text>
-                                                <Button variant="danger" onClick={() => removeCart(item._id)}>
-                                                    Remove
-                                                </Button>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
-                                ))}
+                                {
+                                    cart?.length > 0 ? (
+                                        cart.map((item, idx) => (
+                                            <Col key={item._id} className=' w-100'>
+                                                <Card className='d-flex flex-row m-3 p-2'>
+                                                    {/* <Card.Img variant="top"  /> */}
+                                                    <Image src={item.image} style={{ maxHeight: '150px', maxWidth: '200px' }} rounded />
+                                                    <Card.Body>
+                                                        <Card.Text>
+                                                            <div className=' '>
+                                                                <p className='mb-0'>name : {item.name}</p>
+                                                                <p className='mb-0'>Price : {item.price}</p>
+                                                                {/* <p>category : {item.price}</p> */}
+                                                                <p className='mb-0'>category : {item.category.category}</p>
+                                                            </div>
+                                                        </Card.Text>
+                                                        <Button variant="danger" onClick={() => removeCart(item._id)}>
+                                                            Remove
+                                                        </Button>
+                                                    </Card.Body>
+                                                </Card>
+                                            </Col>
+                                        ))
+                                    )
+                                        : (
+                                            <div className='d-flex w-100' style={{ minHeight: '50vh' }}>
+                                                <div class="d-flex w-100  justify-content-around align-items-center"  >
+                                                    <button type="button" class="btn btn-outline-success" onClick={() => navigate('/')}>Shopping</button>
+                                                </div>
+                                            </div>
+
+                                        )
+                                }
+
                             </Col>
                             {/* checkout Payment */}
                             {/* <div className='col-5 d-flex justify-content-space-around align-items-start'> */}
