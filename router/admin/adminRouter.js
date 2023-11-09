@@ -50,7 +50,7 @@ admin.get('/category',
 //     singleCategory
 // );
 admin.delete('/delete-category/:id',
-    // requireSignIn,
+    requireSignIn,
     deleteCategoryController
 );
 // ===================================================

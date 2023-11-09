@@ -39,6 +39,9 @@ paymentToknController = async (req, res) => {
 paymentController = async (req, res) => {
     try {
         const { nonce, cart } = req.body;
+        console.log('cart', cart);
+        console.log('cart------');
+        console.log('cart', cart[0]._id, req.user);
         let total = 0;
         cart.map((i) => {
             total += i.price;

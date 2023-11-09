@@ -12,10 +12,6 @@ const orderSchema = new Schema(
             type: mongoose.ObjectId,
             ref: 'registrationInfo'
         },
-        phone: {
-            type: Number,
-            required: true,
-        },
         status: {
             type: String,
             enum: ['Not Process', 'Processing', 'Shipped', 'Deliverd', 'Cancel'],

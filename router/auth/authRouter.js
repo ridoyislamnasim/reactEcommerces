@@ -40,7 +40,7 @@ router.get('/auth',
 
 );
 
-router.get('/forgetPassword',
+router.post('/forgetPassword',
     // isUnAuthenticated,
     // singinValidators,
     forgetPassword
@@ -52,14 +52,14 @@ router.post('/profile-update',
 );
 
 // payment route 
-router.post('/payment/token',
+router.get('/payment/token',
     // isUnAuthenticated,
     // singinValidators,
     paymentToknController
 );
 router.post('/payment',
     // isUnAuthenticated,
-    // singinValidators,
+    requireSignIn,
     paymentController
 );
 
