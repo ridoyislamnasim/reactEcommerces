@@ -40,7 +40,6 @@ const productSchema = new Schema(
         }
     },
     {
-        kjd
         timestamps: true,
     }
 );
