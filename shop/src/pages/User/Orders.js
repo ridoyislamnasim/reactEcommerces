@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
-import UserMenu from "../../components/Layout/UserMenu";
+import UserMenu from "../../components/Menu/UserMenu";
 import Layout from "./../../components/Layout/Layout";
+import Image from 'react-bootstrap/Image';
+import Accordion from 'react-bootstrap/Accordion';
+import Col from 'react-bootstrap/Col';
 import axios from "axios";
-import { useAuth } from "../../context/auth";
+import { useAuthr } from "../../context/auth";
 import moment from "moment";
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
-    const [auth, setAuth] = useAuth();
+    const [auth, setAuth] = useAuthr();
     const getOrders = async () => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_API}/shop/order`);
-            setOrders(data);
+            console.log('data.data', data.data);
+            setOrders(data.data);
         } catch (error) {
             console.log(error);
         }
@@ -20,6 +24,7 @@ const Orders = () => {
     useEffect(() => {
         if (auth?.token) getOrders();
     }, [auth?.token]);
+    console.log('orders', orders);
     return (
         <Layout title={"Your Orders"}>
             <div className="container-flui p-3 m-3 dashboard">
@@ -29,54 +34,65 @@ const Orders = () => {
                     </div>
                     <div className="col-md-9">
                         <h1 className="text-center">All Orders</h1>
-                        {orders?.map((o, i) => {
-                            return (
-                                <div className="border shadow">
-                                    <table className="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Buyer</th>
-                                                <th scope="col"> date</th>
-                                                <th scope="col">Payment</th>
-                                                <th scope="col">Quantity</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{i + 1}</td>
-                                                <td>{o?.status}</td>
-                                                <td>{o?.buyer?.name}</td>
-                                                <td>{moment(o?.createAt).fromNow()}</td>
-                                                <td>{o?.payment.success ? "Success" : "Failed"}</td>
-                                                <td>{o?.products?.length}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div className="container">
-                                        {o?.products?.map((p, i) => (
-                                            <div className="row mb-2 p-3 card flex-row" key={p._id}>
-                                                <div className="col-md-4">
-                                                    <img
-                                                        src={`/api/v1/product/product-photo/${p._id}`}
-                                                        className="card-img-top"
-                                                        alt={p.name}
-                                                        width="100px"
-                                                        height={"100px"}
-                                                    />
-                                                </div>
-                                                <div className="col-md-8">
-                                                    <p>{p.name}</p>
-                                                    <p>{p.description.substring(0, 30)}</p>
-                                                    <p>Price : {p.price}</p>
-                                                </div>
-                                            </div>
-                                        ))}
+                        <Accordion defaultActiveKey={['0']} flush>
+                            {orders?.map((order, i) => {
+                                return (
+                                    <div className="border shadow">
+                                        <table className="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Buyer</th>
+                                                    <th scope="col"> date</th>
+                                                    <th scope="col">Payment</th>
+                                                    <th scope="col">Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{i + 1}</td>
+                                                    <td>{order?.status}</td>
+                                                    <td>{order?.buyer?.name}</td>
+                                                    <td>{moment(order?.createAt).fromNow()}</td>
+                                                    <td>{order?.payment.success ? "Success" : "Failed"}</td>
+                                                    <td>{order?.products?.length}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div className="container">
+                                            <Accordion.Item eventKey={i}>
+                                                <Accordion.Header>Products Details</Accordion.Header>
+                                                <Accordion.Body>
+                                                    {order?.products?.map((p, i) => (
+                                                        <div className="row mb-2 p-3 card flex-row" key={p._id}>
+                                                            <div className="col-md-4 d-flex justify-content-center align-items-center">
+                                                                {/* <Col xs={6} md={4}> */}
+                                                                <Image style={{ height: "100px", width: "100px" }} src={p.image} rounded />
+                                                                {/* </Col> */}
+
+                                                            </div>
+                                                            <div className="col-md-8">
+                                                                <div className="col-md-11 d-flex justify-content-between align-items-center">
+                                                                    <p><b>Name</b></p>
+                                                                    <p><b>Description</b></p>
+                                                                    <p><b>Price</b></p>
+                                                                </div>
+                                                                <div className="col-md-11 d-flex justify-content-between align-items-center">
+                                                                    <p>{p.name}</p>
+                                                                    <p>{p.description.substring(0, 30)}</p>
+                                                                    <p>{p.price}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </Accordion.Body>
+                                            </Accordion.Item>
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </Accordion>
                     </div>
                 </div>
             </div>

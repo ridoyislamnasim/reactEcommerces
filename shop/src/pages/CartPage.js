@@ -173,8 +173,8 @@ const CartPage = () => {
                                             </>
                                         ) : (
                                             <>
-                                                <div className=''>
-                                                    <Button variant="info" onClick={() => navigate('/login', { state: '/cart' })}>Log In</Button>
+                                                <div className='d-flex  justify-content-around  '>
+                                                    <Button variant="info" onClick={() => navigate('/login', { state: '/cart' })}>LOG IN</Button>
                                                 </div>
                                             </>
                                         )}
@@ -195,14 +195,16 @@ const CartPage = () => {
                                                         }}
                                                         onInstance={(instance) => setInstance(instance)}
                                                     />
-
-                                                    <button
-                                                        className="btn btn-primary"
-                                                        onClick={handlePayment}
-                                                        disabled={loading || !instance || !auth?.user?.address}
-                                                    >
-                                                        {loading ? "Processing ...." : "Make Payment"}
-                                                    </button>
+                                                    <div className='d-flex  justify-content-around   '>
+                                                        <button
+                                                            variant="warning"
+                                                            className="btn btn-warning"
+                                                            onClick={handlePayment}
+                                                            disabled={loading || !instance || !auth?.user?.address}
+                                                        >
+                                                            {loading ? "Processing ...." : "Make Payment"}
+                                                        </button>
+                                                    </div>
                                                 </>
                                             )}
                                         </div>

@@ -85,7 +85,13 @@ const CategorysProduct = () => {
                                                 <Button variant="outline-success" onClick={() => navigate(`/product/details/${item._id}`)}>
                                                     <FaReadme /> Read
                                                 </Button>
-                                                <Button variant="outline-warning">
+                                                <Button variant="outline-warning"
+                                                    onClick={() => {
+                                                        setCart([...cart, product])
+                                                        localStorage.setItem('cart', JSON.stringify([...cart, product]))
+                                                        toast.success(`${product.name} Add into Cart`)
+                                                    }}
+                                                >
                                                     <BiSolidCartAdd /> Add To Cart
                                                 </Button>
                                             </div>

@@ -172,13 +172,13 @@ const Home = () => {
                     </div>
                     {/* product info */}
                     <div className="col-md-9">
-                        <div className="card w-100 p-3">
+                        <div className="card w-100 p-3" style={{ backgroundColor: '#f3f6f9' }}>
                             <Row xs={1} md={3} className="g-4">
                                 {product.map((item, idx) => (
                                     <Col key={item._id}>
                                         <Card>
                                             {/* <Link to={`/dashboard/admin/Product/${item._id}`} > */}
-                                            <Card.Img variant="top" src={item.image} style={{ maxHeight: '150px', }} />
+                                            <Card.Img variant="top" src={item.image} style={{ maxHeight: '250px', }} />
                                             {/* </Link> */}
                                             <Card.Body>
                                                 <Card.Title>{item.name}</Card.Title>

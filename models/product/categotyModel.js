@@ -6,13 +6,13 @@ const categorySchema = new Schema(
     {
         category: {
             type: String,
-            required: true,
-            trim: true,
-            unique: true,
+            // required: true,
+            // trim: true,
+            // unique: true,
         },
         slug: {
             type: String,
-            lowercase: true,
+            // lowercase: true,
             trim: true,
         },
     },

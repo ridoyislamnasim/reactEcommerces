@@ -10,7 +10,7 @@ const cors = require("cors")
 // router import
 const router = require("./router/auth/authRouter");
 const admin = require("./router/admin/adminRouter");
-const common = require("./router/common/commonRouter");
+const common = require("./router/product/commonRouter");
 
 // internal imports
 // const {
