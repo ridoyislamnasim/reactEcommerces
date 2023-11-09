@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const registrationschema = require("../../models/auth/registration");
 const JWT = require("jsonwebtoken")
+const { hashPassword } = require("../common/function/common")
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
@@ -46,7 +47,8 @@ login = async (req, res) => {
             }
 
             // Compare the provided password with the hashed password in the database
-            const passwordMatch = await bcrypt.compare(password, user.password);
+            const hashedPassword = await hashPassword(user.password)
+            const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
             if (!passwordMatch) {
                 return res.json({ success: false, errorMsg: 'Invalid email or password' });

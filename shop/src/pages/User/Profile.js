@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../components/Layout/Layout'
 import UserMenu from '../../components/Menu/UserMenu'
 import { useAuthr } from '../../context/auth'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
 const Profile = () => {
     const [auth, setAuth] = useAuthr();
@@ -20,6 +22,40 @@ const Profile = () => {
             setAddress(address)
         }
     }, [auth]);
+    const handleUpdateSubmit = async (e) => {
+        e.preventDefault();
+        console.log(name,
+            email,
+            password,
+            phone,
+            address,
+        )
+        console.log(' process.env.REACT_APP_API', process.env.REACT_APP_API)
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_API}/auth/profile-update`, {
+                name,
+                email,
+                password,
+                phone,
+                address,
+            });
+            console.log("res", res, res.data.success)
+            console.log("res.data", res.data)
+            if (res.data.success) {
+                toast.success(res.data && res.data.message);
+                setAuth({
+                    ...auth,
+                    user: res.data.user,
+                });
+            } else {
+                console.log("elase error", res.data);
+                toast.error(res.data.errorMsg);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error('Internal server error');
+        }
+    };
 
     return (
         <div>
@@ -32,7 +68,7 @@ const Profile = () => {
                         <div className="col-md-9">
                             <div className="card w-100 m-3">
                                 <div className="form-container" style={{ minHeight: "90vh" }}>
-                                    <form className='m-3' >
+                                    <form className='m-3' onSubmit={handleUpdateSubmit}>
                                         <h4 className="title">Profile Update </h4>
                                         <div className="mb-3">
                                             <input
@@ -89,7 +125,7 @@ const Profile = () => {
 
                                             />
                                         </div>
-                                        <button type="sumit" className="btn btn-primary">
+                                        <button type="submit" className="btn btn-primary">
                                             Update
                                         </button>
                                     </form>

@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcrypt")
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
@@ -18,39 +19,47 @@ profileUpdate = async (req, res) => {
 
     if (!email || email.trim() === '') {
         res.json({ errorMsg: "email is required" });
+    } else if (!password || password.trim() === '') {
+        res.json({ errorMsg: "password is required" });
     } else {
         try {
-            // Check if email and hashed password match
-            // Compare the provided password with the hashed password in the database
-            const passwordMatch = await bcrypt.compare(password, user.password);
+            // Check if the email exists in the database
+            const user = await registrationschema.findOne({ email });
 
-            if (!passwordMatch) {
+            if (!user) {
+                console.log('title');
                 return res.json({ success: false, errorMsg: 'Invalid credentials' });
             }
-            const user = await registrationschema.findOne({ email: inputEmail, password: passwordMatch })
+
+            // Compare the provided password with the hashed password in the database
+            console.log('user.password', user.password);
+            const hashedPassword = await hashPassword(user.password)
+            const passwordMatch = await bcrypt.compare(password, hashedPassword);
+            console.log('passwordMatch', passwordMatch);
+            if (!passwordMatch) {
+                console.log('title --2');
+                return res.json({ success: false, errorMsg: 'Invalid credentials' });
+            }
             let updateUser
+            console.log('user', user);
             if (!user) {
                 // User not found or password doesn't match
                 return res.status(401).json({ success: false, errorMsg: 'Invalid credentials' });
             } else {
                 updateUser = await registrationschema.findByIdAndUpdate(user._id, {
-                    name: name || user.name,
-                    name: email || user.email,
-                    name: password || user.password,
-                    name: phone || user.phone,
-                    name: address || user.address,
-                })
+                    name: name,
+                    email: email || user.email,
+                    password: password || user.password,
+                    phone: phone || user.phone,
+                    address: address || user.address,
+                }, { new: true })
             }
-            // const existingUser = await registrationschema.findOne({ email: email });
-            // if (existingUser) {
-            //     return res.json({ success: false, errorMsg: "Email already exists. Please choose a different email address." });
-            // }
-
-            if (updateUser.length > 0) {
+            console.log('updateUser', updateUser);
+            if (updateUser) {
                 res.status(200).json({
                     success: true,
-                    user,
-                    message: "Registration successful."
+                    updateUser,
+                    message: "Update successful."
                 });
             } else {
                 console.log("Failed to profileUpdate Update .");
