@@ -53,11 +53,10 @@ common.get('/all-order',
     requireSignIn,
     allOrderController
 );
-
-
-// common.post("/:id",editroom);
-
-// // delete the data by id 
-// common.get("/delete/:id",deleteroom);
+common.post('/order-status',
+    // isUnAuthenticated,
+    requireSignIn,
+    allOrderController
+);
 
 module.exports = common;

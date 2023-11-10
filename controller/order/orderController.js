@@ -39,6 +39,8 @@ function updateProductImageUrls(data, imagePath) {
     }
     return data;
 }
+// ================================ controller ===============================================
+
 orderProduct = async (req, res) => {
     try {
         console.log('order ======call');
@@ -53,9 +55,6 @@ orderProduct = async (req, res) => {
             console.log('modifiedOrders-------------------------', data);
             // await populateProducts(order);
         }
-
-
-
         // ======================
         if (!orders) {
             res.status(500).json({ success: false, errorMsg: 'Internal server error occurred' });
@@ -66,6 +65,7 @@ orderProduct = async (req, res) => {
         res.status(401).json({ success: false, errorMsg: 'Internal server error occurred' });
     }
 }
+// ================================all order get controller ===============================================
 allOrderController = async (req, res) => {
     try {
         console.log('order ======call');
