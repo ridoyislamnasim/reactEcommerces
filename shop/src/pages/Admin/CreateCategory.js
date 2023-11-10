@@ -1,50 +1,38 @@
+//  ===========   external
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import Layout from '../../components/Layout/Layout'
-import AdminMenu from '../../components/Menu/AdminMenu'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-// import Modal from 'react-bootstrap/Modal';
+//  ===========  internal  
 import CategoryForm from '../../components/Form/CategoryForm';
 import CategoryEditModel from '../../components/ModelFile/CategoryEditModel';
-
+import Layout from '../../components/Layout/Layout'
+import AdminMenu from '../../components/Menu/AdminMenu'
 
 
 const CreateCategory = () => {
+    //  ===========  State
     const [Category, setCategory] = useState(null);
     const [categoryName, setcategoryName] = useState();
     const [show, setShow] = useState(false);
     const [selected, setselected] = useState([]);
     const [categoryChange, setcategoryChange] = useState(null);
 
-    // const handelCelected = (item) => setselected()
+    //  ===========  
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const categoryData = async () => {
-        const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
-        if (categoryRes.data.success) {
-            toast.success(categoryRes.data.message);
-            setCategory(
-                categoryRes.data.data,
-            );;
-        } else {
-            toast.error(categoryRes.data.errorMsg);
-        }
-
-    }
-    useEffect(() => {
-        categoryData()
-    }, []);
-    const handleDelete = async (event) => {
+    // ===========  create category
+    const handleSubmit = async (event) => {
+        event.preventDefault()
         try {
-            console.log('categoryChange', categoryChange);
-            const data = await axios.delete(`${process.env.REACT_APP_API}/admin/delete-category/${event}`);
+            const data = await axios.post(`${process.env.REACT_APP_API}/admin/create-category`, {
+                category: categoryName
+            });
             if (data?.data.success) {
                 console.log('data', data.data);
-                console.log('data', data.data.data.category);
-                toast.success(`${data.data.data.category} ${data.data.message}`);
+                toast.success(data.data.message);
                 categoryData();
             } else {
                 toast.error(data.data.errorMsg);
@@ -54,7 +42,23 @@ const CreateCategory = () => {
             console.log(error);
         };
     };
-    // edit product
+    // ========== find All category 
+    const categoryData = async () => {
+        const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
+        if (categoryRes.data.success) {
+            toast.success(categoryRes.data.message);
+            setCategory(
+                categoryRes.data.data,
+            );
+        } else {
+            toast.error(categoryRes.data.errorMsg);
+        }
+
+    }
+    useEffect(() => {
+        categoryData()
+    }, []);
+    // ========== update category product
     const handleEdit = async (event) => {
         event.preventDefault()
         try {
@@ -75,16 +79,16 @@ const CreateCategory = () => {
             console.log(error);
         };
     };
-    //  create product
-    const handleSubmit = async (event) => {
-        event.preventDefault()
+    // ========== delete category 
+    const handleDelete = async (event) => {
         try {
-            const data = await axios.post(`${process.env.REACT_APP_API}/admin/create-category`, {
-                category: categoryName
-            });
+            console.log('categoryChange', categoryChange);
+            const data = await axios.delete(`${process.env.REACT_APP_API}/admin/delete-category/${event}`);
             if (data?.data.success) {
                 console.log('data', data.data);
-                toast.success(data.data.message);
+                console.log('data', data.data.data.category);
+                toast.success(`${data.data.data.category} ${data.data.message}`);
+                setCategory([]);
                 categoryData();
             } else {
                 toast.error(data.data.errorMsg);
@@ -94,7 +98,8 @@ const CreateCategory = () => {
             console.log(error);
         };
     };
-    console.log(Category)
+
+
     return (
         <div>
             <Layout title={"Create Category - "} >

@@ -25,7 +25,7 @@ const CategorysProduct = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
+    // ====== category wise product find
     const categoryProductData = async (params) => {
         try {
             const categoryRes = await axios.get(`${process.env.REACT_APP_API}/shop/product/${params.id}`);

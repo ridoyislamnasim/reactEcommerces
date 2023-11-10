@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
+const fsPromises = require('fs').promises;
 
 const categoryschema = require("../../../models/product/categotyModel");
 const productschema = require("../../../models/product/productModel");
@@ -11,7 +12,7 @@ const comparePassword = async (password, hashedPassword) => {
 }
 // remove image in file system
 const removeLocalImage = async (img) => {
-    console.log('removeLocalImage', img)
+    console.log('removeLocalImage ===============', img)
     try { await fsPromises.unlink(`public/${img}`) } catch (e) { console.log('not remove', e) }
 }
 // =========================== createCategoryController===========================
@@ -113,21 +114,29 @@ getAllCategoryController = async (req, res) => {
 deleteCategoryController = async (req, res) => {
     // Check if the email exists in the database  
     const { id } = req.params;
+    console.log('id-----------', id);
     try {
         const deleteCategory = await categoryschema.findByIdAndDelete(id);
         if (deleteCategory) {
             // Retrieve products to be deleted
             const productDeleteByCategory = await productschema.find({ category: deleteCategory._id })
-
+            console.log('productDeleteByCategory', productDeleteByCategory);
+            console.log('productDeleteByCategory', productDeleteByCategory.length);
             // Delete the products
+
             if (productDeleteByCategory.length > 0) {
+                console.log('delete ======================');
                 const result = await productschema.deleteMany({ category: deleteCategory._id });
+                console.log('delete ======================', result);
                 for (const productImgDelete of productDeleteByCategory) {
+                    console.log('delete =================deleted=====');
+                    console.log('productImgDelete.image', productImgDelete);
+                    console.log('productImgDelete.image', productImgDelete.image);
                     await removeLocalImage(productImgDelete.image)
                 }
             }
             // Login successful
-            res.json({ success: true, message: 'Delete Category successful', data: deleteCategory });
+            res.json({ success: true, message: `Delete Category successful and product aslo Deleted`, data: deleteCategory });
         }
     } catch (error) {
         console.error('Error:', error);
