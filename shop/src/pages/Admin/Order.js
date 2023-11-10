@@ -1,27 +1,128 @@
+//  ========== external
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import moment from "moment";
+import Dropdown from 'react-bootstrap/Dropdown';
+import Card from 'react-bootstrap/Card';
+// import { toast } from "react-toastify";
 
-import React from 'react'
-import Layout from '../../components/Layout/Layout'
-import AdminMenu from '../../components/Menu/AdminMenu'
+//  ========== internal
+import AdminMenu from "../../components/Menu/AdminMenu";
+import Layout from "../../components/Layout/Layout";
+import { useAuthr } from "../../context/auth";
 
-const Order = () => {
+const Orders = () => {
+    // ========= State
+    const [status, setStatus] = useState([
+        "Not Process",
+        "Processing",
+        "Shipped",
+        "deliverd",
+        "cancel",
+    ]);
+    const [changeStatus, setCHangeStatus] = useState("");
+    const [orders, setOrders] = useState([]);
+    const [auth, setAuth] = useAuthr();
+    // ======== get all order information
+    const getOrders = async () => {
+        try {
+            const { data } = await axios.get(`${process.env.REACT_APP_API}/shop/all-order`);
+            setOrders(data.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        if (auth?.token) getOrders();
+    }, [auth?.token]);
+    // update order information
+    const handleChange = async (orderId, value) => {
+        try {
+            const { data } = await axios.put(`${process.env.REACT_APP_API}/shop/all-order`, {
+                status: value,
+            });
+            getOrders();
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
-        <div>
-            <Layout title={"Order - "} >
-                <div className="container-flui m-3 p-3 dashboard">
-                    <div className="row">
-                        <div className="col-md-3">
-                            <AdminMenu />
-                        </div>
-                        <div className="col-md-9">
-                            <div className="card w-75 p-3">
-                                <h1>Order Pages</h1>
-                            </div>
-                        </div>
+        <Layout title={"All Orders Data"}>
+            <div className="container-flui m-3 p-3 dashboard">
+                <div className="row">
+                    <div className="col-md-3 ">
+                        <AdminMenu />
+                    </div>
+                    <div className="col-md-9 p-3 ">
+                        <Card className="p-3" style={{ backgroundColor: '#f3f6f9', minHeight: '80vh' }}>
+                            <h1 className="text-center">All Orders</h1>
+                            {orders?.map((order, i) => {
+                                return (
+                                    <div className="border shadow">
+                                        <table className="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">{i}</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Buyer</th>
+                                                    <th scope="col"> date</th>
+                                                    <th scope="col">Payment</th>
+                                                    <th scope="col">Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>
+                                                        <Dropdown>
+                                                            <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" className="w-100 d-flex justify-content-between align-items-center">
+                                                                {order?.status}
+                                                            </Dropdown.Toggle>
+
+                                                            <Dropdown.Menu className="w-100">
+
+                                                                {status?.map((item, index) => (
+                                                                    <Dropdown.Item key={item._id} onChange={(value) => handleChange(order._id, value)} >{item}</Dropdown.Item>
+                                                                ))}
+                                                            </Dropdown.Menu>
+                                                        </Dropdown>
+                                                    </td>
+                                                    <td>{order?.buyer?.name}</td>
+                                                    <td>{moment(order?.createAt).fromNow()}</td>
+                                                    <td>{order?.payment.success ? "Success" : "Failed"}</td>
+                                                    <td>{order?.products?.length}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div className="container">
+                                            {order?.products?.map((p, i) => (
+                                                <div className="row mb-2 p-3 card flex-row" key={p._id}>
+                                                    <div className="col-md-4">
+                                                        <img
+                                                            src={`/api/v1/product/product-photo/${p._id}`}
+                                                            className="card-img-top"
+                                                            alt={p.name}
+                                                            width="100px"
+                                                            height={"100px"}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-8">
+                                                        <p>{p.name}</p>
+                                                        <p>{p.description.substring(0, 30)}</p>
+                                                        <p>Price : {p.price}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </Card>
                     </div>
                 </div>
-            </Layout>
-        </div>
-    )
-}
+            </div>
+        </Layout>
+    );
+};
 
-export default Order
+export default Orders;

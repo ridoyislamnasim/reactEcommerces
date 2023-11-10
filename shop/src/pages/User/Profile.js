@@ -1,18 +1,23 @@
+// ========== Ectranal
 import React, { useEffect, useState } from 'react'
-import Layout from '../../components/Layout/Layout'
-import UserMenu from '../../components/Menu/UserMenu'
 import { useAuthr } from '../../context/auth'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 
+// ========== internal
+import Layout from '../../components/Layout/Layout'
+import UserMenu from '../../components/Menu/UserMenu'
+
 const Profile = () => {
+    // ========== Status 
     const [auth, setAuth] = useAuthr();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
-    console.log('auth', auth);
+
+    // ========== locat stroges to set user info 
     useEffect(() => {
         if (auth?.user) {
             const { name, email, phone, address } = auth?.user
@@ -22,6 +27,7 @@ const Profile = () => {
             setAddress(address)
         }
     }, [auth]);
+    // ========== profile update 
     const handleUpdateSubmit = async (e) => {
         e.preventDefault();
         console.log(name, email, password, phone, address,
@@ -62,7 +68,7 @@ const Profile = () => {
                             <UserMenu />
                         </div>
                         <div className="col-md-9">
-                            <div className="card w-100 m-3">
+                            <div className="card  ">
                                 <div className="form-container" style={{ minHeight: "90vh" }}>
                                     <form className='m-3' onSubmit={handleUpdateSubmit}>
                                         <h4 className="title">Profile Update </h4>
