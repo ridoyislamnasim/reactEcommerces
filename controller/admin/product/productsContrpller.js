@@ -8,6 +8,7 @@ const productschema = require("../../../models/product/productModel");
 
 const { createSlug, removeSlug } = require("../../common/function/common");
 const mongoose = require("mongoose");
+// remove image in file system
 const removeLocalImage = async (img) => {
     console.log('removeLocalImage', img)
     try { await fsPromises.unlink(`public/${img}`) } catch (e) { console.log('not remove', e) }

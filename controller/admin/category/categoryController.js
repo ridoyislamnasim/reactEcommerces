@@ -1,9 +1,9 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-// const registrationschema = require("../../models/auth/registration");
-const categoryschema = require("../../../models/product/categotyModel");
-
 const JWT = require("jsonwebtoken");
+
+const categoryschema = require("../../../models/product/categotyModel");
+const productschema = require("../../../models/product/productModel");
 const { createSlug, removeSlug } = require("../../common/function/common");
 const comparePassword = async (password, hashedPassword) => {
     return bcrypt.compare(password, hashedPassword);
@@ -110,6 +110,11 @@ deleteCategoryController = async (req, res) => {
     try {
         const deleteCategory = await categoryschema.findByIdAndDelete(id);
         if (deleteCategory) {
+            // Retrieve products to be deleted
+            const productDeleteByCategory = await productschema.find({ category: deleteCategory._id })
+
+            // Delete the products
+            const result = await productschema.deleteMany({ category: deleteCategory._id });
             // Login successful
             res.json({ success: true, message: 'Delete Category successful', data: deleteCategory });
         }
