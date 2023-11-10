@@ -126,7 +126,7 @@ const CartPage = () => {
                                         : (
                                             <div className='d-flex w-100' style={{ minHeight: '50vh' }}>
                                                 <div class="d-flex w-100  justify-content-around align-items-center"  >
-                                                    <button type="button" class="btn btn-outline-success" onClick={() => navigate('/')}>Shopping</button>
+                                                    <button type="button" class="btn btn-outline-success" onClick={() => navigate('/')}>Go Shopping</button>
                                                 </div>
                                             </div>
 

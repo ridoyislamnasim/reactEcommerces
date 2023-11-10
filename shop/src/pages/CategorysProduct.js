@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Nav from 'react-bootstrap/Nav';
 import { useCart } from '../context/cart';
 
 const CategorysProduct = () => {
@@ -30,6 +31,7 @@ const CategorysProduct = () => {
             const categoryRes = await axios.get(`${process.env.REACT_APP_API}/shop/product/${params.id}`);
             if (categoryRes.data.success) {
                 toast.success(categoryRes.data.message);
+                toast.success("categoryRes.data.message");
                 setCategoryProduct(categoryRes.data.data);
             } else {
                 toast.error(categoryRes.data.errorMsg);
@@ -54,7 +56,7 @@ const CategorysProduct = () => {
     return (
         <Layout>
             <div className="p-5">
-                <Tabs
+                {/* <Tabs
                     value={value}
                     onChange={handleChange}
                     variant="scrollable"
@@ -67,7 +69,16 @@ const CategorysProduct = () => {
                             <Tab label={item?.category} />
                         </NavLink>
                     ))}
-                </Tabs>
+                </Tabs> */}
+                <Nav variant="tabs" defaultActiveKey="/home">
+                    {category.map((item) => (
+                        <Nav.Item>
+                            <NavLink key={item._id} to={`/Category/${item._id}`} style={{ paddingBottom: "10px" }}>
+                                <Tab label={item?.category} eventKey={item?.category} ></Tab>
+                            </NavLink>
+                        </Nav.Item>
+                    ))}
+                </Nav>
             </div>
             <div className="">
                 <div className="card w-100 p-5" style={{ backgroundColor: '#f3f6f9' }}>
@@ -75,7 +86,7 @@ const CategorysProduct = () => {
                         {categoryProduct?.map((item) => (
                             <Col key={item._id}>
                                 <Card>
-                                    <Card.Img variant="top" src={item.image} style={{ maxHeight: '150px' }} />
+                                    <Card.Img variant="top" src={item.image} style={{ maxHeight: '250px' }} />
                                     <Card.Body>
                                         <Card.Title>{item.name}</Card.Title>
                                         <Card.Text>
@@ -105,7 +116,7 @@ const CategorysProduct = () => {
                     </Row>
                 </div>
             </div>
-        </Layout>
+        </Layout >
     );
 };
 
