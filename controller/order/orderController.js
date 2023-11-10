@@ -66,10 +66,38 @@ orderProduct = async (req, res) => {
         res.status(401).json({ success: false, errorMsg: 'Internal server error occurred' });
     }
 }
+allOrderController = async (req, res) => {
+    try {
+        console.log('order ======call');
+        const orders = await orderschema.find()
+        // Loop through each order and populate products one by one
+        const fullOorder = []
+        for (const order of orders) {
+            const orderById = await orderschema.findById(order._id).populate("buyer").populate("products")
+            console.log('orderById ---', orderById);
+            let data = updateProductImageUrls(orderById, 'http://localhost:2000/')
+            fullOorder.push(data)
+            console.log('modifiedOrders-------------------------', data);
+            // await populateProducts(order);
+        }
+
+
+
+        // ======================
+        if (!orders) {
+            res.status(500).json({ success: false, errorMsg: 'Internal server error occurred' });
+        }
+        res.status(200).json({ success: true, message: 'Order information', data: fullOorder });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(401).json({ success: false, errorMsg: 'Internal server error occurred' });
+    }
+}
 
 
 module.exports = {
     orderProduct,
+    allOrderController
 };
 
 

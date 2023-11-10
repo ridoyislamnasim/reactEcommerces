@@ -80,7 +80,7 @@ const Header = () => {
                                             <ul className="dropdown-menu">
                                                 <li>
                                                     <NavLink
-                                                        to={`/Dashboard/${auth?.user?.role === "admin" ? "admin" : "User/Orders"
+                                                        to={`/Dashboard/${auth?.user?.role === "admin" ? "Admin/CreateCategory" : "User/Orders"
                                                             }`}
                                                         className="dropdown-item"
                                                     >

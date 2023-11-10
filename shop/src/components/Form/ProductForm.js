@@ -35,6 +35,7 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                             type="file"
                             onChange={(e) => { const file = e.target.files[0]; setimage(file) }}
                             accept=".png, .jpg, .jpeg" // Specify allowed file types if needed
+                            required
                         />
                     </Form.Group>
                     {image && (
@@ -55,6 +56,7 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                         placeholder="Enter product name"
                         value={name}
                         onChange={(e) => setname(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="mb-3">
@@ -64,6 +66,7 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                         placeholder="Enter product price"
                         value={price}
                         onChange={(e) => setprice(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="mb-3">
@@ -73,6 +76,7 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                         placeholder="Enter product quantity"
                         value={quantity}
                         onChange={(e) => setquantity(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="mb-3">
@@ -95,6 +99,7 @@ function ProductForm({ Category, name, setname, price, setprice, quantity, setqu
                             value={description}
                             onChange={(e) => setdescription(e.target.value)}
                             placeholder="Enter your text here"
+                            required
                         />
                     </Form.Group>
                 </div>

@@ -22,13 +22,13 @@ const CreateProduct = () => {
     const categoryData = async () => {
         const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
         if (categoryRes.data.success) {
-            toast.success(categoryRes.data.message);
+            // toast.success(categoryRes.data.message);
             console.log('title', categoryRes.data.data);
             setCategory(
                 categoryRes.data.data,
             );
         } else {
-            toast.error(categoryRes.data.errorMsg);
+            // toast.error(categoryRes.data.errorMsg);
         }
 
     }
@@ -43,6 +43,10 @@ const CreateProduct = () => {
     //  create product
     const handleProductSubmit = async (event) => {
         event.preventDefault()
+        if (!CategoryId) {
+            toast.warn('Please select a category.'); // Set error message if category is not selected
+            return;
+        }
         try {
             const formData = new FormData()
             formData.append("category", CategoryId);

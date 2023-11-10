@@ -20,7 +20,7 @@ const { forgetPassword } = require("../../controller/auth/forgetPasswordControll
 const { requireSignIn } = require("../../midelware/auth/authMidelware");
 const { filter, getCategoryProductController } = require("../../controller/common/controller/filterController");
 const { getSingleProductController, getSimilarProductController } = require("../../controller/admin/product/productsContrpller");
-const { orderProduct } = require("../../controller/order/orderController");
+const { orderProduct, allOrderController } = require("../../controller/order/orderController");
 
 
 
@@ -48,7 +48,11 @@ common.get('/order',
     requireSignIn,
     orderProduct
 );
-
+common.get('/all-order',
+    // isUnAuthenticated,
+    requireSignIn,
+    allOrderController
+);
 
 
 // common.post("/:id",editroom);
