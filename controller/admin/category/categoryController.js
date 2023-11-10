@@ -5,8 +5,14 @@ const JWT = require("jsonwebtoken");
 const categoryschema = require("../../../models/product/categotyModel");
 const productschema = require("../../../models/product/productModel");
 const { createSlug, removeSlug } = require("../../common/function/common");
+// ==============================function =============================
 const comparePassword = async (password, hashedPassword) => {
     return bcrypt.compare(password, hashedPassword);
+}
+// remove image in file system
+const removeLocalImage = async (img) => {
+    console.log('removeLocalImage', img)
+    try { await fsPromises.unlink(`public/${img}`) } catch (e) { console.log('not remove', e) }
 }
 // =========================== createCategoryController===========================
 createCategoryController = async (req, res) => {
@@ -114,7 +120,12 @@ deleteCategoryController = async (req, res) => {
             const productDeleteByCategory = await productschema.find({ category: deleteCategory._id })
 
             // Delete the products
-            const result = await productschema.deleteMany({ category: deleteCategory._id });
+            if (productDeleteByCategory.length > 0) {
+                const result = await productschema.deleteMany({ category: deleteCategory._id });
+                for (const productImgDelete of productDeleteByCategory) {
+                    await removeLocalImage(productImgDelete.image)
+                }
+            }
             // Login successful
             res.json({ success: true, message: 'Delete Category successful', data: deleteCategory });
         }
