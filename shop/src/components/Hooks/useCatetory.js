@@ -9,12 +9,12 @@ export default function useCatetory() {
     const categoryData = async () => {
         const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
         if (categoryRes.data.success) {
-            toast.success(categoryRes.data.message);
+            // toast.success(categoryRes.data.message);
             setCategory(
                 categoryRes.data.data,
             );
         } else {
-            toast.error(categoryRes.data.errorMsg);
+            // toast.error(categoryRes.data.errorMsg);
         }
 
     }

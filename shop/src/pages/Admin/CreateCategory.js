@@ -32,10 +32,18 @@ const CreateCategory = () => {
             });
             if (data?.data.success) {
                 console.log('data', data.data);
-                toast.success(data.data.message);
+                toast.success(data.data.message, {
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                });
                 categoryData();
             } else {
-                toast.error(data.data.errorMsg);
+                toast.error("data.data.errorMsg", {
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                });
                 console.log('fail');
             };
         } catch (error) {
@@ -46,12 +54,20 @@ const CreateCategory = () => {
     const categoryData = async () => {
         const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
         if (categoryRes.data.success) {
-            toast.success(categoryRes.data.message);
+            toast.success(categoryRes.data.message, {
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+            });
             setCategory(
                 categoryRes.data.data,
             );
         } else {
-            toast.error(categoryRes.data.errorMsg);
+            toast.error(categoryRes.data.errorMsg, {
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+            });
         }
 
     }
@@ -68,11 +84,19 @@ const CreateCategory = () => {
             });
             if (data?.data.success) {
                 console.log('data', data.data);
-                toast.success(data.data.message);
+                toast.success(data.data.message, {
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                });
                 categoryData();
                 handleClose()
             } else {
-                toast.error(data.data.errorMsg);
+                toast.error(data.data.errorMsg, {
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                });
                 console.log('fail');
             };
         } catch (error) {
@@ -87,11 +111,19 @@ const CreateCategory = () => {
             if (data?.data.success) {
                 console.log('data', data.data);
                 console.log('data', data.data.data.category);
-                toast.success(`${data.data.data.category} ${data.data.message}`);
+                toast.success(`${data.data.data.category} ${data.data.message}`, {
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                });
                 setCategory([]);
                 categoryData();
             } else {
-                toast.error(data.data.errorMsg);
+                toast.error(data.data.errorMsg, {
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                });
                 console.log('fail');
             };
         } catch (error) {
