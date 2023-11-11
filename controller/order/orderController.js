@@ -29,12 +29,14 @@ const orderschema = require("../../models/order/orderModel");
 // }
 
 
-function updateProductImageUrls(data, imagePath) {
+const updateProductImageUrls = async (data, imagePath) => {
     if (data && data.products && data.products.length > 0) {
-        data.products.forEach(product => {
-            if (product.image) {
+        data.products = data.products.map(product => {
+            if (product.image && !product.image.includes(imagePath)) {
+                console.log('product.image ======================================================', product.image);
                 product.image = imagePath + product.image;
             }
+            return product;
         });
     }
     return data;
@@ -50,7 +52,7 @@ orderProduct = async (req, res) => {
         for (const order of orders) {
             const orderById = await orderschema.findById(order._id).populate("buyer").populate("products")
             console.log('orderById ---', orderById);
-            let data = updateProductImageUrls(orderById, 'http://localhost:2000/')
+            let data = await updateProductImageUrls(orderById, 'http://localhost:2000/')
             fullOorder.push(data)
             console.log('modifiedOrders-------------------------', data);
             // await populateProducts(order);
@@ -69,13 +71,19 @@ orderProduct = async (req, res) => {
 allOrderController = async (req, res) => {
     try {
         console.log('order ======call');
-        const orders = await orderschema.find()
+        const orders = await orderschema.find().sort({ createdAt: -1 })
         // Loop through each order and populate products one by one
         const fullOorder = []
         for (const order of orders) {
-            const orderById = await orderschema.findById(order._id).sort({ createdAt: -1 }).populate("buyer").populate("products")
+            const orderById = await orderschema.findById(order._id).populate("buyer").populate("products").populate({
+                path: 'products',
+                populate: {
+                    path: 'category',
+                    model: 'categoryInfo'
+                }
+            })
             console.log('orderById ---', orderById);
-            let data = updateProductImageUrls(orderById, 'http://localhost:2000/')
+            let data = await updateProductImageUrls(orderById, 'http://localhost:2000/')
             fullOorder.push(data)
             console.log('modifiedOrders-------------------------', data);
             // await populateProducts(order);

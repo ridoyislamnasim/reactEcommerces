@@ -15,7 +15,7 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
         <>
             <form onSubmit={handleProductUpdate}>
                 <div className="mb-3">
-                    <FloatingLabel controlId="floatingSelect" label="Shipping with selects">
+                    <FloatingLabel controlId="floatingSelect" label="Category">
                         <Form.Select value={category} onChange={(e) => setcategory(e.target.value)} aria-label="Floating label select example">
                             {Category?.map((item, index) => (
                                 // <Dropdown.Item key={item._id} onClick={() => { setCategoryId(item._id); setSelectedItem(item.category) }} >{item.category}</Dropdown.Item>
@@ -30,14 +30,11 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
 
                         <Form.Control
                             type="file"
-                            // value={image}
-                            // onChange={(e) => { const file = e.target.files[0]; setimage(file) }}
                             onChange={(e) => {
                                 const file = e.target.files[0];
                                 setimage(file)
                                 if (file) {
                                     const reader = new FileReader();
-                                    console.log('reader==-[[[[[[[[[[[[[[[[[[[[[[[[[[[[[', reader);
                                     reader.onloadend = () => {
                                         // Set the image data URL in the state to display the selected image
                                         console.log('reader.result------------------kkkk----', reader.result);
@@ -53,7 +50,7 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
 
                     {selected ? (
                         <div>
-                            <h2>Selected Image:</h2>
+                            <h3>Selected Image:</h3>
                             <img height={"200px"} className="rounded mx-auto d-block img img-responsive"
                                 alt="Selected"
                                 src={selected}
@@ -62,7 +59,7 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                         </div>
                     ) : (
                         <div>
-                            <h2>Selected Image src:</h2>
+                            <h3>Image :</h3>
                             <img height={"200px"} className="rounded mx-auto d-block img img-responsive"
                                 alt="Selected"
                                 src={image}
@@ -72,17 +69,6 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                         </div>
                     )
                     }
-                    {/* {image && (
-                        <div >
-                            <p>Selected Image: {image.name}</p>
-                            <img height={"200px"} className="rounded mx-auto d-block img img-responsive"
-                                // src={image} // Correct usage of createObjectURL
-                                src={image}
-                                alt="Selected"
-                                style={{ maxWidth: '100%', marginTop: '10px' }}
-                            />
-                        </div>
-                    )} */}
                 </div>
                 {/* Name */}
                 <div className="mb-3">
@@ -128,7 +114,7 @@ function ProductEditForm({ Category, category, setcategory, name, setname, price
                 </div>
                 {/* setshipping */}
                 <div className="mb-3">
-                    <FloatingLabel controlId="floatingSelect" label="Shipping with selects">
+                    <FloatingLabel controlId="floatingSelect" label="Shipping">
                         <Form.Select value={shipping} onChange={(e) => setshipping(e.target.value)} aria-label="Floating label select example">
                             <option value="No" >No</option>
                             <option value="Yes" >Yes</option>

@@ -5,7 +5,8 @@ import moment from "moment";
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { toast } from "react-toastify";
-
+import Image from 'react-bootstrap/Image';
+import Accordion from 'react-bootstrap/Accordion';
 
 //  ========== internal
 import AdminMenu from "../../components/Menu/AdminMenu";
@@ -56,40 +57,43 @@ const Orders = () => {
                     </div>
                     <div className="col-md-9 p-3 ">
                         <Card className="p-3" style={{ backgroundColor: '#f3f6f9', minHeight: '80vh' }}>
-                            <h1 className="text-center">All Orders</h1>
-                            {orders?.map((order, i) => {
-                                return (
-                                    <div className="border shadow">
-                                        <table className="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">{i}</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col">Buyer</th>
-                                                    <th scope="col"> date</th>
-                                                    <th scope="col">Payment</th>
-                                                    <th scope="col">Quantity</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>
-                                                        <Form.Select value={order?.status} onChange={(e) => handleChange(order?._id, e.target.value)} aria-label="Floating label select example">
-                                                            {status?.map((item, index) => (
-                                                                <option key={index} value={item} >{item}</option>
-                                                            ))}
-                                                        </Form.Select>
-                                                    </td>
-                                                    <td>{order?.buyer?.name}</td>
-                                                    <td>{moment(order?.createAt).fromNow()}</td>
-                                                    <td>{order?.payment.success ? "Success" : "Failed"}</td>
-                                                    <td>{order?.products?.length}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div className="container">
-                                            {order?.products?.map((p, i) => (
+
+                            <h4 className="text-center">All Orders</h4>
+                            <hr />
+                            <Accordion defaultActiveKey={['0']} flush>
+                                {orders?.map((order, i) => {
+                                    return (
+                                        <div className="border shadow">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">{i}</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Buyer</th>
+                                                        <th scope="col"> date</th>
+                                                        <th scope="col">Payment</th>
+                                                        <th scope="col">Quantity</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <Form.Select value={order?.status} onChange={(e) => handleChange(order?._id, e.target.value)} aria-label="Floating label select example">
+                                                                {status?.map((item, index) => (
+                                                                    <option key={index} value={item} >{item}</option>
+                                                                ))}
+                                                            </Form.Select>
+                                                        </td>
+                                                        <td>{order?.buyer?.name}</td>
+                                                        <td>{moment(order?.createAt).fromNow()}</td>
+                                                        <td>{order?.payment.success ? "Success" : "Failed"}</td>
+                                                        <td>{order?.products?.length}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div className="container">
+                                                {/* {order?.products?.map((p, i) => (
                                                 <div className="row mb-2 p-3 card flex-row" key={p._id}>
                                                     <div className="col-md-4">
                                                         <img
@@ -106,11 +110,37 @@ const Orders = () => {
                                                         <p>Price : {p.price}</p>
                                                     </div>
                                                 </div>
-                                            ))}
+                                            ))} */}
+                                                <Accordion.Item eventKey={i} className="mb-2">
+
+                                                    <Accordion.Header>Products Details</Accordion.Header>
+                                                    <Accordion.Body>
+                                                        {order?.products?.map((p, i) => (
+                                                            <div className="row mb-2 p-3 card flex-row" key={p._id}>
+                                                                <div className="col-md-4 d-flex justify-content-center align-items-center">
+                                                                    <Image style={{ height: "100px", width: "100px" }} src={p.image} rounded />
+                                                                </div>
+                                                                <div className="col-md-8">
+                                                                    <div className="col-md-11 d-flex justify-content-between align-items-center">
+                                                                        <p><b>Name</b></p>
+                                                                        <p><b>category</b></p>
+                                                                        <p><b>Price</b></p>
+                                                                    </div>
+                                                                    <div className="col-md-11 d-flex justify-content-between align-items-center">
+                                                                        <p>{p.name}</p>
+                                                                        <p>{p.category.category}</p>
+                                                                        <p>{p.price}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </Accordion.Body>
+                                                </Accordion.Item>
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </Accordion>
                         </Card>
                     </div>
                 </div>

@@ -17,7 +17,6 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [auth, setAuth] = useAuthr();
     const Location = useLocation();
-
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {

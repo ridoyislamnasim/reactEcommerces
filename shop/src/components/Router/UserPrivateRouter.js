@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuthr } from "../../context/auth";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import React from 'react'
 import Spinner from "../Spinner";
@@ -8,6 +8,7 @@ import Spinner from "../Spinner";
 const PrivateRouter = () => {
     const [isAuthenticated, setisAuthenticated] = useState(false)
     const [auth,] = useAuthr();
+    const navigate = useNavigate();
     useEffect(() => {
         const authCheck = async () => {
             const res = await axios.get('http://localhost:2000/auth/auth', {
@@ -21,11 +22,16 @@ const PrivateRouter = () => {
                 setisAuthenticated(false)
             }
         }
-
-        if (auth?.token) {
-            authCheck()
+        if (auth?.user?.role === 'user') {
+            if (auth?.token) {
+                authCheck()
+            }
+        } else if (auth?.user?.role === 'admin') {
+            navigate('/')
+        } else {
+            // go to login page 
         }
-    }, [auth?.token])
+    }, [auth, navigate])
     return (
         isAuthenticated ? <Outlet /> : <Spinner />
     )

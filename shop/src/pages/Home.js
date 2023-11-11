@@ -1,40 +1,30 @@
+// ==========  ecternal import 
 import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout/Layout.js'
-// import { useAuthr } from '../context/auth.js'
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { toast } from 'react-toastify';
 import axios from 'axios';
-import { BiSolidCartAdd } from 'react-icons/bi';
-import { FaReadme } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 
-// 
+// ==========  internal import 
 import Accordion from 'react-bootstrap/Accordion';
 import { Price } from '../components/utility/Price.js';
-import { useCart } from '../context/cart.js';
-// import { Modal } from 'react-bootstrap';
+import Cart from '../components/CardComponent/Cart.js';
+import { toast } from 'react-toastify';
 // 
 const Home = () => {
-    // const [auth] = useAuthr();
-    // console.log("auth-=============================", auth)
-    const navigate = useNavigate()
+    // ==========  state
     const [product, setproduct] = useState([]);
     const [category, setCategory] = useState([]);
     const [selected, setSelected] = useState([]);
     const [selectedOption, setSelectedOption] = useState([]);
-    const [cart, setCart] = useCart();
 
-    // 
-
+    // ==========  
     const handleRadioChange = (event) => {
         console.log('event', event);
         // console.log('event.target.id', event.target.id);
         setSelectedOption(event);
     };
+    // ==========  
     const handelChange = (checke, id) => {
         let checkAll = [...selected]
         if (checke) {
@@ -45,33 +35,34 @@ const Home = () => {
         setSelected(checkAll)
         console.log(id, checke)
     }
-    // 
+    // ==========  
     const productData = async () => {
         const productRes = await axios.get(`${process.env.REACT_APP_API}/admin/products`)
         if (productRes.data.success) {
-            toast.success(productRes.data.message);
+            // toast.success(productRes.data.message);
             console.log('title', productRes.data.data);
             setproduct(
                 productRes.data.data,
             );
         } else {
-            toast.error(productRes.data.errorMsg);
+            // toast.error(productRes.data.errorMsg);
         }
 
     }
-    // category data resived
+    // ==========  
     const categoryData = async () => {
         const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
         if (categoryRes.data.success) {
-            toast.success(categoryRes.data.message);
+            // toast.success(categoryRes.data.message);
             setCategory(
                 categoryRes.data.data,
             );
         } else {
-            toast.error(categoryRes.data.errorMsg);
+            // toast.error(categoryRes.data.errorMsg);
         }
 
     }
+    // ==========  
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -89,6 +80,7 @@ const Home = () => {
         fetchData();
     }, [selected, selectedOption]);
     // produch serach
+    // ==========  
     const productFilter = async (selected, selectedOption) => {
         console.log('selected, selectedOption', selected, selectedOption);
         const filterRes = await axios.post(`${process.env.REACT_APP_API}/shop/filter`,
@@ -97,20 +89,15 @@ const Home = () => {
                 , priceRange: selectedOption
             })
         if (filterRes.data.success) {
-            toast.success(filterRes.data.message);
+            // toast.success(filterRes.data.message);
             setproduct(
                 filterRes.data.data,
             );
         } else {
-            toast.error(filterRes.data.errorMsg);
+            toast.error('No Product Find');
         }
 
     }
-
-
-    console.log('category', category);
-    console.log('selected', selected);
-    console.log('selectedOption', selectedOption);
     return (
         <Layout title={"Home - "}>
             <div className="container-flui m-3 p-3 dashboard">
@@ -172,14 +159,12 @@ const Home = () => {
                     </div>
                     {/* product info */}
                     <div className="col-md-9">
-                        <div className="card w-100 p-3" style={{ backgroundColor: '#f3f6f9' }}>
-                            <Row xs={1} md={3} className="g-4">
-                                {product.map((item, idx) => (
+                        <div className="card w-100 p-3" style={{ backgroundColor: '#f3f6f9', minHeight: '80vh' }}>
+
+                            {/* {product.map((item, idx) => (
                                     <Col key={item._id}>
                                         <Card>
-                                            {/* <Link to={`/dashboard/admin/Product/${item._id}`} > */}
                                             <Card.Img variant="top" src={item.image} style={{ maxHeight: '250px', }} />
-                                            {/* </Link> */}
                                             <Card.Body>
                                                 <Card.Title>{item.name}</Card.Title>
                                                 <Card.Text >
@@ -199,8 +184,10 @@ const Home = () => {
                                             </Card.Body>
                                         </Card>
                                     </Col>
-                                ))}
-                            </Row >
+                                ))} */}
+                            {/*  */}
+                            <Cart product={product} />
+
                         </div>
                     </div>
                 </div>

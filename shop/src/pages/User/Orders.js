@@ -104,10 +104,7 @@ const Orders = () => {
                                                                 {order?.products?.map((p, i) => (
                                                                     <div className="row mb-2 p-3 card flex-row" key={p._id}>
                                                                         <div className="col-md-4 d-flex justify-content-center align-items-center">
-                                                                            {/* <Col xs={6} md={4}> */}
                                                                             <Image style={{ height: "100px", width: "100px" }} src={p.image} rounded />
-                                                                            {/* </Col> */}
-
                                                                         </div>
                                                                         <div className="col-md-8">
                                                                             <div className="col-md-11 d-flex justify-content-between align-items-center">

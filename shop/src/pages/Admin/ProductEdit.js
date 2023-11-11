@@ -138,8 +138,8 @@ const ProductEdit = () => {
                             <AdminMenu />
                         </div>
                         <div className="col-md-9">
-                            <div className="card w-100 p-3">
-                                <Card body className="mb-3"><h1>Create Product</h1></Card>
+                            <div className="card w-100 p-3" style={{ backgroundColor: '#f3f6f9', minHeight: '80vh' }}>
+                                <Card body className="mb-3"><h4>Edit Product</h4></Card>
                                 <ProductEditForm {...parentProps} />
 
                             </div>
