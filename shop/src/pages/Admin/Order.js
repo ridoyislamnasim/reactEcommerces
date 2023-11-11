@@ -35,7 +35,7 @@ const Orders = () => {
     useEffect(() => {
         if (auth?.token) getOrders();
     }, [auth?.token]);
-    // update order information
+    // update order status
     const handleChange = async (orderId, value) => {
         try {
             const { data } = await axios.put(`${process.env.REACT_APP_API}/shop/all-order`, {

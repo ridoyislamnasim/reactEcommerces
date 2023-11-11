@@ -20,43 +20,40 @@ const { forgetPassword } = require("../../controller/auth/forgetPasswordControll
 const { requireSignIn } = require("../../midelware/auth/authMidelware");
 const { filter, getCategoryProductController } = require("../../controller/common/controller/filterController");
 const { getSingleProductController, getSimilarProductController } = require("../../controller/admin/product/productsContrpller");
-const { orderProduct, allOrderController } = require("../../controller/order/orderController");
+const { orderProduct, allOrderController, orderStatusController } = require("../../controller/order/orderController");
 
 
-
+// ======================  ======================
 common.post('/filter',
-    // isUnAuthenticated,
     // singinValidators,
     filter
 );
-// common.post('/login',
-//     // isUnAuthenticated,
-//     // singinValidators,
-//     login
-// );
+// ====================== product get with similar product (cp=current product id) (ca= catrgory id) ======================
 common.get('/product/:cp_id/:ca_id',
-    // isUnAuthenticated,
     getSimilarProductController,
 );
+// ====================== product get with category wise  ======================
 common.get('/product/:category_id',
     // isUnAuthenticated,
     getCategoryProductController,
 );
-
+// ======================  ======================
 common.get('/order',
     // isUnAuthenticated,
     requireSignIn,
     orderProduct
 );
+// ====================== admin all order get ======================
 common.get('/all-order',
     // isUnAuthenticated,
     requireSignIn,
     allOrderController
 );
-common.post('/order-status',
+// ====================== admin update order status ======================
+common.put('/update-order-status/:id',
     // isUnAuthenticated,
     requireSignIn,
-    allOrderController
+    orderStatusController
 );
 
 module.exports = common;

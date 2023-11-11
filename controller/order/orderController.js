@@ -73,7 +73,7 @@ allOrderController = async (req, res) => {
         // Loop through each order and populate products one by one
         const fullOorder = []
         for (const order of orders) {
-            const orderById = await orderschema.findById(order._id).populate("buyer").populate("products")
+            const orderById = await orderschema.findById(order._id).sort({ createdAt: -1 }).populate("buyer").populate("products")
             console.log('orderById ---', orderById);
             let data = updateProductImageUrls(orderById, 'http://localhost:2000/')
             fullOorder.push(data)
@@ -93,11 +93,28 @@ allOrderController = async (req, res) => {
         res.status(401).json({ success: false, errorMsg: 'Internal server error occurred' });
     }
 }
-
+// ================================order status controller ===============================================
+orderStatusController = async (req, res) => {
+    try {
+        console.log('order ======call');
+        const { id } = req.params;
+        const { status } = req.body;
+        const updateStatus = await orderschema.findByIdAndUpdate(id, { status })
+        // ======================
+        if (!updateStatus) {
+            res.status(500).json({ success: false, errorMsg: 'Order status not updated' });
+        }
+        res.status(200).json({ success: true, message: 'Order status updated' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(401).json({ success: false, errorMsg: 'Internal server error occurred' });
+    }
+}
 
 module.exports = {
     orderProduct,
-    allOrderController
+    allOrderController,
+    orderStatusController
 };
 
 
