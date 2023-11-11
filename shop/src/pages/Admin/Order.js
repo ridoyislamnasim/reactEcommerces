@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
-import Dropdown from 'react-bootstrap/Dropdown';
 import Card from 'react-bootstrap/Card';
-// import { toast } from "react-toastify";
+import Form from 'react-bootstrap/Form';
+import { toast } from "react-toastify";
+
 
 //  ========== internal
 import AdminMenu from "../../components/Menu/AdminMenu";
@@ -13,16 +14,15 @@ import { useAuthr } from "../../context/auth";
 
 const Orders = () => {
     // ========= State
-    const [status, setStatus] = useState([
+    const [status,] = useState([
         "Not Process",
         "Processing",
         "Shipped",
         "deliverd",
         "cancel",
     ]);
-    const [changeStatus, setCHangeStatus] = useState("");
     const [orders, setOrders] = useState([]);
-    const [auth, setAuth] = useAuthr();
+    const [auth] = useAuthr();
     // ======== get all order information
     const getOrders = async () => {
         try {
@@ -35,12 +35,13 @@ const Orders = () => {
     useEffect(() => {
         if (auth?.token) getOrders();
     }, [auth?.token]);
-    // update order status
+    // ======== update order status
     const handleChange = async (orderId, value) => {
         try {
-            const { data } = await axios.put(`${process.env.REACT_APP_API}/shop/all-order`, {
+            await axios.put(`${process.env.REACT_APP_API}/shop/update-order-status/${orderId}`, {
                 status: value,
             });
+            toast.success("Updated")
             getOrders();
         } catch (error) {
             console.log(error);
@@ -74,18 +75,11 @@ const Orders = () => {
                                                 <tr>
                                                     <td></td>
                                                     <td>
-                                                        <Dropdown>
-                                                            <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" className="w-100 d-flex justify-content-between align-items-center">
-                                                                {order?.status}
-                                                            </Dropdown.Toggle>
-
-                                                            <Dropdown.Menu className="w-100">
-
-                                                                {status?.map((item, index) => (
-                                                                    <Dropdown.Item key={item._id} onChange={(value) => handleChange(order._id, value)} >{item}</Dropdown.Item>
-                                                                ))}
-                                                            </Dropdown.Menu>
-                                                        </Dropdown>
+                                                        <Form.Select value={order?.status} onChange={(e) => handleChange(order?._id, e.target.value)} aria-label="Floating label select example">
+                                                            {status?.map((item, index) => (
+                                                                <option key={index} value={item} >{item}</option>
+                                                            ))}
+                                                        </Form.Select>
                                                     </td>
                                                     <td>{order?.buyer?.name}</td>
                                                     <td>{moment(order?.createAt).fromNow()}</td>
