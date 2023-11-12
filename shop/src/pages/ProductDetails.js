@@ -67,13 +67,12 @@ const ProductDetails = () => {
                             <Card className='mb-2'>
                                 <Card.Body >Product Detalis</Card.Body>
                             </Card>
-                            <Card className='d-flex w-100 flex-row p-2'>
+                            <Card className='d-flex w-100 flex-md-row p-2'>
                                 {/* <Row> */}
                                 <Col md={4}>
                                     {/* Content for the first column */}
-                                    <div style={{}}>
+                                    <div className='d-flex justify-content-center align-items-center pb-3' style={{}}>
                                         <Image src={product.image} style={{ maxHeight: '250px', maxWidth: '80%' }} rounded />
-                                        {/* <Card.Img variant="top" src={product.image} style={{ maxHeight: '350px', }} /> */}
                                     </div>
                                 </Col>
                                 <Col md={8}>
@@ -91,8 +90,8 @@ const ProductDetails = () => {
                                         <p>{product?.price}</p>
                                     </div>
                                     <hr />
-                                    <div style={{ padding: '20px' }}>
-                                        <div className='d-flex flex-column'>
+                                    <div style={{ padding: '10px' }}>
+                                        <div className='d-flex flex-column pb-4'>
                                             <p>description: {product?.description}</p>
                                         </div>
                                         <div className='d-flex justify-content-around'>

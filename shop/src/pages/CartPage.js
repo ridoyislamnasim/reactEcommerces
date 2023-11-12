@@ -94,10 +94,10 @@ const CartPage = () => {
                 <Container>
                     <Row>
 
-                        <Card className='mt-3 mb-3 justify-content-around align-items-start  d-flex  flex-row'>
+                        <Card className='mt-3 mb-3 align-items-start  d-flex  flex-md-row'>
                             {/* product  */}
                             {/* <div className='col-6 p-1'> */}
-                            <Col xs={7} className="d-flex  flex-column  justify-content-around align-items-start">
+                            <Col md={7} className="d-flex flex-column  align-items-start  col-12">
 
                                 <div className='p-2 '>Shopping Bag</div>
                                 {
@@ -110,13 +110,13 @@ const CartPage = () => {
                                                     <Card.Body>
                                                         <Card.Text>
                                                             <div className='d-flex'>
-                                                                <div className='col-md-9'>
+                                                                <div className='col-9'>
                                                                     <p className='mb-0'>name : {item.name}</p>
                                                                     <p className='mb-0'>Price : {item.price}</p>
                                                                     {/* <p>category : {item.price}</p> */}
                                                                     <p className='mb-0'>category : {item.category.category}</p>
                                                                 </div>
-                                                                <div className='col-md-1 ' onClick={() => removeCart(item._id)}>
+                                                                <div className='col-1 ' onClick={() => removeCart(item._id)}>
                                                                     <MdDelete className='MdDelete' />
                                                                 </div>
                                                             </div>
@@ -139,7 +139,7 @@ const CartPage = () => {
                             </Col>
                             {/* checkout Payment */}
                             {/* <div className='col-5 d-flex justify-content-space-around align-items-start'> */}
-                            <Col xs={5} className="d-flex justify-content-around align-items-start">
+                            <Col md={5} className="d-flex justify-content-around align-items-start">
                                 <div className='w-100'>
                                     <div className='p-2 mb-3'>Order Summary </div>
                                     <Card style={{ width: '18rem' }} className='w-100   p-2'>
