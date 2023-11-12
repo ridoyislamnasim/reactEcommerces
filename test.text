@@ -1,0 +1,11 @@
+
+toast ======================================
+{
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                }
+
+                window.location.reload()
+                 const navigate = useNavigate();

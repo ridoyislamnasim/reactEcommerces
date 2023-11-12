@@ -13,6 +13,7 @@ import Image from 'react-bootstrap/Image';
 import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import { useCart } from '../context/cart';
+import CardComponent from '../components/CardComponent/Card';
 
 const ProductDetails = () => {
     const [cart, setCart] = useCart();
@@ -21,22 +22,7 @@ const ProductDetails = () => {
     const navigate = useNavigate()
     const parems = useParams()
 
-    // product get 
 
-    // similar product get 
-    // const similarProductData = async (parems, product) => {
-    //     console.log('===================================similar product call')
-    //     const productRes = await axios.get(`${process.env.REACT_APP_API}/shop/product/${parems.id}/${product.category._id}`)
-    //     if (productRes.data.success) {
-    //         toast.success(productRes.data.message);
-    //         console.log('title', productRes.data.data);
-    //         setSimilarProduct(
-    //             productRes.data.data,
-    //         );
-    //     } else {
-    //         toast.error(productRes.data.errorMsg);
-    //     }
-    // }
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -133,39 +119,7 @@ const ProductDetails = () => {
                             <Card className='mb-2'>
                                 <Card.Body > Similar  Product</Card.Body>
                             </Card>
-                            <Row xs={1} md={4} className="g-4">
-                                {similarProduct?.length < 1 && <p className='text-center'>No Similar Product Found.</p>}
-                                {similarProduct.map((item, idx) => (
-                                    <Col key={item._id}>
-                                        <Card>
-                                            {/* <Link to={`/dashboard/admin/Product/${item._id}`} > */}
-                                            <Card.Img variant="top" src={item.image} style={{ maxHeight: '250px', }} />
-                                            {/* </Link> */}
-                                            <Card.Body>
-                                                <Card.Title>{item.name}</Card.Title>
-                                                <Card.Text >
-                                                    <div className='d-flex justify-content-around'>
-                                                        <p>{item.price}</p>
-                                                        <p>{item.category.category}</p>
-                                                    </div>
-                                                    <div className='d-flex justify-content-around'>
-                                                        <Button variant="outline-success" onClick={() => navigate(`/product/details/${item._id}`)}><FaReadme /> Read </Button>
-                                                        <Button variant="outline-warning"
-                                                            onClick={() => {
-                                                                setCart([...cart, product])
-                                                                localStorage.setItem('cart', JSON.stringify([...cart, product]))
-                                                                toast.success(`${product.name} Add into Cart`)
-                                                            }}
-                                                        >
-                                                            <BiSolidCartAdd /> Add To Card
-                                                        </Button>
-                                                    </div>
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
-                                ))}
-                            </Row >
+                            <CardComponent product={similarProduct} columnNumber={4} />
                         </div>
                     </Row>
                 </Container>

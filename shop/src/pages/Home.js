@@ -8,7 +8,7 @@ import axios from 'axios';
 // ==========  internal import 
 import Accordion from 'react-bootstrap/Accordion';
 import { Price } from '../components/utility/Price.js';
-import Cart from '../components/CardComponent/Cart.js';
+import CardComponent from '../components/CardComponent/Card.js';
 import { toast } from 'react-toastify';
 // 
 const Home = () => {
@@ -94,7 +94,11 @@ const Home = () => {
                 filterRes.data.data,
             );
         } else {
-            toast.error('No Product Find');
+            toast.error('No Product Find', {
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+            });
         }
 
     }
@@ -186,7 +190,7 @@ const Home = () => {
                                     </Col>
                                 ))} */}
                             {/*  */}
-                            <Cart product={product} />
+                            <CardComponent product={product} columnNumber={3} />
 
                         </div>
                     </div>

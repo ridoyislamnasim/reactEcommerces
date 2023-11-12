@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { useAuthr } from '../context/auth';
 import { useNavigate } from 'react-router-dom';
 import DropIn from "braintree-web-drop-in-react";
+import { MdDelete } from 'react-icons/md';
 import axios from 'axios';
 const CartPage = () => {
     const [cart, setCart] = useCart()
@@ -108,16 +109,18 @@ const CartPage = () => {
                                                     <Image src={item.image} style={{ maxHeight: '150px', maxWidth: '200px' }} rounded />
                                                     <Card.Body>
                                                         <Card.Text>
-                                                            <div className=' '>
-                                                                <p className='mb-0'>name : {item.name}</p>
-                                                                <p className='mb-0'>Price : {item.price}</p>
-                                                                {/* <p>category : {item.price}</p> */}
-                                                                <p className='mb-0'>category : {item.category.category}</p>
+                                                            <div className='d-flex'>
+                                                                <div className='col-md-9'>
+                                                                    <p className='mb-0'>name : {item.name}</p>
+                                                                    <p className='mb-0'>Price : {item.price}</p>
+                                                                    {/* <p>category : {item.price}</p> */}
+                                                                    <p className='mb-0'>category : {item.category.category}</p>
+                                                                </div>
+                                                                <div className='col-md-1 ' onClick={() => removeCart(item._id)}>
+                                                                    <MdDelete className='MdDelete' />
+                                                                </div>
                                                             </div>
                                                         </Card.Text>
-                                                        <Button variant="danger" onClick={() => removeCart(item._id)}>
-                                                            Remove
-                                                        </Button>
                                                     </Card.Body>
                                                 </Card>
                                             </Col>
@@ -167,8 +170,8 @@ const CartPage = () => {
                                         {auth?.user ? (
                                             <>
                                                 <div className='d-flex  justify-content-around   '>
-                                                    <Button variant="outline-success" > Check Out </Button>
-                                                    <Button variant="warning" >Payment</Button>
+                                                    {/* <Button variant="outline-success" > Check Out </Button>
+                                                    <Button variant="warning" >Payment</Button> */}
                                                 </div>
                                             </>
                                         ) : (

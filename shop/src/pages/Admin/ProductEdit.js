@@ -7,14 +7,13 @@ import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 // import ProductForm from '../../components/Form/ProductForm';
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ProductEditForm from '../../components/Form/ProductEditForm';
 
 const ProductEdit = () => {
     // const [ SelectedItem, setSelectedItem] = useState(null);
     const param = useParams()
-    console.log('param', param);
-    console.log('param', param.id);
+    const navigate = useNavigate();
     const [Category, setCategory] = useState([]);
     const [category, setcategory] = useState('hk');
     const [CategoryId, setCategoryId] = useState(null);
@@ -47,6 +46,7 @@ const ProductEdit = () => {
             if (data?.data.success) {
                 console.log('data', data.data);
                 toast.success(data.data.message);
+                navigate('/dashboard/admin/Products')
             } else {
                 toast.error(data.data.errorMsg);
                 console.log('fail');

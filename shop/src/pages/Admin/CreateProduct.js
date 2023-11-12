@@ -1,15 +1,17 @@
-
+// ========== 
 import React, { useEffect, useState } from 'react'
 import Layout from '../../components/Layout/Layout'
 import AdminMenu from '../../components/Menu/AdminMenu'
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+// ========== 
+
 import ProductForm from '../../components/Form/ProductForm';
 
 
 const CreateProduct = () => {
-    // const [ SelectedItem, setSelectedItem] = useState(null);
+    // ========== satae
     const [Category, setCategory] = useState(null);
     const [CategoryId, setCategoryId] = useState(null);
     const [selectedItem, setSelectedItem] = useState('Select Category');
@@ -19,28 +21,24 @@ const CreateProduct = () => {
     const [shipping, setshipping] = useState('Select shipping');
     const [description, setdescription] = useState(null);
     const [image, setimage] = useState(null);
+    // ========== category data find 
     const categoryData = async () => {
         const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
         if (categoryRes.data.success) {
-            // toast.success(categoryRes.data.message);
-            console.log('title', categoryRes.data.data);
             setCategory(
                 categoryRes.data.data,
             );
         } else {
-            // toast.error(categoryRes.data.errorMsg);
         }
-
     }
     useEffect(() => {
         categoryData()
     }, []);
-
     const handleItemClick = (item) => {
         setCategory(item);
     };
 
-    //  create product
+    // ==========   create product
     const handleProductSubmit = async (event) => {
         event.preventDefault()
         if (!CategoryId) {
@@ -59,16 +57,26 @@ const CreateProduct = () => {
             console.log(image)
             const data = await axios.post(`${process.env.REACT_APP_API}/admin/create-product`, formData);
             if (data?.data.success) {
-                console.log('data', data.data);
-                toast.success(data.data.message);
+                toast.success(data.data.message, {
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+                window.location.reload()
             } else {
-                toast.error(data.data.errorMsg);
-                console.log('fail');
+                toast.error(data.data.errorMsg, {
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
             };
         } catch (error) {
             console.log(error);
         };
     };
+    // ==========  all props create a object
     const parentProps = {
         Category, name, setname, price, setprice, quantity, setquantity, shipping, setshipping,
         description, setdescription, image, setimage, selectedItem, setSelectedItem, setCategoryId, handleItemClick, handleProductSubmit
@@ -84,6 +92,7 @@ const CreateProduct = () => {
                         <div className="col-md-9">
                             <div className="card w-100 p-3" style={{ backgroundColor: '#f3f6f9', minHeight: '80vh' }}>
                                 <Card body className="mb-3"><h4 className="text-center">Create Product</h4></Card>
+                                {/*  */}
                                 <ProductForm {...parentProps} />
 
                             </div>
