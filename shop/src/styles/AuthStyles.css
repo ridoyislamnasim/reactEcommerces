@@ -85,3 +85,27 @@ p{
   transform: scale(1.1); /* Make the div 10% bigger on hover */
   color: red;
 }
+.navbar-nav 
+{
+  display: grid;
+    place-items: center;
+}
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show   {
+  color: rgb(241 193 11) !important;
+  border-bottom: 1px solid black !important;
+  background-color: #f8f9fa !important;
+}
+.dropdown-item.active, .dropdown-item:active {
+  text-decoration: none;
+  color: rgb(241 193 11) !important;
+  border-bottom: 1px solid black !important;
+  background-color: #f8f9fa !important;
+}
+/* .nav-link{
+  margin-bottom: 7px !important;
+    margin-top: 7px !important;
+} */
+a{
+  display: flex !important;
+  text-decoration: none !important;
+}

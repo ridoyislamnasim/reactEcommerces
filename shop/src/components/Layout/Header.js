@@ -1,10 +1,22 @@
 import React from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { SiShopee } from 'react-icons/si'
+import { MdShoppingCart } from 'react-icons/md'
 import { useAuthr } from '../../context/auth'
 import useCatetory from '../Hooks/useCatetory'
 import { useCart } from '../../context/cart'
 import { IoMdCart } from 'react-icons/io';
+import { FaFacebookF, FaLinkedinIn, FaGithubAlt, FaPhoneAlt, } from 'react-icons/fa';
+import { BiLogoGmail, BiMenu } from 'react-icons/bi';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+// import '../../styles/HeaderStyle.css'
+// import '../../styles/owl.carousel.min.css'
 // ui
 import IconButton from '@mui/material/IconButton';
 // import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -25,113 +37,107 @@ const Header = () => {
     }
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <div className="container-fluid">
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon" />
-                    </button>
-                    <div className="collapse navbar-collapse d-flex justify-content-center" id="navbarTogglerDemo01">
-                        <Link to='/' className="navbar-brand" ><SiShopee /></Link>
-                        <ul className="navbar-nav d-flex align-items-center  mb-2 mb-lg-0 mr-5">
-                            <li className="nav-item">
+            <Navbar key={'md'} expand={'md'} className="bg-body-tertiary ">
+                <Container fluid>
+                    <Navbar.Brand href="#" className='ps-5'><SiShopee /></Navbar.Brand>
+                    <Navbar.Toggle aria-controls={`offcanvasNavbar-md-${'md'}`} />
+                    <Navbar.Offcanvas
+                        id={`offcanvasNavbar-md-${'md'}`}
+                        aria-labelledby={`offcanvasNavbarLabel-md-${'md'}`}
+                        placement="end"
+                    >
+                        <Offcanvas.Header closeButton >
+                            {/* <Offcanvas.Title id={`offcanvasNavbarLabel-md-${'md'}`}>
+                                Offcanvas
+                            </Offcanvas.Title> */}
+                        </Offcanvas.Header>
+                        <Offcanvas.Body>
+                            <Nav className="justify-content-end flex-grow-1 pe-5">
                                 <NavLink to='/' className="nav-link" >
                                     Home
                                 </NavLink>
-                            </li>
-                            {/* category  */}
-                            <li className="nav-item dropdown">
-                                <NavLink
-                                    className="nav-link dropdown-toggle"
-                                    href="#"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    style={{ border: "none" }}
+                                {/* category dropdown */}
+                                <NavDropdown
+                                    title="Category"
+                                    id={`offcanvasNavbarDropdown-md-${'md'}`}
+                                    className='cvate'
                                 >
-                                    Category
-                                </NavLink>
-                                <ul className="dropdown-menu">
-                                    <li>
-                                        {category.map((item, idx) => (
-                                            <NavLink key={item._id}
-                                                to={`/Category/${item._id}`}
-                                                className="dropdown-item">
-                                                {item?.category}
-                                            </NavLink>
-                                        )
-                                        )}
+                                    {category.map((item, idx) => (
+                                        // <NavDropdown.Item >
+                                        <NavLink key={item._id}
+                                            to={`/Category/${item._id}`}
+                                            className="dropdown-item hhhhhh">
+                                            {item?.category}
+                                        </NavLink>
+                                        // </NavDropdown.Item>
+                                    ))}
+                                </NavDropdown>
+                                {/* category dropdownn end  */}
+                                {/* auth wise option show  dropdown */}
 
-                                    </li>
-                                </ul>
-                            </li>
-                            {/* login registation */}
-                            {
-                                auth.user ?
-                                    (<>
-                                        <li className="nav-item dropdown">
-                                            <NavLink
-                                                className="nav-link dropdown-toggle"
-                                                href="#"
-                                                role="button"
-                                                data-bs-toggle="dropdown"
-                                                style={{ border: "none" }}
+                                {
+                                    auth.user ?
+                                        (<>
+                                            <NavDropdown
+                                                title={auth?.user?.name}
+                                                id={`offcanvasNavbarDropdown-md-${'md'}`}
                                             >
-                                                {auth?.user?.name}
-                                            </NavLink>
-                                            <ul className="dropdown-menu">
-                                                <li>
-                                                    <NavLink
-                                                        to={`/Dashboard/${auth?.user?.role === "admin" ? "Admin/CreateCategory" : "User/Orders"
-                                                            }`}
-                                                        className="dropdown-item"
-                                                    >
-                                                        Dashboard
-                                                    </NavLink>
-                                                </li>
-                                                <li>
-                                                    <NavLink
-                                                        onClick={handelLogOut}
-                                                        to="/login"
-                                                        className="dropdown-item"
-                                                    >
-                                                        Logout
-                                                    </NavLink>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </>)
-                                    :
-                                    (<>
-                                        <li className="nav-item">
+
+                                                <NavLink
+                                                    to={`/Dashboard/${auth?.user?.role === "admin" ? "Admin/CreateCategory" : "User/Orders"
+                                                        }`}
+                                                    className="dropdown-item"
+                                                >
+                                                    Dashboard
+                                                </NavLink>
+
+                                                <NavLink
+                                                    onClick={handelLogOut}
+                                                    to="/login"
+                                                    className="dropdown-item"
+                                                >
+                                                    Logout
+                                                </NavLink>
+                                            </NavDropdown>
+                                        </>)
+                                        :
+                                        (<>
                                             <NavLink to='/register' className="nav-link" >
                                                 Register
                                             </NavLink>
-                                        </li>
-                                        <li className="nav-item">
                                             <NavLink to='/login' className="nav-link" >
                                                 Login
                                             </NavLink>
-                                        </li>
-                                    </>
-                                    )
-                            }
-                            {/* cart */}
-                            <li className="nav-item">
+                                        </>
+                                        )
+                                }
+                                {/* auth wise option show  dropdown   end */}
+
                                 <NavLink to='/cart' className="nav-link" >
                                     <IconButton aria-label="cart">
                                         <Badge badgeContent={cart?.length} color="error">
-                                            {/* <ShoppingCartIcon /> */}
-                                            <IoMdCart />
+                                            <MdShoppingCart />
+                                            {/* <IoMdCart /> */}
                                         </Badge>
                                     </IconButton>
                                 </NavLink>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+                            </Nav>
+                            {/* <Form className="d-flex">
+                                    <Form.Control
+                                        type="search"
+                                        placeholder="Search"
+                                        className="me-2"
+                                        aria-label="Search"
+                                    />
+                                    <Button variant="outline-success">Search</Button>
+                                </Form> */}
+                        </Offcanvas.Body>
+                    </Navbar.Offcanvas>
+                </Container>
+            </Navbar>
 
         </>
+
     )
 }
 

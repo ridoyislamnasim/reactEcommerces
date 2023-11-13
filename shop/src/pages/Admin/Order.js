@@ -1,4 +1,5 @@
 //  ========== external
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
@@ -7,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import { toast } from "react-toastify";
 import Image from 'react-bootstrap/Image';
 import Accordion from 'react-bootstrap/Accordion';
-
+import Table from 'react-bootstrap/Table';
 //  ========== internal
 import AdminMenu from "../../components/Menu/AdminMenu";
 import Layout from "../../components/Layout/Layout";
@@ -64,7 +65,7 @@ const Orders = () => {
                                 {orders?.map((order, i) => {
                                     return (
                                         <div className="border shadow">
-                                            <table className="table">
+                                            <Table striped bordered hover>
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">{i}</th>
@@ -91,7 +92,7 @@ const Orders = () => {
                                                         <td>{order?.products?.length}</td>
                                                     </tr>
                                                 </tbody>
-                                            </table>
+                                            </Table>
                                             <div className="container">
                                                 {/* {order?.products?.map((p, i) => (
                                                 <div className="row mb-2 p-3 card flex-row" key={p._id}>

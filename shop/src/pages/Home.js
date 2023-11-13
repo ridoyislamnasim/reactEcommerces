@@ -111,7 +111,7 @@ const Home = () => {
                         <p>search</p>
                         {/* category */}
                         <>
-                            <Accordion defaultActiveKey="0">
+                            <Accordion defaultActiveKey="null" >
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header>Categories</Accordion.Header>
                                     <Accordion.Body>
@@ -133,7 +133,7 @@ const Home = () => {
                         </>
                         {/* price */}
                         <>
-                            <Accordion defaultActiveKey="0">
+                            <Accordion defaultActiveKey="null">
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header>Price</Accordion.Header>
                                     <Accordion.Body>

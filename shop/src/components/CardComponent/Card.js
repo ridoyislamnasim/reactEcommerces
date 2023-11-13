@@ -34,8 +34,10 @@ const CardComponent = ({ product, columnNumber }) => {
                                         </p>
 
                                     </div>
-                                    <div className='d-flex justify-content-around'>
-                                        <Button variant="outline-success" onClick={() => navigate(`/product/details/${item._id}`)}><FaReadme /> Read </Button>
+                                    <div className='d-flex justify-content-around '>
+                                        <Button variant="outline-success" onClick={() => navigate(`/product/details/${item._id}`)} className='me-3'>
+                                            <FaReadme /> Read
+                                        </Button>
                                         <Button variant="outline-warning" onClick={() => {
                                             setCart([...cart, item])
                                             localStorage.setItem('cart', JSON.stringify([...cart, item]))
@@ -46,7 +48,7 @@ const CardComponent = ({ product, columnNumber }) => {
                                                 newestOnTop: true,
                                                 // transition: "slide",
                                             })
-                                        }}> <BiSolidCartAdd /> Add To Card</Button>
+                                        }}> <BiSolidCartAdd /> Add Card</Button>
                                     </div>
                                 </Card.Text>
                             </Card.Body>
