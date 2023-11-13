@@ -42,11 +42,11 @@ const CardComponent = ({ product, columnNumber }) => {
                                             setCart([...cart, item])
                                             localStorage.setItem('cart', JSON.stringify([...cart, item]))
                                             toast.success(`${item.name} Add into Cart`, {
+                                                position: "top-left",
                                                 autoClose: 500,
                                                 hideProgressBar: false,
                                                 closeOnClick: true,
-                                                newestOnTop: true,
-                                                // transition: "slide",
+                                                draggable: true,
                                             })
                                         }}> <BiSolidCartAdd /> Add Card</Button>
                                     </div>

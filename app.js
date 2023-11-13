@@ -12,14 +12,6 @@ const router = require("./router/auth/authRouter");
 const admin = require("./router/admin/adminRouter");
 const common = require("./router/product/commonRouter");
 
-// internal imports
-// const {
-//     notFoundHandler,
-//     errorHandler,
-// } = require("./middleware/common/errorHandler");
-
-
-
 // middleWare 
 const app = express();
 dotenv.config();
@@ -45,21 +37,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // set static folder
-// app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static("public"));
-// parse cookies
-// app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(express.static(path.join(__dirname, './shop/build')));
+
 
 // routing setup
 app.use("/auth", router);
 app.use("/admin", admin);
 app.use("/shop", common);
 
-// 404 not found handler
-// app.use(notFoundHandler);
-
-// common error handler
-// app.use(errorHandler);
+// rest api
+app.use('*', function (req, res) {
+    res.sendFile(path.join(__dirname, './shop/build/index.html'))
+})
 
 app.listen(process.env.PORT, () => {
 
