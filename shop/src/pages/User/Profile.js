@@ -40,7 +40,13 @@ const Profile = () => {
             console.log("res", res, res.data.success)
             console.log("res.data", res.data)
             if (res.data.success) {
-                toast.success(res.data && res.data.message);
+                toast.success(res.data && res.data.message, {
+                    position: "top-left",
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
                 setAuth({
                     ...auth,
                     user: res.data.updateUser,
@@ -51,11 +57,23 @@ const Profile = () => {
                 localStorage.setItem('auth', JSON.stringify(localData))
             } else {
                 console.log("elase error", res.data);
-                toast.error(res.data.errorMsg);
+                toast.error(res.data.errorMsg, {
+                    position: "top-left",
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
             }
         } catch (error) {
             console.log(error);
-            toast.error('Internal server error');
+            toast.error('Internal server error', {
+                position: "top-left",
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
         }
     };
 

@@ -47,7 +47,13 @@ const CartPage = () => {
             myCart.splice(index, 1);
             setCart(myCart)
             localStorage.setItem('cart', JSON.stringify(myCart))
-            toast.success("Remove Successfully");
+            toast.success("Remove Successfully", {
+                position: "top-left",
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
         } catch (error) {
             console.log('error', error)
         }
@@ -59,7 +65,6 @@ const CartPage = () => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_API}/auth/payment/token`);
             setClientToken(data?.clientToken);
-            toast.success(data)
         } catch (error) {
             console.log(error);
         }
@@ -81,7 +86,13 @@ const CartPage = () => {
             localStorage.removeItem("cart");
             setCart([]);
             navigate("/Dashboard/User/Orders");
-            toast.success("Payment Completed Successfully ");
+            toast.success("Payment Completed Successfully ", {
+                position: "top-left",
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
         } catch (error) {
             console.log(error);
             setLoading(false);
