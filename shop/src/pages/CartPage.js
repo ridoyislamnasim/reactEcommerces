@@ -142,7 +142,7 @@ const CartPage = () => {
                             <Col md={5} className="d-flex justify-content-around align-items-start">
                                 <div className='w-100'>
                                     <div className='p-2 mb-3'>Order Summary </div>
-                                    <Card style={{ width: '18rem' }} className='w-100   p-2'>
+                                    <Card style={{ width: '18rem' }} className='w-100  mb-5 p-2'>
 
                                         <Card.Body>
                                             <Card.Text>

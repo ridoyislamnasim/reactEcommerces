@@ -1,6 +1,7 @@
 
 toast ======================================
 {
+    position: "top-left",
                     autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: true,

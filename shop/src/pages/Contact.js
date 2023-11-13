@@ -1,14 +1,16 @@
 import React from 'react'
-// import Layout from '../components/layout/Layout'
+// import Layout from '../components/layout/Layout' 
 import { BiMailSend, BiPhoneCall, BiSupport } from "react-icons/bi";
+import { FcLink } from "react-icons/fc";
 import Layout from '../components/Layout/Layout';
+import { Link } from 'react-router-dom'
 const Contact = () => {
     return (
         <Layout title={"Contact - "}>
             <div className="row contactus ">
                 <div className="col-md-6 ">
                     <img
-                        src="/images/contactus.jpeg"
+                        src="/contact.jpg"
                         alt="contactus"
                         style={{ width: "100%" }}
                     />
@@ -20,13 +22,13 @@ const Contact = () => {
                         vaialible
                     </p>
                     <p className="mt-3">
-                        <BiMailSend /> : www.help@ecommerceapp.com
+                        <BiMailSend /> : ridoyislamnasim@gmail.com
                     </p>
                     <p className="mt-3">
-                        <BiPhoneCall /> : 012-3456789
+                        <BiPhoneCall /> : 01575229442
                     </p>
-                    <p className="mt-3">
-                        <BiSupport /> : 1800-0000-0000 (toll free)
+                    <p className="mt-3 d-flex">
+                        <FcLink />  :  <Link to='https://ridoyislamnasim.up.railway.app/'>  www.ridoyislamnasim.com</Link>
                     </p>
                 </div>
             </div>

@@ -97,7 +97,7 @@ const Orders = () => {
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <div className="container">
+                                                    <div className="container" style={{ background: 'pink' }}>
                                                         <Accordion.Item eventKey={i}>
                                                             <Accordion.Header>Products Details</Accordion.Header>
                                                             <Accordion.Body>

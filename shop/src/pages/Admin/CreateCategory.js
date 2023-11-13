@@ -33,17 +33,23 @@ const CreateCategory = () => {
             if (data?.data.success) {
                 console.log('data', data.data);
                 toast.success(data.data.message, {
+                    position: "top-left",
                     autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: true,
-                });
+                    draggable: true,
+                }
+                );
                 categoryData();
             } else {
                 toast.error("data.data.errorMsg", {
+                    position: "top-left",
                     autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: true,
-                });
+                    draggable: true,
+                }
+                );
                 console.log('fail');
             };
         } catch (error) {
@@ -54,20 +60,18 @@ const CreateCategory = () => {
     const categoryData = async () => {
         const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
         if (categoryRes.data.success) {
-            toast.success(categoryRes.data.message, {
-                autoClose: 500,
-                hideProgressBar: false,
-                closeOnClick: true,
-            });
             setCategory(
                 categoryRes.data.data,
             );
         } else {
             toast.error(categoryRes.data.errorMsg, {
+                position: "top-left",
                 autoClose: 500,
                 hideProgressBar: false,
                 closeOnClick: true,
-            });
+                draggable: true,
+            }
+            );
         }
 
     }
@@ -85,18 +89,24 @@ const CreateCategory = () => {
             if (data?.data.success) {
                 console.log('data', data.data);
                 toast.success(data.data.message, {
+                    position: "top-left",
                     autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: true,
-                });
+                    draggable: true,
+                }
+                );
                 categoryData();
                 handleClose()
             } else {
                 toast.error(data.data.errorMsg, {
+                    position: "top-left",
                     autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: true,
-                });
+                    draggable: true,
+                }
+                );
                 console.log('fail');
             };
         } catch (error) {
@@ -112,18 +122,24 @@ const CreateCategory = () => {
                 console.log('data', data.data);
                 console.log('data', data.data.data.category);
                 toast.success(`${data.data.data.category} ${data.data.message}`, {
+                    position: "top-left",
                     autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: true,
-                });
+                    draggable: true,
+                }
+                );
                 setCategory([]);
                 categoryData();
             } else {
                 toast.error(data.data.errorMsg, {
+                    position: "top-left",
                     autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: true,
-                });
+                    draggable: true,
+                }
+                );
                 console.log('fail');
             };
         } catch (error) {

@@ -42,7 +42,13 @@ const CreateProduct = () => {
     const handleProductSubmit = async (event) => {
         event.preventDefault()
         if (!CategoryId) {
-            toast.warn('Please select a category.'); // Set error message if category is not selected
+            toast.warn('Please select a category.', {
+                position: "top-left",
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            }); // Set error message if category is not selected
             return;
         }
         try {
@@ -58,19 +64,23 @@ const CreateProduct = () => {
             const data = await axios.post(`${process.env.REACT_APP_API}/admin/create-product`, formData);
             if (data?.data.success) {
                 toast.success(data.data.message, {
+                    position: "top-left",
                     autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: true,
                     draggable: true,
-                });
+                }
+                );
                 window.location.reload()
             } else {
                 toast.error(data.data.errorMsg, {
+                    position: "top-left",
                     autoClose: 500,
                     hideProgressBar: false,
                     closeOnClick: true,
                     draggable: true,
-                });
+                }
+                );
             };
         } catch (error) {
             console.log(error);

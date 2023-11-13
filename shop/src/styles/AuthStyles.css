@@ -85,10 +85,12 @@ p{
   transform: scale(1.1); /* Make the div 10% bigger on hover */
   color: red;
 }
-.navbar-nav 
-{
+.navbar-nav {
   display: grid;
     place-items: center;
+}
+.navbar-nav .nav-link:hover{
+  color: rgb(241 193 11) !important;
 }
 .navbar-nav .nav-link.active, .navbar-nav .nav-link.show   {
   color: rgb(241 193 11) !important;
@@ -108,4 +110,15 @@ p{
 a{
   display: flex !important;
   text-decoration: none !important;
+}
+
+/* footer  */
+.footer a {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+}
+.footer a {
+  text-decoration: none;
+  border-bottom: none !important; 
 }

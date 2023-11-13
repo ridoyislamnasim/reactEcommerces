@@ -11,13 +11,18 @@ const Products = () => {
     const productData = async () => {
         const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/products`)
         if (categoryRes.data.success) {
-            toast.success(categoryRes.data.message);
             console.log('title', categoryRes.data.data);
             setproduct(
                 categoryRes.data.data,
             );
         } else {
-            toast.error(categoryRes.data.errorMsg);
+            toast.error(categoryRes.data.errorMsg, {
+                position: "top-left",
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
         }
 
     }
