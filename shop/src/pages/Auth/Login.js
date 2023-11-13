@@ -5,7 +5,6 @@ import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 // location
-// import toast from "react-hot-toast";
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -28,7 +27,13 @@ const Login = () => {
             });
             console.log("res=============", res)
             if (res.data.success) {
-                toast.success(res.data.message);
+                toast.success(res.data.message, {
+                    position: "top-left",
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
                 setAuth({
                     ...auth,
                     user: res.data.user,
@@ -38,11 +43,23 @@ const Login = () => {
                 // navigate(location.state || "/");
                 navigate(Location.state || "/");
             } else {
-                toast.error(res.data.errorMsg);
+                toast.error(res.data.errorMsg, {
+                    position: "top-left",
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
             }
         } catch (error) {
             console.log(error);
-            toast.error("Something went wrong !!!");
+            toast.error("Something went wrong !!!", {
+                position: "top-left",
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
         }
     };
 
