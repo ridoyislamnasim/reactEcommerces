@@ -39,13 +39,18 @@ const Home = () => {
     const productData = async () => {
         const productRes = await axios.get(`${process.env.REACT_APP_API}/admin/products`)
         if (productRes.data.success) {
-            // toast.success(productRes.data.message);
             console.log('title', productRes.data.data);
             setproduct(
                 productRes.data.data,
             );
         } else {
-            // toast.error(productRes.data.errorMsg);
+            toast.error(productRes.data.errorMsg, {
+                position: "top-left",
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
         }
 
     }
@@ -53,12 +58,17 @@ const Home = () => {
     const categoryData = async () => {
         const categoryRes = await axios.get(`${process.env.REACT_APP_API}/admin/category`)
         if (categoryRes.data.success) {
-            // toast.success(categoryRes.data.message);
             setCategory(
                 categoryRes.data.data,
             );
         } else {
-            // toast.error(categoryRes.data.errorMsg);
+            toast.error(categoryRes.data.errorMsg, {
+                position: "top-left",
+                autoClose: 500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+            });
         }
 
     }
@@ -89,15 +99,16 @@ const Home = () => {
                 , priceRange: selectedOption
             })
         if (filterRes.data.success) {
-            // toast.success(filterRes.data.message);
             setproduct(
                 filterRes.data.data,
             );
         } else {
             toast.error('No Product Find', {
+                position: "top-left",
                 autoClose: 500,
                 hideProgressBar: false,
                 closeOnClick: true,
+                draggable: true,
             });
         }
 
@@ -164,32 +175,6 @@ const Home = () => {
                     {/* product info */}
                     <div className="col-md-9">
                         <div className="card w-100 p-3" style={{ backgroundColor: '#f3f6f9', minHeight: '80vh' }}>
-
-                            {/* {product.map((item, idx) => (
-                                    <Col key={item._id}>
-                                        <Card>
-                                            <Card.Img variant="top" src={item.image} style={{ maxHeight: '250px', }} />
-                                            <Card.Body>
-                                                <Card.Title>{item.name}</Card.Title>
-                                                <Card.Text >
-                                                    <div className='d-flex justify-content-around'>
-                                                        <p>{item.price}</p>
-                                                        <p>{item.category.category}</p>
-                                                    </div>
-                                                    <div className='d-flex justify-content-around'>
-                                                        <Button variant="outline-success" onClick={() => navigate(`/product/details/${item._id}`)}><FaReadme /> Read </Button>
-                                                        <Button variant="outline-warning" onClick={() => {
-                                                            setCart([...cart, item])
-                                                            localStorage.setItem('cart', JSON.stringify([...cart, item]))
-                                                            toast.success(`${item.name} Add into Cart`)
-                                                        }}> <BiSolidCartAdd /> Add To Card</Button>
-                                                    </div>
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
-                                ))} */}
-                            {/*  */}
                             <CardComponent product={product} columnNumber={3} />
 
                         </div>

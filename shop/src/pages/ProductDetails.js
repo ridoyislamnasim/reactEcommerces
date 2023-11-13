@@ -7,10 +7,8 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { BiSolidCartAdd } from 'react-icons/bi';
-import { FaReadme } from 'react-icons/fa';
 import Image from 'react-bootstrap/Image';
-// import { FaReadme } from 'react-icons/fa';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import { useCart } from '../context/cart';
 import CardComponent from '../components/CardComponent/Card';
@@ -19,7 +17,6 @@ const ProductDetails = () => {
     const [cart, setCart] = useCart();
     const [product, setproduct] = useState([]);
     const [similarProduct, setSimilarProduct] = useState([]);
-    const navigate = useNavigate()
     const parems = useParams()
 
 
@@ -28,23 +25,33 @@ const ProductDetails = () => {
             try {
                 const productRes = await axios.get(`${process.env.REACT_APP_API}/admin/product/${parems.id}`)
                 if (productRes.data.success) {
-                    toast.success(productRes.data.message);
                     console.log('title', productRes.data.data);
                     setproduct(
                         productRes.data.data,
                     );
                     const similarProductRes = await axios.get(`${process.env.REACT_APP_API}/shop/product/${parems.id}/${product.category._id}`)
                     if (similarProductRes.data.success) {
-                        toast.success(similarProductRes.data.message);
                         console.log('title', similarProductRes.data.data);
                         setSimilarProduct(
                             similarProductRes.data.data,
                         );
                     } else {
-                        toast.error(similarProductRes.data.errorMsg);
+                        toast.error(similarProductRes.data.errorMsg, {
+                            position: "top-left",
+                            autoClose: 500,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            draggable: true,
+                        });
                     }
                 } else {
-                    toast.error(productRes.data.errorMsg);
+                    toast.error(productRes.data.errorMsg, {
+                        position: "top-left",
+                        autoClose: 500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        draggable: true,
+                    });
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -99,7 +106,13 @@ const ProductDetails = () => {
                                                 onClick={() => {
                                                     setCart([...cart, product])
                                                     localStorage.setItem('cart', JSON.stringify([...cart, product]))
-                                                    toast.success(`${product.name} Add into Cart`)
+                                                    toast.success(`${product.name} Add into Cart`, {
+                                                        position: "top-left",
+                                                        autoClose: 500,
+                                                        hideProgressBar: false,
+                                                        closeOnClick: true,
+                                                        draggable: true,
+                                                    })
                                                 }}
                                             >
                                                 <BiSolidCartAdd /> Add To Card

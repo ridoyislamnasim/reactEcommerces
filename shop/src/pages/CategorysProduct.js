@@ -23,11 +23,15 @@ const CategorysProduct = () => {
         try {
             const categoryRes = await axios.get(`${process.env.REACT_APP_API}/shop/product/${params.id}`);
             if (categoryRes.data.success) {
-                toast.success(categoryRes.data.message);
-                toast.success("categoryRes.data.message");
                 setCategoryProduct(categoryRes.data.data);
             } else {
-                toast.error(categoryRes.data.errorMsg);
+                toast.error(categoryRes.data.errorMsg, {
+                    position: "top-left",
+                    autoClose: 500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
             }
         } catch (error) {
             console.error('Error fetching category products:', error);

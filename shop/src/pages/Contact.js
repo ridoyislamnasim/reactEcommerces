@@ -1,6 +1,6 @@
 import React from 'react'
 // import Layout from '../components/layout/Layout' 
-import { BiMailSend, BiPhoneCall, BiSupport } from "react-icons/bi";
+import { BiMailSend, BiPhoneCall } from "react-icons/bi";
 import { FcLink } from "react-icons/fc";
 import Layout from '../components/Layout/Layout';
 import { Link } from 'react-router-dom'
